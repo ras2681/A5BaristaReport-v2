@@ -2,278 +2,187 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>A5 Barista Report</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{box-sizing:border-box}
-
-:root{
-  --bg:#101010;
-  --card:#1a1a1a;
-  --card2:#202020;
-  --line:#303030;
-  --text:#f5f5f5;
-  --muted:#9b9b9b;
-  --accent:#d7a84a;
-  --danger:#c95b5b;
-  --success:#61bd7b;
-}
-
 body{
   margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:#111;
+  color:#f5f5f5;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
 }
-
-button,input,textarea{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
 .app{
+  width:100%;
   max-width:600px;
   margin:auto;
   min-height:100vh;
-  padding:20px 16px 40px;
+  padding:24px 16px 40px;
 }
-
 .logo{
   text-align:center;
-  font-size:34px;
-  font-weight:800;
-  letter-spacing:4px;
-  margin:20px 0 5px;
+  font-size:42px;
+  font-weight:900;
+  letter-spacing:5px;
+  margin-top:25px;
 }
-
 .subtitle{
   text-align:center;
-  color:var(--muted);
-  margin-bottom:30px;
+  color:#999;
+  letter-spacing:3px;
+  margin:4px 0 35px;
 }
-
 .card{
-  background:var(--card);
-  border:1px solid var(--line);
+  background:#1b1b1b;
+  border:1px solid #303030;
   border-radius:18px;
   padding:20px;
   margin-bottom:16px;
 }
-
-h2{
-  margin:0 0 18px;
-}
-
+h2{margin:0 0 18px}
 label{
   display:block;
-  color:var(--muted);
+  color:#aaa;
   font-size:14px;
-  margin:14px 0 7px;
+  margin:15px 0 7px;
 }
-
 input,textarea{
   width:100%;
-  background:#111;
+  background:#101010;
   border:1px solid #383838;
+  color:#fff;
   border-radius:12px;
-  color:white;
   padding:14px;
+  font-size:17px;
   outline:none;
 }
-
-input:focus,textarea:focus{
-  border-color:var(--accent);
-}
-
-textarea{
-  min-height:80px;
-  resize:vertical;
-}
-
+input:focus,textarea:focus{border-color:#d5a84b}
+textarea{min-height:90px;resize:vertical}
 .pin{
   text-align:center;
   font-size:28px;
   letter-spacing:8px;
 }
-
-.btn{
-  width:100%;
+button{
   border:0;
   border-radius:13px;
-  padding:15px;
-  margin-top:12px;
+  padding:14px;
+  font-size:16px;
   font-weight:700;
 }
-
-.btn-primary{
-  background:var(--accent);
+.primary{
+  width:100%;
+  background:#d5a84b;
   color:#111;
+  margin-top:16px;
 }
-
-.btn-secondary{
+.secondary{
+  width:100%;
   background:#292929;
-  color:white;
-  border:1px solid #3a3a3a;
+  color:#fff;
+  border:1px solid #3b3b3b;
+  margin-top:10px;
 }
-
-.btn-danger{
-  background:#402323;
-  color:#ffb0b0;
+.danger{
+  background:#432525;
+  color:#ffb2b2;
 }
-
-.hidden{
-  display:none!important;
-}
-
-.user{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.user-name{
-  font-size:21px;
-  font-weight:700;
-}
-
-.role{
-  color:var(--accent);
-  font-size:13px;
-  margin-top:4px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.stat{
-  background:#111;
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:15px;
-}
-
-.stat-title{
-  color:var(--muted);
-  font-size:13px;
-}
-
-.stat-value{
-  font-size:22px;
-  font-weight:700;
-  margin-top:5px;
-}
-
-.report{
-  border-top:1px solid var(--line);
-  padding:16px 0;
-}
-
-.report:first-child{
-  border-top:0;
-}
-
-.report-head{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-}
-
-.report-name{
-  font-weight:700;
-}
-
-.report-date{
-  color:var(--muted);
-  font-size:13px;
-}
-
-.amount{
-  font-weight:700;
-}
-
-.message{
+.hidden{display:none!important}
+.msg{
+  display:none;
   padding:12px;
   border-radius:12px;
-  margin-bottom:15px;
-  display:none;
+  margin-bottom:12px;
 }
-
-.message.error{
+.error{
   display:block;
-  background:#3a2020;
+  background:#3b2020;
   color:#ffb0b0;
 }
-
-.message.success{
+.success{
   display:block;
-  background:#193522;
+  background:#193723;
   color:#9be0ad;
 }
-
-.empty{
-  text-align:center;
-  color:var(--muted);
-  padding:25px 10px;
-}
-
-.small{
-  font-size:13px;
-  color:var(--muted);
-}
-
-.row{
+.userbar{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:12px;
-}
-
-.back{
-  color:var(--muted);
-  background:none;
-  border:0;
-  padding:0;
   margin-bottom:18px;
 }
-
-.total{
-  font-size:28px;
+.username{
+  font-size:21px;
   font-weight:800;
 }
-
-.nav{
+.role{
+  color:#d5a84b;
+  font-size:13px;
+  margin-top:3px;
+}
+.tabs{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
   margin-bottom:16px;
 }
-
-.nav button{
-  padding:13px 8px;
-  border-radius:12px;
-  border:1px solid var(--line);
-  background:#191919;
-  color:white;
+.tabs button{
+  background:#1b1b1b;
+  color:#aaa;
+  border:1px solid #303030;
 }
-
-.nav button.active{
-  background:var(--accent);
+.tabs button.active{
+  background:#d5a84b;
   color:#111;
 }
-
-@media(max-width:400px){
-  .grid{
-    grid-template-columns:1fr;
-  }
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.stat{
+  background:#101010;
+  border:1px solid #303030;
+  border-radius:13px;
+  padding:14px;
+}
+.stat-title{
+  color:#999;
+  font-size:13px;
+}
+.stat-value{
+  font-size:21px;
+  font-weight:800;
+  margin-top:5px;
+}
+.total{
+  font-size:30px;
+  font-weight:900;
+  margin-top:5px;
+}
+.report{
+  border-top:1px solid #303030;
+  padding:15px 0;
+}
+.report:first-child{border-top:0}
+.report-head{
+  display:flex;
+  justify-content:space-between;
+}
+.muted{
+  color:#999;
+  font-size:13px;
+}
+.empty{
+  color:#999;
+  text-align:center;
+  padding:25px 5px;
+}
+.logout{
+  padding:9px 12px;
+  font-size:13px;
 }
 </style>
 </head>
@@ -282,161 +191,160 @@ textarea{
 
 <div class="app">
 
-  <!-- LOGIN -->
-  <section id="loginScreen">
+<!-- LOGIN -->
+<div id="loginScreen">
 
-    <div class="logo">A5</div>
-    <div class="subtitle">BARISTA REPORT</div>
+  <div class="logo">A5</div>
+  <div class="subtitle">BARISTA REPORT</div>
+
+  <div class="card">
+    <h2>Вход</h2>
+
+    <div id="loginMsg" class="msg"></div>
+
+    <label>PIN-код</label>
+    <input
+      id="pin"
+      class="pin"
+      type="password"
+      inputmode="numeric"
+      maxlength="4"
+      placeholder="••••"
+    >
+
+    <button class="primary" onclick="login()">
+      Войти
+    </button>
+  </div>
+
+</div>
+
+
+<!-- APP -->
+<div id="appScreen" class="hidden">
+
+  <div class="userbar">
+    <div>
+      <div id="userName" class="username"></div>
+      <div id="userRole" class="role"></div>
+    </div>
+
+    <button class="danger logout" onclick="logout()">
+      Выйти
+    </button>
+  </div>
+
+  <div class="tabs">
+    <button id="reportTabBtn"
+            class="active"
+            onclick="openTab('report')">
+      Смена
+    </button>
+
+    <button id="historyTabBtn"
+            onclick="openTab('history')">
+      История
+    </button>
+  </div>
+
+
+  <!-- REPORT -->
+  <div id="reportTab">
 
     <div class="card">
 
-      <h2>Вход</h2>
+      <h2>Отчёт смены</h2>
 
-      <div id="loginMessage" class="message"></div>
+      <div id="reportMsg" class="msg"></div>
 
-      <label>PIN-код</label>
-      <input
-        id="pin"
-        class="pin"
-        type="password"
-        inputmode="numeric"
-        maxlength="4"
-        placeholder="••••"
-      >
+      <label>Остаток на начало</label>
+      <input id="opening" type="number" step="0.01">
 
-      <button class="btn btn-primary" onclick="login()">
-        Войти
+      <button class="secondary" onclick="loadBalance()">
+        Получить остаток предыдущей смены
       </button>
+
+      <label>Наличные</label>
+      <input id="cash" type="number" step="0.01" value="0">
+
+      <label>Банковская карта</label>
+      <input id="card" type="number" step="0.01" value="0">
+
+      <label>QR</label>
+      <input id="qr" type="number" step="0.01" value="0">
+
+      <h3 style="margin-top:25px">Расходы</h3>
+
+      <label>Расход бариста</label>
+      <input id="expenseBarista" type="number" step="0.01" value="0">
+
+      <label>Расход поставщику</label>
+      <input id="expenseSupplier" type="number" step="0.01" value="0">
+
+      <label>Снятие / прочие расходы</label>
+      <input id="expenseWithdrawal" type="number" step="0.01" value="0">
+
+      <label>Комментарий</label>
+      <textarea id="comment"
+                placeholder="Комментарий к смене"></textarea>
 
     </div>
 
-  </section>
 
+    <div class="card">
 
-  <!-- MAIN -->
-  <section id="mainScreen" class="hidden">
+      <h2>Итог</h2>
 
-    <div class="row" style="margin-bottom:20px">
-      <div>
-        <div class="user-name" id="currentUser"></div>
-        <div class="role" id="currentRole"></div>
+      <div class="grid">
+
+        <div class="stat">
+          <div class="stat-title">Продажи</div>
+          <div id="sales" class="stat-value">0 ₽</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-title">Расходы</div>
+          <div id="expenses" class="stat-value">0 ₽</div>
+        </div>
+
       </div>
 
-      <button class="btn btn-danger"
-              style="width:auto;margin:0;padding:9px 13px"
-              onclick="logout()">
-        Выйти
+      <div style="margin-top:20px">
+        <div class="muted">Ожидаемая наличность</div>
+        <div id="expected" class="total">0 ₽</div>
+      </div>
+
+      <button class="primary" onclick="saveReport()">
+        Сохранить отчёт
       </button>
+
     </div>
 
-    <div class="nav">
-      <button id="tabReport" class="active" onclick="showTab('report')">
-        Смена
-      </button>
-      <button id="tabHistory" onclick="showTab('history')">
-        История
-      </button>
-    </div>
+  </div>
 
 
-    <!-- REPORT -->
-    <div id="reportTab">
+  <!-- HISTORY -->
+  <div id="historyTab" class="hidden">
 
-      <div class="card">
+    <div class="card">
 
-        <h2>Отчёт смены</h2>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2 style="margin:0">История</h2>
 
-        <div id="reportMessage" class="message"></div>
-
-        <label>Остаток на начало смены</label>
-        <input id="openingCash" type="number" step="0.01">
-
-        <button class="btn btn-secondary"
-                onclick="loadPreviousBalance()">
-          Получить остаток предыдущей смены
+        <button class="secondary"
+                style="width:auto;margin:0;padding:9px 12px"
+                onclick="loadHistory()">
+          Обновить
         </button>
-
-        <label>Наличные</label>
-        <input id="cash" type="number" step="0.01" value="0">
-
-        <label>Банковская карта</label>
-        <input id="card" type="number" step="0.01" value="0">
-
-        <label>QR</label>
-        <input id="qr" type="number" step="0.01" value="0">
-
-        <h3 style="margin-top:25px">Расходы</h3>
-
-        <label>Расход бариста</label>
-        <input id="expenseBarista" type="number" step="0.01" value="0">
-
-        <label>Расход поставщику</label>
-        <input id="expenseSupplier" type="number" step="0.01" value="0">
-
-        <label>Снятие / прочие расходы</label>
-        <input id="expenseWithdrawal" type="number" step="0.01" value="0">
-
-        <label>Комментарий</label>
-        <textarea id="comment" placeholder="Комментарий к смене"></textarea>
-
       </div>
 
-
-      <div class="card">
-
-        <h2>Итог</h2>
-
-        <div class="grid">
-
-          <div class="stat">
-            <div class="stat-title">Продажи</div>
-            <div class="stat-value" id="salesTotal">0 ₽</div>
-          </div>
-
-          <div class="stat">
-            <div class="stat-title">Расходы</div>
-            <div class="stat-value" id="expensesTotal">0 ₽</div>
-          </div>
-
-        </div>
-
-        <div style="margin-top:20px">
-          <div class="small">Ожидаемая наличность</div>
-          <div class="total" id="expectedCash">0 ₽</div>
-        </div>
-
-        <button class="btn btn-primary"
-                onclick="saveReport()">
-          Сохранить отчёт
-        </button>
-
-      </div>
+      <div id="history"></div>
 
     </div>
 
+  </div>
 
-    <!-- HISTORY -->
-    <div id="historyTab" class="hidden">
-
-      <div class="card">
-
-        <div class="row">
-          <h2 style="margin:0">История смен</h2>
-
-          <button class="btn btn-secondary"
-                  style="width:auto;margin:0;padding:9px 12px"
-                  onclick="loadHistory()">
-            Обновить
-          </button>
-        </div>
-
-        <div id="history"></div>
-
-      </div>
-
-    </div>
-
-  </section>
+</div>
 
 </div>
 
@@ -449,491 +357,369 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "sb_publishable_sVGHTCnvYzWZ65_ltVMkNA_WMNyYUx0";
 
-const supabaseClient =
+const supabase =
   window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
   );
 
+let currentPin = "";
 let currentUser = null;
 
 
-// -------------------------
-// LOGIN
-// -------------------------
+// ---------- HELPERS ----------
+
+function val(id){
+  return Number(document.getElementById(id).value || 0);
+}
+
+function money(n){
+  return Number(n || 0).toLocaleString("ru-RU") + " ₽";
+}
+
+function message(id,text,type){
+  const el=document.getElementById(id);
+  el.className="msg "+type;
+  el.textContent=text;
+}
+
+function clearMessage(id){
+  const el=document.getElementById(id);
+  el.className="msg";
+  el.textContent="";
+}
+
+
+// ---------- LOGIN ----------
 
 async function login(){
+
+  clearMessage("loginMsg");
 
   const pin =
     document.getElementById("pin").value.trim();
 
-  if(!pin){
-    showMessage(
-      "loginMessage",
-      "Введите PIN-код",
+  if(pin.length !== 4){
+    message(
+      "loginMsg",
+      "Введите 4-значный PIN",
       "error"
     );
     return;
   }
 
   const {data,error} =
-    await supabaseClient
-      .from("users")
-      .select("*")
-      .eq("pin",pin)
-      .eq("active",true)
-      .maybeSingle();
-
-  if(error){
-
-    showMessage(
-      "loginMessage",
-      "Ошибка подключения к базе: " + error.message,
-      "error"
+    await supabase.rpc(
+      "login_by_pin",
+      {p_pin:pin}
     );
 
+  if(error){
+    message(
+      "loginMsg",
+      "Ошибка: "+error.message,
+      "error"
+    );
     return;
   }
 
-  if(!data){
-
-    showMessage(
-      "loginMessage",
+  if(!data || data.length === 0){
+    message(
+      "loginMsg",
       "Неверный PIN-код",
       "error"
     );
-
     return;
   }
 
-  currentUser = data;
+  currentPin=pin;
+  currentUser=data[0];
 
   document.getElementById("loginScreen")
     .classList.add("hidden");
 
-  document.getElementById("mainScreen")
+  document.getElementById("appScreen")
     .classList.remove("hidden");
 
-  document.getElementById("currentUser")
-    .textContent = data.name;
+  document.getElementById("userName")
+    .textContent=currentUser.name;
 
-  document.getElementById("currentRole")
-    .textContent =
-      data.role === "admin"
+  document.getElementById("userRole")
+    .textContent=
+      currentUser.role==="admin"
       ? "Администратор"
       : "Бариста";
 
-  await loadPreviousBalance();
-  await loadHistory();
+  await loadBalance();
+  calculate();
 }
 
 
-// -------------------------
-// LOGOUT
-// -------------------------
+// ---------- LOGOUT ----------
 
 function logout(){
 
-  currentUser = null;
+  currentPin="";
+  currentUser=null;
 
-  document.getElementById("mainScreen")
+  document.getElementById("appScreen")
     .classList.add("hidden");
 
   document.getElementById("loginScreen")
     .classList.remove("hidden");
 
-  document.getElementById("pin").value = "";
-
+  document.getElementById("pin").value="";
 }
 
 
-// -------------------------
-// TABS
-// -------------------------
+// ---------- BALANCE ----------
 
-function showTab(tab){
-
-  const report =
-    document.getElementById("reportTab");
-
-  const history =
-    document.getElementById("historyTab");
-
-  const reportBtn =
-    document.getElementById("tabReport");
-
-  const historyBtn =
-    document.getElementById("tabHistory");
-
-  if(tab === "report"){
-
-    report.classList.remove("hidden");
-    history.classList.add("hidden");
-
-    reportBtn.classList.add("active");
-    historyBtn.classList.remove("active");
-
-  }else{
-
-    report.classList.add("hidden");
-    history.classList.remove("hidden");
-
-    reportBtn.classList.remove("active");
-    historyBtn.classList.add("active");
-
-    loadHistory();
-  }
-}
-
-
-// -------------------------
-// PREVIOUS BALANCE
-// -------------------------
-
-async function loadPreviousBalance(){
+async function loadBalance(){
 
   const {data,error} =
-    await supabaseClient
-      .from("shift_reports")
-      .select("actual_cash")
-      .not("actual_cash","is",null)
-      .order("created_at",{ascending:false})
-      .limit(1)
-      .maybeSingle();
+    await supabase.rpc(
+      "get_last_cash_balance"
+    );
 
   if(error){
     console.log(error);
     return;
   }
 
-  if(data){
-
-    document.getElementById("openingCash")
-      .value = Number(data.actual_cash || 0);
-
-  }else{
-
-    document.getElementById("openingCash")
-      .value = 0;
-
-  }
+  document.getElementById("opening")
+    .value=Number(data || 0);
 
   calculate();
 }
 
 
-// -------------------------
-// CALCULATE
-// -------------------------
-
-function money(value){
-
-  return Number(value || 0)
-    .toLocaleString("ru-RU",{
-      maximumFractionDigits:2
-    }) + " ₽";
-
-}
-
-
-function num(id){
-
-  return Number(
-    document.getElementById(id).value || 0
-  );
-
-}
-
+// ---------- CALCULATION ----------
 
 function calculate(){
 
-  const opening = num("openingCash");
+  const opening=val("opening");
+  const cash=val("cash");
+  const card=val("card");
+  const qr=val("qr");
 
-  const cash = num("cash");
-  const card = num("card");
-  const qr = num("qr");
+  const e1=val("expenseBarista");
+  const e2=val("expenseSupplier");
+  const e3=val("expenseWithdrawal");
 
-  const expenseBarista =
-    num("expenseBarista");
+  const sales=cash+card+qr;
+  const expenses=e1+e2+e3;
 
-  const expenseSupplier =
-    num("expenseSupplier");
+  const expected=
+    opening+cash-expenses;
 
-  const expenseWithdrawal =
-    num("expenseWithdrawal");
+  document.getElementById("sales")
+    .textContent=money(sales);
 
-  const sales =
-    cash + card + qr;
+  document.getElementById("expenses")
+    .textContent=money(expenses);
 
-  const expenses =
-    expenseBarista +
-    expenseSupplier +
-    expenseWithdrawal;
-
-  const expected =
-    opening +
-    cash -
-    expenses;
-
-  document.getElementById("salesTotal")
-    .textContent = money(sales);
-
-  document.getElementById("expensesTotal")
-    .textContent = money(expenses);
-
-  document.getElementById("expectedCash")
-    .textContent = money(expected);
-
+  document.getElementById("expected")
+    .textContent=money(expected);
 }
 
 
 [
- "openingCash",
+ "opening",
  "cash",
  "card",
  "qr",
  "expenseBarista",
  "expenseSupplier",
  "expenseWithdrawal"
-].forEach(id => {
-
+].forEach(id=>{
   document.getElementById(id)
     .addEventListener("input",calculate);
-
 });
 
 
-// -------------------------
-// SAVE REPORT
-// -------------------------
+// ---------- SAVE ----------
 
 async function saveReport(){
 
-  if(!currentUser) return;
+  clearMessage("reportMsg");
 
-  calculate();
+  if(!currentPin){
+    return;
+  }
 
-  const opening =
-    num("openingCash");
+  const {data,error} =
+    await supabase.rpc(
+      "save_shift_report",
+      {
+        p_pin:currentPin,
 
-  const cash =
-    num("cash");
-
-  const card =
-    num("card");
-
-  const qr =
-    num("qr");
-
-  const expenseBarista =
-    num("expenseBarista");
-
-  const expenseSupplier =
-    num("expenseSupplier");
-
-  const expenseWithdrawal =
-    num("expenseWithdrawal");
-
-  const sales =
-    cash + card + qr;
-
-  const expenses =
-    expenseBarista +
-    expenseSupplier +
-    expenseWithdrawal;
-
-  const expected =
-    opening +
-    cash -
-    expenses;
-
-  const comment =
-    document.getElementById("comment")
-      .value.trim();
-
-  const {error} =
-    await supabaseClient
-      .from("shift_reports")
-      .insert({
-
-        user_id: currentUser.id,
-
-        report_date:
+        p_report_date:
           new Date().toISOString().slice(0,10),
 
-        opening_time:
-          new Date().toISOString(),
+        p_opening_cash:
+          val("opening"),
 
-        opening_cash:
-          opening,
+        p_cash:
+          val("cash"),
 
-        cash:
-          cash,
+        p_card:
+          val("card"),
 
-        card:
-          card,
+        p_qr:
+          val("qr"),
 
-        qr:
-          qr,
+        p_expense_barista:
+          val("expenseBarista"),
 
-        expense_barista:
-          expenseBarista,
+        p_expense_supplier:
+          val("expenseSupplier"),
 
-        expense_supplier:
-          expenseSupplier,
+        p_expense_withdrawal:
+          val("expenseWithdrawal"),
 
-        expense_withdrawal:
-          expenseWithdrawal,
-
-        comment_barista:
-          comment,
-
-        expected_cash:
-          expected,
-
-        closing_time:
-          new Date().toISOString(),
-
-        actual_cash:
-          expected
-
-      });
+        p_comment:
+          document.getElementById("comment").value.trim()
+      }
+    );
 
   if(error){
 
-    showMessage(
-      "reportMessage",
-      "Не удалось сохранить отчёт: " +
-      error.message,
+    message(
+      "reportMsg",
+      "Ошибка сохранения: "+error.message,
       "error"
     );
 
     return;
   }
 
-  showMessage(
-    "reportMessage",
+  message(
+    "reportMsg",
     "Отчёт успешно сохранён",
     "success"
   );
 
-  document.getElementById("cash").value = 0;
-  document.getElementById("card").value = 0;
-  document.getElementById("qr").value = 0;
+  document.getElementById("cash").value=0;
+  document.getElementById("card").value=0;
+  document.getElementById("qr").value=0;
 
-  document.getElementById("expenseBarista").value = 0;
-  document.getElementById("expenseSupplier").value = 0;
-  document.getElementById("expenseWithdrawal").value = 0;
+  document.getElementById("expenseBarista").value=0;
+  document.getElementById("expenseSupplier").value=0;
+  document.getElementById("expenseWithdrawal").value=0;
 
-  document.getElementById("comment").value = "";
+  document.getElementById("comment").value="";
 
-  await loadPreviousBalance();
-  await loadHistory();
-
+  await loadBalance();
+  calculate();
 }
 
 
-// -------------------------
-// HISTORY
-// -------------------------
+// ---------- HISTORY ----------
 
 async function loadHistory(){
 
-  const container =
-    document.getElementById("history");
+  const box=document.getElementById("history");
 
-  container.innerHTML =
+  box.innerHTML=
     '<div class="empty">Загрузка...</div>';
 
   const {data,error} =
-    await supabaseClient
-      .from("shift_reports_full")
-      .select("*")
-      .order("created_at",{ascending:false})
-      .limit(100);
+    await supabase.rpc(
+      "get_shift_reports"
+    );
 
   if(error){
 
-    container.innerHTML =
-      '<div class="empty">Ошибка загрузки: ' +
-      escapeHtml(error.message) +
+    box.innerHTML=
+      '<div class="empty">Ошибка загрузки: '+
+      error.message+
       '</div>';
 
     return;
   }
 
-  if(!data || data.length === 0){
+  if(!data || data.length===0){
 
-    container.innerHTML =
+    box.innerHTML=
       '<div class="empty">Отчётов пока нет</div>';
 
     return;
   }
 
-  container.innerHTML =
-    data.map(report => {
+  box.innerHTML=data.map(r=>{
 
-      const date =
-        report.report_date
-        ? new Date(report.report_date)
-            .toLocaleDateString("ru-RU")
-        : "—";
+    const date=
+      new Date(r.report_date)
+      .toLocaleDateString("ru-RU");
 
-      return `
-        <div class="report">
+    return `
+      <div class="report">
 
-          <div class="report-head">
+        <div class="report-head">
 
-            <div>
-              <div class="report-name">
-                ${escapeHtml(report.barista_name || "Неизвестно")}
-              </div>
-
-              <div class="report-date">
-                ${date}
-              </div>
-            </div>
-
-            <div class="amount">
-              ${money(report.actual_cash)}
-            </div>
-
+          <div>
+            <b>${escapeHtml(r.barista_name || "—")}</b>
+            <div class="muted">${date}</div>
           </div>
 
-          <div class="small" style="margin-top:8px">
-            Наличные: ${money(report.cash)}
-            · Карта: ${money(report.card)}
-            · QR: ${money(report.qr)}
-          </div>
+          <b>${money(r.actual_cash)}</b>
 
         </div>
-      `;
 
-    }).join("");
+        <div class="muted" style="margin-top:8px">
+          Наличные: ${money(r.cash)}
+          · Карта: ${money(r.card)}
+          · QR: ${money(r.qr)}
+        </div>
 
+        <div class="muted" style="margin-top:5px">
+          Расходы:
+          ${money(
+            Number(r.expense_barista||0)+
+            Number(r.expense_supplier||0)+
+            Number(r.expense_withdrawal||0)
+          )}
+        </div>
+
+      </div>
+    `;
+
+  }).join("");
 }
 
 
-// -------------------------
-// MESSAGES
-// -------------------------
+// ---------- TABS ----------
 
-function showMessage(id,text,type){
+function openTab(tab){
 
-  const el =
-    document.getElementById(id);
+  const report=document.getElementById("reportTab");
+  const history=document.getElementById("historyTab");
 
-  el.className =
-    "message " + type;
+  const rb=document.getElementById("reportTabBtn");
+  const hb=document.getElementById("historyTabBtn");
 
-  el.textContent = text;
+  if(tab==="report"){
 
+    report.classList.remove("hidden");
+    history.classList.add("hidden");
+
+    rb.classList.add("active");
+    hb.classList.remove("active");
+
+  }else{
+
+    report.classList.add("hidden");
+    history.classList.remove("hidden");
+
+    rb.classList.remove("active");
+    hb.classList.add("active");
+
+    loadHistory();
+  }
 }
 
 
-// -------------------------
-// HTML SAFETY
-// -------------------------
+// ---------- SECURITY ----------
 
 function escapeHtml(value){
 
@@ -943,11 +729,8 @@ function escapeHtml(value){
     .replaceAll(">","&gt;")
     .replaceAll('"',"&quot;")
     .replaceAll("'","&#039;");
-
 }
 
-
-// Initial calculation
 calculate();
 
 </script>
