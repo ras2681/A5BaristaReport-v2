@@ -520,6 +520,24 @@ input[type="number"] {
 }
 
 
+/* ---------- PHOTO LINK ---------- */
+
+.history-photo-link {
+  display: block;
+  margin-top: 12px;
+  padding-top: 9px;
+  border-top: 1px solid #444;
+  color: #bbb;
+  text-decoration: none;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.history-photo-link:active {
+  opacity: .7;
+}
+
+
 /* ---------- DATE ---------- */
 
 .history-date-row {
@@ -1600,6 +1618,9 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
 "sb_publishable_sVGHTCnvYzWZ65_ltVMkNA_WMNyYUx0";
 
+const STORAGE_BUCKET =
+"shift-reports";
+
 
 /* =====================================================
    STATE
@@ -2149,7 +2170,6 @@ function updatePinDisplay() {
 
 /* =====================================================
    PIN INPUT
-   AUTO LOGIN AFTER 4 DIGITS
 ===================================================== */
 
 function pinPress(number) {
@@ -2708,6 +2728,7 @@ document.addEventListener(
 
 /* =====================================================
    SAVE TO SUPABASE
+   RETURN REPORT ID
 ===================================================== */
 
 async function saveToSupabase() {
@@ -2796,52 +2817,232 @@ async function saveToSupabase() {
   );
 
 
+  const result =
+    await callRPC(
+      "save_shift_report",
+      {
+
+        p_pin:
+          currentPin,
+
+        p_report_date:
+          date,
+
+        p_opening_cash:
+          num("openCash"),
+
+        p_opening_time:
+          val("openTime") ||
+          null,
+
+        p_cash:
+          num("cash"),
+
+        p_card:
+          num("card"),
+
+        p_qr:
+          0,
+
+        p_expense_barista:
+          baristaExpense,
+
+        p_expense_supplier:
+          supplierExpense,
+
+        p_expense_withdrawal:
+          withdrawal,
+
+        p_closing_time:
+          val("closeTime") ||
+          null,
+
+        p_actual_cash:
+          num("closeCash"),
+
+        p_comment:
+          comments.join(
+            " | "
+          )
+
+      }
+    );
+
+
+  return result;
+
+}
+
+
+/* =====================================================
+   UPLOAD JPEG TO STORAGE
+===================================================== */
+
+async function uploadReportImage(
+  reportId,
+  blob
+) {
+
+  if (!reportId) {
+
+    throw new Error(
+      "Не получен ID отчёта"
+    );
+
+  }
+
+
+  if (!blob) {
+
+    throw new Error(
+      "Не создан JPG отчёта"
+    );
+
+  }
+
+
+  const folder =
+    currentUser &&
+    currentUser.id
+      ? currentUser.id
+      : "reports";
+
+
+  const path =
+    folder +
+    "/" +
+    reportId +
+    ".jpg";
+
+
+  const uploadUrl =
+    SUPABASE_URL +
+    "/storage/v1/object/" +
+    STORAGE_BUCKET +
+    "/" +
+    path;
+
+
+  const response =
+    await fetch(
+      uploadUrl,
+      {
+        method: "POST",
+
+        headers: {
+
+          "apikey":
+            SUPABASE_KEY,
+
+          "Authorization":
+            "Bearer " +
+            SUPABASE_KEY,
+
+          "Content-Type":
+            "image/jpeg",
+
+          "x-upsert":
+            "true"
+
+        },
+
+        body:
+          blob
+      }
+    );
+
+
+  const text =
+    await response.text();
+
+
+  if (!response.ok) {
+
+    let message =
+      "Ошибка загрузки JPG";
+
+
+    try {
+
+      const data =
+        text
+          ? JSON.parse(
+              text
+            )
+          : null;
+
+
+      if (
+        data &&
+        data.message
+      ) {
+
+        message =
+          data.message;
+
+      }
+      else if (
+        data &&
+        data.error
+      ) {
+
+        message =
+          data.error;
+
+      }
+      else if (
+        text
+      ) {
+
+        message =
+          text;
+
+      }
+
+    }
+    catch(e) {
+
+      if (text) {
+        message =
+          text;
+      }
+
+    }
+
+
+    throw new Error(
+      message
+    );
+
+  }
+
+
+  return path;
+
+}
+
+
+/* =====================================================
+   SAVE IMAGE PATH
+===================================================== */
+
+async function saveReportImagePath(
+  reportId,
+  imagePath
+) {
+
   await callRPC(
-    "save_shift_report",
+    "save_report_image_path",
     {
 
       p_pin:
         currentPin,
 
-      p_report_date:
-        date,
+      p_report_id:
+        reportId,
 
-      p_opening_cash:
-        num("openCash"),
-
-      p_opening_time:
-        val("openTime") ||
-        null,
-
-      p_cash:
-        num("cash"),
-
-      p_card:
-        num("card"),
-
-      p_qr:
-        0,
-
-      p_expense_barista:
-        baristaExpense,
-
-      p_expense_supplier:
-        supplierExpense,
-
-      p_expense_withdrawal:
-        withdrawal,
-
-      p_closing_time:
-        val("closeTime") ||
-        null,
-
-      p_actual_cash:
-        num("closeCash"),
-
-      p_comment:
-        comments.join(
-          " | "
-        )
+      p_image_path:
+        imagePath
 
     }
   );
@@ -3222,7 +3423,7 @@ async function makeJPEG() {
 
 
 /* =====================================================
-   SAVE + JPEG
+   SAVE + JPEG + STORAGE
 ===================================================== */
 
 async function saveReportAndJPEG() {
@@ -3238,13 +3439,31 @@ async function saveReportAndJPEG() {
 
 
   message.textContent =
-    "";
+    "Сохранение отчёта...";
 
 
   try {
 
-    await saveToSupabase();
+    /* ---------------------------------
+       1. SAVE REPORT
+    --------------------------------- */
 
+    const reportId =
+      await saveToSupabase();
+
+
+    if (!reportId) {
+
+      throw new Error(
+        "Отчёт сохранён, но не получен его ID"
+      );
+
+    }
+
+
+    /* ---------------------------------
+       2. CREATE JPEG
+    --------------------------------- */
 
     const blob =
       await makeJPEG();
@@ -3258,6 +3477,35 @@ async function saveReportAndJPEG() {
 
     }
 
+
+    /* ---------------------------------
+       3. UPLOAD JPEG
+    --------------------------------- */
+
+    message.textContent =
+      "Загрузка фото отчёта...";
+
+
+    const imagePath =
+      await uploadReportImage(
+        reportId,
+        blob
+      );
+
+
+    /* ---------------------------------
+       4. SAVE IMAGE PATH
+    --------------------------------- */
+
+    await saveReportImagePath(
+      reportId,
+      imagePath
+    );
+
+
+    /* ---------------------------------
+       5. SHARE / DOWNLOAD
+    --------------------------------- */
 
     const file =
       new File(
@@ -3347,6 +3595,11 @@ async function saveReportAndJPEG() {
   }
   catch(error) {
 
+    console.error(
+      error
+    );
+
+
     message.className =
       "message error";
 
@@ -3354,6 +3607,150 @@ async function saveReportAndJPEG() {
     message.textContent =
       error.message ||
       "Ошибка сохранения";
+
+  }
+
+}
+
+
+/* =====================================================
+   CREATE SIGNED IMAGE URL
+===================================================== */
+
+async function getReportImageUrl(
+  imagePath
+) {
+
+  if (!imagePath) {
+
+    throw new Error(
+      "Фото отчёта не найдено"
+    );
+
+  }
+
+
+  const encodedPath =
+    imagePath
+      .split("/")
+      .map(
+        part =>
+          encodeURIComponent(
+            part
+          )
+      )
+      .join("/");
+
+
+  const response =
+    await fetch(
+      SUPABASE_URL +
+      "/storage/v1/object/sign/" +
+      STORAGE_BUCKET +
+      "/" +
+      encodedPath,
+      {
+
+        method: "POST",
+
+        headers: {
+
+          "Content-Type":
+            "application/json",
+
+          "apikey":
+            SUPABASE_KEY,
+
+          "Authorization":
+            "Bearer " +
+            SUPABASE_KEY
+
+        },
+
+        body:
+          JSON.stringify({
+            expiresIn:
+              3600
+          })
+
+      }
+    );
+
+
+  const data =
+    await response.json();
+
+
+  if (
+    !response.ok
+  ) {
+
+    throw new Error(
+      data.message ||
+      data.error ||
+      "Не удалось открыть фото"
+    );
+
+  }
+
+
+  if (
+    !data.signedURL
+  ) {
+
+    throw new Error(
+      "Supabase не вернул ссылку на фото"
+    );
+
+  }
+
+
+  if (
+    data.signedURL.startsWith(
+      "http"
+    )
+  ) {
+
+    return data.signedURL;
+
+  }
+
+
+  return (
+    SUPABASE_URL +
+    "/storage/v1" +
+    data.signedURL
+  );
+
+}
+
+
+/* =====================================================
+   OPEN REPORT IMAGE
+===================================================== */
+
+async function openReportImage(
+  imagePath
+) {
+
+  try {
+
+    const url =
+      await getReportImageUrl(
+        imagePath
+      );
+
+
+    window.location.href =
+      url;
+
+  }
+  catch(error) {
+
+    alert(
+      error.message ||
+      "Не удалось открыть фото отчёта"
+    );
 
   }
 
@@ -3996,6 +4393,70 @@ async function loadHistory() {
 
           item.appendChild(
             comment
+          );
+
+        }
+
+
+        /* =========================
+           PHOTO LINK
+        ========================= */
+
+        if (
+          report.report_image_url
+        ) {
+
+          const photoLink =
+            document.createElement(
+              "a"
+            );
+
+
+          photoLink.href =
+            "#";
+
+
+          photoLink.className =
+            "history-photo-link";
+
+
+          photoLink.textContent =
+            "📷 Открыть фото отчёта";
+
+
+          photoLink.onclick =
+            async function(event) {
+
+              event.preventDefault();
+
+
+              photoLink.textContent =
+                "📷 Открываю фото...";
+
+
+              try {
+
+                await openReportImage(
+                  report.report_image_url
+                );
+
+
+                photoLink.textContent =
+                  "📷 Открыть фото отчёта";
+
+              }
+              catch(error) {
+
+                photoLink.textContent =
+                  "📷 Открыть фото отчёта";
+
+              }
+
+            };
+
+
+          item.appendChild(
+            photoLink
           );
 
         }
