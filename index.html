@@ -9,12 +9,14 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
   margin:0;
   background:#111;
   color:#f5f5f5;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
 }
+
 .app{
   width:100%;
   max-width:600px;
@@ -22,6 +24,7 @@ body{
   min-height:100vh;
   padding:24px 16px 40px;
 }
+
 .logo{
   text-align:center;
   font-size:42px;
@@ -29,12 +32,14 @@ body{
   letter-spacing:5px;
   margin-top:25px;
 }
+
 .subtitle{
   text-align:center;
   color:#999;
   letter-spacing:3px;
   margin:4px 0 35px;
 }
+
 .card{
   background:#1b1b1b;
   border:1px solid #303030;
@@ -42,13 +47,18 @@ body{
   padding:20px;
   margin-bottom:16px;
 }
-h2{margin:0 0 18px}
+
+h2{
+  margin:0 0 18px;
+}
+
 label{
   display:block;
   color:#aaa;
   font-size:14px;
   margin:15px 0 7px;
 }
+
 input,textarea{
   width:100%;
   background:#101010;
@@ -59,13 +69,22 @@ input,textarea{
   font-size:17px;
   outline:none;
 }
-input:focus,textarea:focus{border-color:#d5a84b}
-textarea{min-height:90px;resize:vertical}
+
+input:focus,textarea:focus{
+  border-color:#d5a84b;
+}
+
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
 .pin{
   text-align:center;
   font-size:28px;
   letter-spacing:8px;
 }
+
 button{
   border:0;
   border-radius:13px;
@@ -73,12 +92,14 @@ button{
   font-size:16px;
   font-weight:700;
 }
+
 .primary{
   width:100%;
   background:#d5a84b;
   color:#111;
   margin-top:16px;
 }
+
 .secondary{
   width:100%;
   background:#292929;
@@ -86,103 +107,198 @@ button{
   border:1px solid #3b3b3b;
   margin-top:10px;
 }
+
 .danger{
   background:#432525;
   color:#ffb2b2;
 }
-.hidden{display:none!important}
+
+.hidden{
+  display:none!important;
+}
+
 .msg{
   display:none;
   padding:12px;
   border-radius:12px;
   margin-bottom:12px;
 }
+
 .error{
   display:block;
   background:#3b2020;
   color:#ffb0b0;
 }
+
 .success{
   display:block;
   background:#193723;
   color:#9be0ad;
 }
+
 .userbar{
   display:flex;
   justify-content:space-between;
   align-items:center;
   margin-bottom:18px;
 }
+
 .username{
   font-size:21px;
   font-weight:800;
 }
+
 .role{
   color:#d5a84b;
   font-size:13px;
   margin-top:3px;
 }
+
 .tabs{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
   margin-bottom:16px;
 }
+
 .tabs button{
   background:#1b1b1b;
   color:#aaa;
   border:1px solid #303030;
 }
+
 .tabs button.active{
   background:#d5a84b;
   color:#111;
 }
+
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
 }
+
 .stat{
   background:#101010;
   border:1px solid #303030;
   border-radius:13px;
   padding:14px;
 }
+
 .stat-title{
   color:#999;
   font-size:13px;
 }
+
 .stat-value{
   font-size:21px;
   font-weight:800;
   margin-top:5px;
 }
+
 .total{
   font-size:30px;
   font-weight:900;
   margin-top:5px;
 }
+
 .report{
   border-top:1px solid #303030;
   padding:15px 0;
 }
-.report:first-child{border-top:0}
+
+.report:first-child{
+  border-top:0;
+}
+
 .report-head{
   display:flex;
   justify-content:space-between;
 }
+
 .muted{
   color:#999;
   font-size:13px;
 }
+
 .empty{
   color:#999;
   text-align:center;
   padding:25px 5px;
 }
+
 .logout{
   padding:9px 12px;
   font-size:13px;
+}
+
+
+/* LOGIN USER SELECTOR */
+
+.user-select{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+  margin-top:10px;
+}
+
+.user-option{
+  width:100%;
+  background:#101010;
+  color:#fff;
+  border:1px solid #383838;
+  text-align:left;
+  padding:15px;
+  border-radius:13px;
+  transition:.15s;
+}
+
+.user-option .user-option-name{
+  font-size:17px;
+  font-weight:800;
+}
+
+.user-option .user-option-role{
+  color:#999;
+  font-size:13px;
+  margin-top:4px;
+}
+
+.user-option.selected{
+  border-color:#d5a84b;
+  background:#242016;
+}
+
+.step-title{
+  color:#aaa;
+  font-size:13px;
+  margin-bottom:8px;
+}
+
+.back-button{
+  width:100%;
+  background:#292929;
+  color:#fff;
+  border:1px solid #3b3b3b;
+  margin-top:10px;
+}
+
+.selected-user{
+  background:#101010;
+  border:1px solid #383838;
+  border-radius:12px;
+  padding:12px 14px;
+  margin-bottom:12px;
+}
+
+.selected-user-name{
+  font-weight:800;
+}
+
+.selected-user-role{
+  color:#999;
+  font-size:13px;
+  margin-top:3px;
 }
 </style>
 </head>
@@ -192,130 +308,384 @@ button{
 <div class="app">
 
 <!-- LOGIN -->
+
 <div id="loginScreen">
 
   <div class="logo">A5</div>
   <div class="subtitle">BARISTA REPORT</div>
 
-  <div class="card">
-    <h2>Вход</h2>
+
+  <!-- STEP 1: USER -->
+
+  <div id="userSelectCard" class="card">
+
+    <h2>Кто входит?</h2>
 
     <div id="loginMsg" class="msg"></div>
 
-    <label>PIN-код</label>
+    <div class="user-select">
+
+      <button
+        type="button"
+        class="user-option"
+        data-user="Admin"
+        onclick="selectUser('Admin','Администратор')">
+
+        <div class="user-option-name">
+          Admin
+        </div>
+
+        <div class="user-option-role">
+          Администратор
+        </div>
+
+      </button>
+
+
+      <button
+        type="button"
+        class="user-option"
+        data-user="Barista 1"
+        onclick="selectUser('Barista 1','Бариста')">
+
+        <div class="user-option-name">
+          Barista 1
+        </div>
+
+        <div class="user-option-role">
+          Бариста
+        </div>
+
+      </button>
+
+
+      <button
+        type="button"
+        class="user-option"
+        data-user="Barista 2"
+        onclick="selectUser('Barista 2','Бариста')">
+
+        <div class="user-option-name">
+          Barista 2
+        </div>
+
+        <div class="user-option-role">
+          Бариста
+        </div>
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- STEP 2: PIN -->
+
+  <div id="pinCard" class="card hidden">
+
+    <h2>Вход</h2>
+
+    <div id="pinMsg" class="msg"></div>
+
+    <div class="selected-user">
+
+      <div
+        id="selectedUserName"
+        class="selected-user-name">
+      </div>
+
+      <div
+        id="selectedUserRole"
+        class="selected-user-role">
+      </div>
+
+    </div>
+
+    <div class="step-title">
+      Введите PIN-код
+    </div>
+
     <input
       id="pin"
       class="pin"
       type="password"
       inputmode="numeric"
       maxlength="4"
+      autocomplete="off"
       placeholder="••••"
     >
 
-    <button class="primary" onclick="login()">
+    <button
+      class="primary"
+      onclick="login()">
+
       Войти
+
     </button>
+
+    <button
+      class="back-button"
+      onclick="backToUsers()">
+
+      ← Выбрать другого пользователя
+
+    </button>
+
   </div>
 
 </div>
 
 
+
 <!-- APP -->
+
 <div id="appScreen" class="hidden">
 
   <div class="userbar">
+
     <div>
-      <div id="userName" class="username"></div>
-      <div id="userRole" class="role"></div>
+
+      <div
+        id="userName"
+        class="username">
+      </div>
+
+      <div
+        id="userRole"
+        class="role">
+      </div>
+
     </div>
 
-    <button class="danger logout" onclick="logout()">
+    <button
+      class="danger logout"
+      onclick="logout()">
+
       Выйти
+
     </button>
+
   </div>
+
 
   <div class="tabs">
-    <button id="reportTabBtn"
-            class="active"
-            onclick="openTab('report')">
+
+    <button
+      id="reportTabBtn"
+      class="active"
+      onclick="openTab('report')">
+
       Смена
+
     </button>
 
-    <button id="historyTabBtn"
-            onclick="openTab('history')">
+    <button
+      id="historyTabBtn"
+      onclick="openTab('history')">
+
       История
+
     </button>
+
   </div>
+
 
 
   <!-- REPORT -->
+
   <div id="reportTab">
 
     <div class="card">
 
-      <h2>Отчёт смены</h2>
+      <h2>
+        Отчёт смены
+      </h2>
 
-      <div id="reportMsg" class="msg"></div>
+      <div
+        id="reportMsg"
+        class="msg">
+      </div>
 
-      <label>Остаток на начало</label>
-      <input id="opening" type="number" step="0.01">
 
-      <button class="secondary" onclick="loadBalance()">
+      <label>
+        Остаток на начало
+      </label>
+
+      <input
+        id="opening"
+        type="number"
+        step="0.01"
+      >
+
+
+      <button
+        class="secondary"
+        onclick="loadBalance()">
+
         Получить остаток предыдущей смены
+
       </button>
 
-      <label>Наличные</label>
-      <input id="cash" type="number" step="0.01" value="0">
 
-      <label>Банковская карта</label>
-      <input id="card" type="number" step="0.01" value="0">
+      <label>
+        Наличные
+      </label>
 
-      <label>QR</label>
-      <input id="qr" type="number" step="0.01" value="0">
+      <input
+        id="cash"
+        type="number"
+        step="0.01"
+        value="0"
+      >
 
-      <h3 style="margin-top:25px">Расходы</h3>
 
-      <label>Расход бариста</label>
-      <input id="expenseBarista" type="number" step="0.01" value="0">
+      <label>
+        Банковская карта
+      </label>
 
-      <label>Расход поставщику</label>
-      <input id="expenseSupplier" type="number" step="0.01" value="0">
+      <input
+        id="card"
+        type="number"
+        step="0.01"
+        value="0"
+      >
 
-      <label>Снятие / прочие расходы</label>
-      <input id="expenseWithdrawal" type="number" step="0.01" value="0">
 
-      <label>Комментарий</label>
-      <textarea id="comment"
-                placeholder="Комментарий к смене"></textarea>
+      <label>
+        QR
+      </label>
+
+      <input
+        id="qr"
+        type="number"
+        step="0.01"
+        value="0"
+      >
+
+
+      <h3 style="margin-top:25px">
+        Расходы
+      </h3>
+
+
+      <label>
+        Расход бариста
+      </label>
+
+      <input
+        id="expenseBarista"
+        type="number"
+        step="0.01"
+        value="0"
+      >
+
+
+      <label>
+        Расход поставщику
+      </label>
+
+      <input
+        id="expenseSupplier"
+        type="number"
+        step="0.01"
+        value="0"
+      >
+
+
+      <label>
+        Снятие / прочие расходы
+      </label>
+
+      <input
+        id="expenseWithdrawal"
+        type="number"
+        step="0.01"
+        value="0"
+      >
+
+
+      <label>
+        Комментарий
+      </label>
+
+      <textarea
+        id="comment"
+        placeholder="Комментарий к смене">
+      </textarea>
 
     </div>
 
 
+
     <div class="card">
 
-      <h2>Итог</h2>
+      <h2>
+        Итог
+      </h2>
+
 
       <div class="grid">
 
         <div class="stat">
-          <div class="stat-title">Продажи</div>
-          <div id="sales" class="stat-value">0 ₽</div>
+
+          <div class="stat-title">
+            Продажи
+          </div>
+
+          <div
+            id="sales"
+            class="stat-value">
+
+            0 ₽
+
+          </div>
+
         </div>
+
 
         <div class="stat">
-          <div class="stat-title">Расходы</div>
-          <div id="expenses" class="stat-value">0 ₽</div>
+
+          <div class="stat-title">
+            Расходы
+          </div>
+
+          <div
+            id="expenses"
+            class="stat-value">
+
+            0 ₽
+
+          </div>
+
         </div>
 
       </div>
 
+
       <div style="margin-top:20px">
-        <div class="muted">Ожидаемая наличность</div>
-        <div id="expected" class="total">0 ₽</div>
+
+        <div class="muted">
+          Ожидаемая наличность
+        </div>
+
+        <div
+          id="expected"
+          class="total">
+
+          0 ₽
+
+        </div>
+
       </div>
 
-      <button class="primary" onclick="saveReport()">
+
+      <button
+        class="primary"
+        onclick="saveReport()">
+
         Сохранить отчёт
+
       </button>
 
     </div>
@@ -323,20 +693,33 @@ button{
   </div>
 
 
+
   <!-- HISTORY -->
-  <div id="historyTab" class="hidden">
+
+  <div
+    id="historyTab"
+    class="hidden">
 
     <div class="card">
 
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <h2 style="margin:0">История</h2>
+      <div
+        style="display:flex;justify-content:space-between;align-items:center">
 
-        <button class="secondary"
-                style="width:auto;margin:0;padding:9px 12px"
-                onclick="loadHistory()">
+        <h2 style="margin:0">
+          История
+        </h2>
+
+        <button
+          class="secondary"
+          style="width:auto;margin:0;padding:9px 12px"
+          onclick="loadHistory()">
+
           Обновить
+
         </button>
+
       </div>
+
 
       <div id="history"></div>
 
@@ -349,13 +732,16 @@ button{
 </div>
 
 
+
 <script>
 
 const SUPABASE_URL =
   "https://hsfxdmjmvgbepurkhfxl.supabase.co";
 
+
 const SUPABASE_KEY =
   "sb_publishable_sVGHTCnvYzWZ65_ltVMkNA_WMNyYUx0";
+
 
 const supabase =
   window.supabase.createClient(
@@ -363,113 +749,305 @@ const supabase =
     SUPABASE_KEY
   );
 
+
 let currentPin = "";
 let currentUser = null;
+
+let selectedUserName = "";
+let selectedUserRole = "";
+
 
 
 // ---------- HELPERS ----------
 
 function val(id){
-  return Number(document.getElementById(id).value || 0);
+
+  return Number(
+    document.getElementById(id).value || 0
+  );
+
 }
+
 
 function money(n){
-  return Number(n || 0).toLocaleString("ru-RU") + " ₽";
+
+  return Number(n || 0)
+    .toLocaleString("ru-RU") + " ₽";
+
 }
+
 
 function message(id,text,type){
-  const el=document.getElementById(id);
-  el.className="msg "+type;
-  el.textContent=text;
+
+  const el =
+    document.getElementById(id);
+
+  el.className =
+    "msg " + type;
+
+  el.textContent =
+    text;
+
 }
 
+
 function clearMessage(id){
-  const el=document.getElementById(id);
-  el.className="msg";
-  el.textContent="";
+
+  const el =
+    document.getElementById(id);
+
+  el.className =
+    "msg";
+
+  el.textContent =
+    "";
+
 }
+
+
+
+// ---------- USER SELECT ----------
+
+function selectUser(name, role){
+
+  selectedUserName = name;
+  selectedUserRole = role;
+
+  clearMessage("loginMsg");
+  clearMessage("pinMsg");
+
+
+  document.getElementById(
+    "selectedUserName"
+  ).textContent = name;
+
+
+  document.getElementById(
+    "selectedUserRole"
+  ).textContent = role;
+
+
+  document.getElementById(
+    "userSelectCard"
+  ).classList.add("hidden");
+
+
+  document.getElementById(
+    "pinCard"
+  ).classList.remove("hidden");
+
+
+  document.getElementById(
+    "pin"
+  ).value = "";
+
+
+  document.getElementById(
+    "pin"
+  ).focus();
+
+}
+
+
+
+function backToUsers(){
+
+  selectedUserName = "";
+  selectedUserRole = "";
+
+  clearMessage("loginMsg");
+  clearMessage("pinMsg");
+
+
+  document.getElementById(
+    "pin"
+  ).value = "";
+
+
+  document.getElementById(
+    "pinCard"
+  ).classList.add("hidden");
+
+
+  document.getElementById(
+    "userSelectCard"
+  ).classList.remove("hidden");
+
+}
+
 
 
 // ---------- LOGIN ----------
 
 async function login(){
 
-  clearMessage("loginMsg");
+  clearMessage("pinMsg");
 
-  const pin =
-    document.getElementById("pin").value.trim();
 
-  if(pin.length !== 4){
+  if(!selectedUserName){
+
     message(
       "loginMsg",
+      "Сначала выберите пользователя",
+      "error"
+    );
+
+    backToUsers();
+
+    return;
+  }
+
+
+  const pin =
+    document
+      .getElementById("pin")
+      .value
+      .trim();
+
+
+  if(pin.length !== 4){
+
+    message(
+      "pinMsg",
       "Введите 4-значный PIN",
       "error"
     );
+
     return;
   }
+
 
   const {data,error} =
     await supabase.rpc(
       "login_by_pin",
-      {p_pin:pin}
+      {
+        p_pin:pin
+      }
     );
 
+
   if(error){
+
     message(
-      "loginMsg",
-      "Ошибка: "+error.message,
+      "pinMsg",
+      "Ошибка: " + error.message,
       "error"
     );
+
     return;
   }
 
+
   if(!data || data.length === 0){
+
     message(
-      "loginMsg",
+      "pinMsg",
       "Неверный PIN-код",
       "error"
     );
+
     return;
   }
 
-  currentPin=pin;
-  currentUser=data[0];
 
-  document.getElementById("loginScreen")
-    .classList.add("hidden");
+  const user = data[0];
 
-  document.getElementById("appScreen")
-    .classList.remove("hidden");
 
-  document.getElementById("userName")
-    .textContent=currentUser.name;
+  /*
+    Проверяем PIN через Supabase,
+    затем убеждаемся, что PIN принадлежит
+    именно выбранному пользователю.
+  */
 
-  document.getElementById("userRole")
-    .textContent=
-      currentUser.role==="admin"
+  if(user.name !== selectedUserName){
+
+    message(
+      "pinMsg",
+      "Этот PIN не относится к выбранному пользователю",
+      "error"
+    );
+
+    return;
+  }
+
+
+  currentPin = pin;
+  currentUser = user;
+
+
+  document.getElementById(
+    "loginScreen"
+  ).classList.add("hidden");
+
+
+  document.getElementById(
+    "appScreen"
+  ).classList.remove("hidden");
+
+
+  document.getElementById(
+    "userName"
+  ).textContent =
+    currentUser.name;
+
+
+  document.getElementById(
+    "userRole"
+  ).textContent =
+    currentUser.role === "admin"
       ? "Администратор"
       : "Бариста";
 
+
   await loadBalance();
+
   calculate();
+
 }
+
 
 
 // ---------- LOGOUT ----------
 
 function logout(){
 
-  currentPin="";
-  currentUser=null;
+  currentPin = "";
+  currentUser = null;
 
-  document.getElementById("appScreen")
-    .classList.add("hidden");
+  selectedUserName = "";
+  selectedUserRole = "";
 
-  document.getElementById("loginScreen")
-    .classList.remove("hidden");
 
-  document.getElementById("pin").value="";
+  document.getElementById(
+    "appScreen"
+  ).classList.add("hidden");
+
+
+  document.getElementById(
+    "loginScreen"
+  ).classList.remove("hidden");
+
+
+  document.getElementById(
+    "pinCard"
+  ).classList.add("hidden");
+
+
+  document.getElementById(
+    "userSelectCard"
+  ).classList.remove("hidden");
+
+
+  document.getElementById(
+    "pin"
+  ).value = "";
+
+
+  clearMessage("loginMsg");
+  clearMessage("pinMsg");
+
 }
+
 
 
 // ---------- BALANCE ----------
@@ -481,60 +1059,106 @@ async function loadBalance(){
       "get_last_cash_balance"
     );
 
+
   if(error){
+
     console.log(error);
+
     return;
   }
 
-  document.getElementById("opening")
-    .value=Number(data || 0);
+
+  document.getElementById(
+    "opening"
+  ).value =
+    Number(data || 0);
+
 
   calculate();
+
 }
+
 
 
 // ---------- CALCULATION ----------
 
 function calculate(){
 
-  const opening=val("opening");
-  const cash=val("cash");
-  const card=val("card");
-  const qr=val("qr");
+  const opening =
+    val("opening");
 
-  const e1=val("expenseBarista");
-  const e2=val("expenseSupplier");
-  const e3=val("expenseWithdrawal");
+  const cash =
+    val("cash");
 
-  const sales=cash+card+qr;
-  const expenses=e1+e2+e3;
+  const card =
+    val("card");
 
-  const expected=
-    opening+cash-expenses;
+  const qr =
+    val("qr");
 
-  document.getElementById("sales")
-    .textContent=money(sales);
 
-  document.getElementById("expenses")
-    .textContent=money(expenses);
+  const e1 =
+    val("expenseBarista");
 
-  document.getElementById("expected")
-    .textContent=money(expected);
+  const e2 =
+    val("expenseSupplier");
+
+  const e3 =
+    val("expenseWithdrawal");
+
+
+  const sales =
+    cash + card + qr;
+
+
+  const expenses =
+    e1 + e2 + e3;
+
+
+  const expected =
+    opening + cash - expenses;
+
+
+  document.getElementById(
+    "sales"
+  ).textContent =
+    money(sales);
+
+
+  document.getElementById(
+    "expenses"
+  ).textContent =
+    money(expenses);
+
+
+  document.getElementById(
+    "expected"
+  ).textContent =
+    money(expected);
+
 }
 
 
+
 [
- "opening",
- "cash",
- "card",
- "qr",
- "expenseBarista",
- "expenseSupplier",
- "expenseWithdrawal"
+  "opening",
+  "cash",
+  "card",
+  "qr",
+  "expenseBarista",
+  "expenseSupplier",
+  "expenseWithdrawal"
 ].forEach(id=>{
-  document.getElementById(id)
-    .addEventListener("input",calculate);
+
+  document
+    .getElementById(id)
+    .addEventListener(
+      "input",
+      calculate
+    );
+
 });
+
 
 
 // ---------- SAVE ----------
@@ -543,55 +1167,77 @@ async function saveReport(){
 
   clearMessage("reportMsg");
 
+
   if(!currentPin){
+
     return;
   }
+
 
   const {data,error} =
     await supabase.rpc(
       "save_shift_report",
       {
+
         p_pin:currentPin,
 
+
         p_report_date:
-          new Date().toISOString().slice(0,10),
+          new Date()
+            .toISOString()
+            .slice(0,10),
+
 
         p_opening_cash:
           val("opening"),
 
+
         p_cash:
           val("cash"),
+
 
         p_card:
           val("card"),
 
+
         p_qr:
           val("qr"),
+
 
         p_expense_barista:
           val("expenseBarista"),
 
+
         p_expense_supplier:
           val("expenseSupplier"),
+
 
         p_expense_withdrawal:
           val("expenseWithdrawal"),
 
+
         p_comment:
-          document.getElementById("comment").value.trim()
+          document
+            .getElementById("comment")
+            .value
+            .trim()
+
       }
     );
+
 
   if(error){
 
     message(
       "reportMsg",
-      "Ошибка сохранения: "+error.message,
+      "Ошибка сохранения: " +
+      error.message,
       "error"
     );
 
     return;
   }
+
 
   message(
     "reportMsg",
@@ -599,137 +1245,284 @@ async function saveReport(){
     "success"
   );
 
-  document.getElementById("cash").value=0;
-  document.getElementById("card").value=0;
-  document.getElementById("qr").value=0;
 
-  document.getElementById("expenseBarista").value=0;
-  document.getElementById("expenseSupplier").value=0;
-  document.getElementById("expenseWithdrawal").value=0;
+  document.getElementById(
+    "cash"
+  ).value = 0;
 
-  document.getElementById("comment").value="";
+
+  document.getElementById(
+    "card"
+  ).value = 0;
+
+
+  document.getElementById(
+    "qr"
+  ).value = 0;
+
+
+  document.getElementById(
+    "expenseBarista"
+  ).value = 0;
+
+
+  document.getElementById(
+    "expenseSupplier"
+  ).value = 0;
+
+
+  document.getElementById(
+    "expenseWithdrawal"
+  ).value = 0;
+
+
+  document.getElementById(
+    "comment"
+  ).value = "";
+
 
   await loadBalance();
+
   calculate();
+
 }
+
 
 
 // ---------- HISTORY ----------
 
 async function loadHistory(){
 
-  const box=document.getElementById("history");
+  const box =
+    document.getElementById(
+      "history"
+    );
 
-  box.innerHTML=
+
+  box.innerHTML =
     '<div class="empty">Загрузка...</div>';
+
 
   const {data,error} =
     await supabase.rpc(
       "get_shift_reports"
     );
 
+
   if(error){
 
-    box.innerHTML=
-      '<div class="empty">Ошибка загрузки: '+
-      error.message+
+    box.innerHTML =
+      '<div class="empty">Ошибка загрузки: ' +
+      error.message +
       '</div>';
 
     return;
   }
 
-  if(!data || data.length===0){
 
-    box.innerHTML=
+  if(!data || data.length === 0){
+
+    box.innerHTML =
       '<div class="empty">Отчётов пока нет</div>';
 
     return;
   }
 
-  box.innerHTML=data.map(r=>{
 
-    const date=
-      new Date(r.report_date)
-      .toLocaleDateString("ru-RU");
+  box.innerHTML =
+    data.map(r=>{
 
-    return `
-      <div class="report">
+      const date =
+        new Date(r.report_date)
+          .toLocaleDateString(
+            "ru-RU"
+          );
 
-        <div class="report-head">
 
-          <div>
-            <b>${escapeHtml(r.barista_name || "—")}</b>
-            <div class="muted">${date}</div>
+      return `
+        <div class="report">
+
+          <div class="report-head">
+
+            <div>
+
+              <b>
+                ${escapeHtml(
+                  r.barista_name || "—"
+                )}
+              </b>
+
+              <div class="muted">
+                ${date}
+              </div>
+
+            </div>
+
+
+            <b>
+              ${money(r.actual_cash)}
+            </b>
+
           </div>
 
-          <b>${money(r.actual_cash)}</b>
+
+          <div
+            class="muted"
+            style="margin-top:8px">
+
+            Наличные:
+            ${money(r.cash)}
+
+            · Карта:
+            ${money(r.card)}
+
+            · QR:
+            ${money(r.qr)}
+
+          </div>
+
+
+          <div
+            class="muted"
+            style="margin-top:5px">
+
+            Расходы:
+
+            ${money(
+              Number(
+                r.expense_barista || 0
+              ) +
+
+              Number(
+                r.expense_supplier || 0
+              ) +
+
+              Number(
+                r.expense_withdrawal || 0
+              )
+            )}
+
+          </div>
 
         </div>
+      `;
 
-        <div class="muted" style="margin-top:8px">
-          Наличные: ${money(r.cash)}
-          · Карта: ${money(r.card)}
-          · QR: ${money(r.qr)}
-        </div>
+    }).join("");
 
-        <div class="muted" style="margin-top:5px">
-          Расходы:
-          ${money(
-            Number(r.expense_barista||0)+
-            Number(r.expense_supplier||0)+
-            Number(r.expense_withdrawal||0)
-          )}
-        </div>
-
-      </div>
-    `;
-
-  }).join("");
 }
+
 
 
 // ---------- TABS ----------
 
 function openTab(tab){
 
-  const report=document.getElementById("reportTab");
-  const history=document.getElementById("historyTab");
+  const report =
+    document.getElementById(
+      "reportTab"
+    );
 
-  const rb=document.getElementById("reportTabBtn");
-  const hb=document.getElementById("historyTabBtn");
 
-  if(tab==="report"){
+  const history =
+    document.getElementById(
+      "historyTab"
+    );
 
-    report.classList.remove("hidden");
-    history.classList.add("hidden");
 
-    rb.classList.add("active");
-    hb.classList.remove("active");
+  const rb =
+    document.getElementById(
+      "reportTabBtn"
+    );
+
+
+  const hb =
+    document.getElementById(
+      "historyTabBtn"
+    );
+
+
+  if(tab === "report"){
+
+    report.classList.remove(
+      "hidden"
+    );
+
+    history.classList.add(
+      "hidden"
+    );
+
+
+    rb.classList.add(
+      "active"
+    );
+
+    hb.classList.remove(
+      "active"
+    );
 
   }else{
 
-    report.classList.add("hidden");
-    history.classList.remove("hidden");
+    report.classList.add(
+      "hidden"
+    );
 
-    rb.classList.remove("active");
-    hb.classList.add("active");
+    history.classList.remove(
+      "hidden"
+    );
+
+
+    rb.classList.remove(
+      "active"
+    );
+
+    hb.classList.add(
+      "active"
+    );
+
 
     loadHistory();
+
   }
+
 }
+
 
 
 // ---------- SECURITY ----------
 
 function escapeHtml(value){
 
-  return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+  return String(
+    value ?? ""
+  )
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
 }
+
 
 calculate();
 
