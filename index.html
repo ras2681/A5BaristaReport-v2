@@ -490,6 +490,12 @@ input[type="number"] {
   white-space: nowrap;
 }
 
+/* Диана — отдельный цвет */
+
+.history-barista-diana {
+  background: #176b78;
+}
+
 .history-barista-blue {
   background: #24527a;
 }
@@ -1756,7 +1762,7 @@ function clearMessage(id) {
 
 
 /* =====================================================
-   UPDATE FORM TITLE
+   UPDATE REPORT TITLE
 ===================================================== */
 
 function updateReportTitle() {
@@ -2414,11 +2420,6 @@ async function login() {
       user.name
     );
 
-
-    /* ---------------------------------
-       НОВОЕ:
-       имя берётся из текущей сессии
-    --------------------------------- */
 
     updateReportTitle();
 
@@ -3084,10 +3085,6 @@ function createReport() {
   );
 
 
-  /* ---------------------------------
-     ИМЯ БЕРЁТСЯ ИЗ ТЕКУЩЕЙ СЕССИИ
-  --------------------------------- */
-
   const baristaName =
     currentUser &&
     currentUser.name
@@ -3392,10 +3389,6 @@ async function saveReportAndJPEG() {
 
   try {
 
-    /* ---------------------------------
-       1. SAVE REPORT
-    --------------------------------- */
-
     const reportId =
       await saveToSupabase();
 
@@ -3408,10 +3401,6 @@ async function saveReportAndJPEG() {
 
     }
 
-
-    /* ---------------------------------
-       2. CREATE JPEG
-    --------------------------------- */
 
     const blob =
       await makeJPEG();
@@ -3426,10 +3415,6 @@ async function saveReportAndJPEG() {
     }
 
 
-    /* ---------------------------------
-       3. UPLOAD JPEG
-    --------------------------------- */
-
     message.textContent =
       "Загрузка фото отчёта...";
 
@@ -3441,19 +3426,11 @@ async function saveReportAndJPEG() {
       );
 
 
-    /* ---------------------------------
-       4. SAVE IMAGE PATH
-    --------------------------------- */
-
     await saveReportImagePath(
       reportId,
       imagePath
     );
 
-
-    /* ---------------------------------
-       5. SHARE / DOWNLOAD
-    --------------------------------- */
 
     const file =
       new File(
@@ -3779,6 +3756,19 @@ function getBaristaColorClass(name) {
     String(name || "")
       .trim()
       .toLowerCase();
+
+
+  /* ---------------------------------
+     ДИАНА — ОТДЕЛЬНЫЙ ЦВЕТ
+  --------------------------------- */
+
+  if (
+    value === "диана"
+  ) {
+
+    return "history-barista-diana";
+
+  }
 
 
   let hash = 0;
