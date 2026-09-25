@@ -981,8 +981,8 @@ input[type="number"] {
 
 <div id="formScreen">
 
-<h1>
-A5 — ОТЧЁТ СМЕНЫ БАРИСТА
+<h1 id="formTitle">
+ОТЧЁТ
 </h1>
 
 
@@ -995,15 +995,6 @@ type="date"
 id="date"
 value=""
 >
-
-
-<label>
-Бариста
-</label>
-
-<select id="barista">
-<option value="" selected>—</option>
-</select>
 
 
 <!-- OPENING -->
@@ -1408,8 +1399,9 @@ onclick="saveReportAndJPEG()">
     A5
   </div>
 
-  <div class="report-title">
-    ОТЧЁТ СМЕНЫ БАРИСТА
+  <div class="report-title"
+       id="rTitle">
+    ОТЧЁТ
   </div>
 
   <div class="report-date">
@@ -1759,6 +1751,39 @@ function clearMessage(id) {
 
   element.textContent =
     "";
+
+}
+
+
+/* =====================================================
+   UPDATE FORM TITLE
+===================================================== */
+
+function updateReportTitle() {
+
+  const name =
+    currentUser &&
+    currentUser.name
+      ? currentUser.name
+      : "";
+
+
+  const title =
+    name
+      ? "ОТЧЁТ — " + name
+      : "ОТЧЁТ";
+
+
+  setText(
+    "formTitle",
+    title
+  );
+
+
+  setText(
+    "rTitle",
+    title
+  );
 
 }
 
@@ -2390,6 +2415,14 @@ async function login() {
     );
 
 
+    /* ---------------------------------
+       НОВОЕ:
+       имя берётся из текущей сессии
+    --------------------------------- */
+
+    updateReportTitle();
+
+
     if (
       user.role ===
       "admin"
@@ -2414,8 +2447,6 @@ async function login() {
 
 
     setToday();
-
-    loadBaristas();
 
     calculate();
 
@@ -2494,72 +2525,6 @@ function setToday() {
       month +
       "-" +
       day;
-
-  }
-
-}
-
-
-/* =====================================================
-   BARISTAS
-===================================================== */
-
-function loadBaristas() {
-
-  const select =
-    document.getElementById(
-      "barista"
-    );
-
-
-  if (!select) {
-    return;
-  }
-
-
-  select.innerHTML =
-    '<option value="">—</option>';
-
-
-  loginUsers
-    .filter(
-      user =>
-        user.role ===
-        "barista"
-    )
-    .forEach(
-      user => {
-
-        const option =
-          document.createElement(
-            "option"
-          );
-
-
-        option.value =
-          user.name;
-
-
-        option.textContent =
-          user.name;
-
-
-        select.appendChild(
-          option
-        );
-
-      }
-    );
-
-
-  if (
-    currentUser &&
-    currentUser.role ===
-    "barista"
-  ) {
-
-    select.value =
-      currentUser.name;
 
   }
 
@@ -3108,6 +3073,9 @@ function createReport() {
   calculate();
 
 
+  updateReportTitle();
+
+
   setText(
     "rDate",
     formatDate(
@@ -3116,9 +3084,20 @@ function createReport() {
   );
 
 
+  /* ---------------------------------
+     ИМЯ БЕРЁТСЯ ИЗ ТЕКУЩЕЙ СЕССИИ
+  --------------------------------- */
+
+  const baristaName =
+    currentUser &&
+    currentUser.name
+      ? currentUser.name
+      : "";
+
+
   setText(
     "rBarista",
-    val("barista")
+    baristaName
   );
 
 
