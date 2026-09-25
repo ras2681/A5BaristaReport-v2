@@ -61,6 +61,10 @@ button {
   overflow: hidden;
 }
 
+.hidden {
+  display: none !important;
+}
+
 
 /* =========================
    LOGIN
@@ -211,10 +215,6 @@ button {
 /* =========================
    GENERAL
 ========================= */
-
-.hidden {
-  display: none !important;
-}
 
 .app-top {
   display: flex;
@@ -386,11 +386,6 @@ input[type="number"] {
   font-weight: 400;
 }
 
-
-/* =========================
-   TOTAL
-========================= */
-
 .total {
   width: 100%;
   margin-top: 6px;
@@ -525,48 +520,95 @@ input[type="number"] {
   border: 1px solid #444;
   border-radius: 5px;
   margin-bottom: 8px;
-  padding: 9px;
-  font-size: 13px;
+  padding: 20px;
+  font-size: 17px;
 }
 
-.history-head {
+.history-header {
   display: flex;
   justify-content: space-between;
-  gap: 8px;
-  font-weight: 600;
-  margin-bottom: 8px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
 }
 
-.history-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 2px 0;
-  color: #ddd;
+.history-header-name {
+  font-size: 17px;
+  font-weight: 400;
+  color: #fff;
 }
 
-
-/* отдельные блоки начала/конца */
+.history-header-date {
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  text-align: right;
+  white-space: nowrap;
+}
 
 .history-special-block {
   display: block;
-  padding: 5px 0 9px;
+  padding: 0 0 5px;
 }
 
 .history-special-title {
   font-weight: 700;
-  font-size: 14px;
-  line-height: 1.2;
+  font-size: 17px;
+  line-height: 1.25;
 }
 
 .history-special-value {
-  margin-top: 3px;
+  margin-top: 5px;
   font-weight: 400;
+  font-size: 17px;
+}
+
+.history-inline-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin: 22px 0;
+}
+
+.history-inline-title {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.history-inline-value {
+  font-size: 17px;
+  font-weight: 400;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.history-money-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12px 0;
+  font-size: 16px;
+  color: #ddd;
+}
+
+.history-closing-row {
+  margin-top: 28px;
+  margin-bottom: 5px;
+}
+
+.history-comment {
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px solid #444;
+  color: #bbb;
   font-size: 14px;
 }
 
 
 /* =========================
-   REPORT
+   REPORT FOR JPEG
 ========================= */
 
 #report {
@@ -630,43 +672,35 @@ input[type="number"] {
   text-align: center;
 }
 
-.report-opening td:first-child {
+.report-opening td:first-child,
+.report-closing td:first-child {
   width: 35%;
   text-align: left;
 }
 
-.report-opening td:nth-child(2) {
+.report-opening td:nth-child(2),
+.report-closing td:nth-child(2) {
   width: 65%;
   text-align: left;
 }
 
 .report-payments th:nth-child(1),
-.report-payments td:nth-child(1) {
-  width: 38%;
-}
-
-.report-payments th:nth-child(2),
-.report-payments td:nth-child(2) {
-  width: 22%;
-  text-align: right;
-}
-
-.report-payments th:nth-child(3),
-.report-payments td:nth-child(3) {
-  width: 40%;
-}
-
+.report-payments td:nth-child(1),
 .report-expenses th:nth-child(1),
 .report-expenses td:nth-child(1) {
   width: 38%;
 }
 
+.report-payments th:nth-child(2),
+.report-payments td:nth-child(2),
 .report-expenses th:nth-child(2),
 .report-expenses td:nth-child(2) {
   width: 22%;
   text-align: right;
 }
 
+.report-payments th:nth-child(3),
+.report-payments td:nth-child(3),
 .report-expenses th:nth-child(3),
 .report-expenses td:nth-child(3) {
   width: 40%;
@@ -679,16 +713,6 @@ input[type="number"] {
   text-align: right;
   font-size: 30px;
   font-weight: 500;
-}
-
-.report-closing td:first-child {
-  width: 35%;
-  text-align: left;
-}
-
-.report-closing td:nth-child(2) {
-  width: 65%;
-  text-align: left;
 }
 
 .report-closing td {
@@ -775,10 +799,24 @@ input[type="number"] {
     font-size: 14px;
   }
 
+  .history-item {
+    padding: 16px;
+  }
+
+  .history-header-name,
+  .history-header-date,
+  .history-inline-title,
+  .history-inline-value,
+  .history-special-title,
+  .history-special-value {
+    font-size: 16px;
+  }
+
 }
 
 </style>
 </head>
+
 
 <body>
 
@@ -805,7 +843,6 @@ input[type="number"] {
   <div id="usersList"
        class="login-card">
   </div>
-
 
   <div id="pinCard"
        class="hidden">
@@ -872,6 +909,7 @@ input[type="number"] {
 
 <div class="container">
 
+
 <div class="app-top">
 
   <div class="app-user">
@@ -915,6 +953,7 @@ input[type="number"] {
   A5 — ОТЧЁТ СМЕНЫ БАРИСТА
 </h1>
 
+
 <label>
   Дата
 </label>
@@ -925,6 +964,7 @@ input[type="number"] {
   value=""
 >
 
+
 <label>
   Бариста
 </label>
@@ -933,6 +973,8 @@ input[type="number"] {
   <option value="" selected>—</option>
 </select>
 
+
+<!-- OPENING -->
 
 <div class="section">
   ОТКРЫТИЕ СМЕНЫ
@@ -959,6 +1001,8 @@ input[type="number"] {
   inputmode="decimal"
 >
 
+
+<!-- PAYMENTS -->
 
 <div class="section">
   ОПЛАТЫ ЗА СМЕНУ
@@ -1029,14 +1073,15 @@ input[type="number"] {
 
 </table>
 
+
 <div class="total">
   ИТОГО:
-  <span id="paymentTotal">
-    0
-  </span>
+  <span id="paymentTotal">0</span>
   ₽
 </div>
 
+
+<!-- EXPENSES -->
 
 <div class="section">
   РАСХОДЫ И ИЗЪЯТИЯ
@@ -1053,6 +1098,7 @@ input[type="number"] {
 </thead>
 
 <tbody>
+
 
 <tr>
 
@@ -1076,6 +1122,7 @@ input[type="number"] {
 
 </tr>
 
+
 <tr>
 
 <td>Бариста</td>
@@ -1097,6 +1144,7 @@ input[type="number"] {
 </td>
 
 </tr>
+
 
 <tr>
 
@@ -1235,32 +1283,32 @@ input[type="number"] {
 
 </tr>
 
+
 </tbody>
 
 </table>
 
 
 <div class="total">
-  ВСЕГО РАСХОДОВ:
-  <span id="expenseTotal">
-    0
-  </span>
+  ИТОГО:
+  <span id="expenseTotal">0</span>
   ₽
 </div>
 
 
 <div class="expected">
   ОЖИДАЕМЫЙ ОСТАТОК:
-  <span id="expectedCash">
-    0
-  </span>
+  <span id="expectedCash">0</span>
   ₽
 </div>
 
 
+<!-- CLOSING -->
+
 <div class="section">
   ЗАКРЫТИЕ СМЕНЫ
 </div>
+
 
 <label>
   Время закрытия
@@ -1271,6 +1319,7 @@ input[type="number"] {
   id="closeTime"
   value=""
 >
+
 
 <label>
   Фактический остаток наличных
@@ -1289,6 +1338,7 @@ input[type="number"] {
   onclick="saveReportAndJPEG()">
   СОХРАНИТЬ И ОТПРАВИТЬ JPEG
 </button>
+
 
 <div id="saveMessage"
      class="message">
@@ -1349,12 +1399,13 @@ input[type="number"] {
 
 </div>
 
+
 </div>
 </div>
 
 
 <!-- =====================================================
-     REPORT FOR JPEG
+     JPEG REPORT
 ===================================================== -->
 
 <div id="report">
@@ -1456,21 +1507,21 @@ input[type="number"] {
 
   <tbody>
 
-  <tr id="rBaristaExpenseRow1">
+  <tr id="rBaristaRow1">
     <td>Бариста</td>
-    <td id="rBaristaExpense1"></td>
+    <td id="rBarista1"></td>
     <td id="rBaristaComment1"></td>
   </tr>
 
-  <tr id="rBaristaExpenseRow2">
+  <tr id="rBaristaRow2">
     <td>Бариста</td>
-    <td id="rBaristaExpense2"></td>
+    <td id="rBarista2"></td>
     <td id="rBaristaComment2"></td>
   </tr>
 
-  <tr id="rBaristaExpenseRow3">
+  <tr id="rBaristaRow3">
     <td>Бариста</td>
-    <td id="rBaristaExpense3"></td>
+    <td id="rBarista3"></td>
     <td id="rBaristaComment3"></td>
   </tr>
 
@@ -1509,14 +1560,14 @@ input[type="number"] {
   </table>
 
   <div class="report-total">
-    ВСЕГО РАСХОДОВ:
+    ИТОГО:
     <span id="rExpenseTotal"></span>
     ₽
   </div>
 
 
   <div class="report-section">
-    ЗАКРЫТИЕ СМЕНЫ
+    ОСТАТОК
   </div>
 
   <table class="report-table report-closing">
@@ -1534,7 +1585,7 @@ input[type="number"] {
   </tr>
 
   <tr>
-    <td>Фактический остаток</td>
+    <td>Фактический остаток наличных</td>
     <td id="rCloseCash"></td>
   </tr>
 
@@ -1564,9 +1615,10 @@ const SUPABASE_KEY =
 
 let loginUsers = [];
 let selectedUser = null;
+let pinValue = "";
+
 let currentUser = null;
 let currentPin = "";
-let pinValue = "";
 
 
 /* =====================================================
@@ -1574,93 +1626,56 @@ let pinValue = "";
 ===================================================== */
 
 function val(id) {
-
-  const el =
-    document.getElementById(id);
-
-  if (!el) {
-    return "";
-  }
-
-  return String(
-    el.value || ""
-  );
-
+  const el = document.getElementById(id);
+  return el ? el.value : "";
 }
 
 
 function num(id) {
-
-  const value =
-    val(id)
-    .replace(",", ".")
-    .trim();
-
-  if (!value) {
-    return 0;
-  }
-
-  const n =
-    Number(value);
-
-  return Number.isFinite(n)
-    ? n
-    : 0;
-
-}
-
-
-function money(value) {
-
-  const n =
-    Number(value || 0);
-
-  return n.toLocaleString(
-    "ru-RU",
-    {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2
-    }
-  );
-
+  const value = parseFloat(val(id));
+  return Number.isFinite(value) ? value : 0;
 }
 
 
 function setText(id, value) {
-
-  const el =
-    document.getElementById(id);
-
+  const el = document.getElementById(id);
   if (el) {
     el.textContent = value;
   }
+}
 
+
+function money(value) {
+  return Number(value || 0).toLocaleString(
+    "ru-RU",
+    {
+      maximumFractionDigits: 2
+    }
+  );
 }
 
 
 function escapeHtml(value) {
-
   return String(value ?? "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
-
 }
 
 
-function formatDate(value) {
+function formatDate(dateString) {
 
-  if (!value) {
+  if (!dateString) {
     return "";
   }
 
   const parts =
-    value.split("-");
+    String(dateString).split("-");
 
   if (parts.length !== 3) {
-    return value;
+    return dateString;
   }
 
   return (
@@ -1670,7 +1685,6 @@ function formatDate(value) {
     "." +
     parts[0]
   );
-
 }
 
 
@@ -1692,11 +1706,15 @@ async function callRPC(
         method: "POST",
 
         headers: {
-          "apikey": SUPABASE_KEY,
-          "Authorization":
-            "Bearer " + SUPABASE_KEY,
           "Content-Type":
-            "application/json"
+            "application/json",
+
+          "apikey":
+            SUPABASE_KEY,
+
+          "Authorization":
+            "Bearer " +
+            SUPABASE_KEY
         },
 
         body:
@@ -1711,19 +1729,14 @@ async function callRPC(
 
   let data = null;
 
-
   try {
-
     data =
       text
       ? JSON.parse(text)
       : null;
-
   }
-  catch {
-
+  catch(e) {
     data = text;
-
   }
 
 
@@ -1732,42 +1745,31 @@ async function callRPC(
     let message =
       "Ошибка Supabase";
 
+    if (data) {
 
-    if (
-      data &&
-      data.message
-    ) {
-
-      message =
-        data.message;
-
+      if (typeof data === "string") {
+        message = data;
+      }
+      else if (data.message) {
+        message = data.message;
+      }
+      else if (data.error) {
+        message = data.error;
+      }
+      else if (data.hint) {
+        message = data.hint;
+      }
+      else {
+        message =
+          JSON.stringify(data);
+      }
     }
-    else if (
-      data &&
-      data.error
-    ) {
-
-      message =
-        data.error;
-
-    }
-    else if (
-      typeof data === "string" &&
-      data
-    ) {
-
-      message = data;
-
-    }
-
 
     throw new Error(message);
-
   }
 
 
   return data;
-
 }
 
 
@@ -1805,9 +1807,7 @@ async function loadLoginUsers() {
     loading.style.display =
       "none";
 
-
-    list.innerHTML =
-      "";
+    list.innerHTML = "";
 
 
     const baristas =
@@ -1815,7 +1815,6 @@ async function loadLoginUsers() {
         user =>
           user.role === "barista"
       );
-
 
     const admins =
       loginUsers.filter(
@@ -1840,19 +1839,15 @@ async function loadLoginUsers() {
           '<span class="login-role">Бариста</span>';
 
         button.onclick =
-          function() {
-            selectUser(user);
-          };
+          () => selectUser(user);
 
-        list.appendChild(
-          button
-        );
+        list.appendChild(button);
 
       }
     );
 
 
-    if (admins.length > 0) {
+    if (admins.length) {
 
       const adminSpace =
         document.createElement(
@@ -1875,13 +1870,11 @@ async function loadLoginUsers() {
             "login-user-button admin-login-button";
 
           button.innerHTML =
-            "Администратор" +
+            escapeHtml(user.name) +
             '<span class="login-role">Администратор</span>';
 
           button.onclick =
-            function() {
-              selectUser(user);
-            };
+            () => selectUser(user);
 
           adminSpace.appendChild(
             button
@@ -1894,22 +1887,18 @@ async function loadLoginUsers() {
       list.appendChild(
         adminSpace
       );
-
     }
 
   }
   catch(error) {
 
-    loading.style.display =
-      "none";
+    loading.textContent =
+      "Ошибка загрузки пользователей";
 
+    loading.style.color =
+      "#ff8b8b";
 
-    list.innerHTML =
-      '<div class="message error" style="display:block">' +
-      escapeHtml(
-        error.message
-      ) +
-      "</div>";
+    console.error(error);
 
   }
 
@@ -1922,22 +1911,20 @@ async function loadLoginUsers() {
 
 function selectUser(user) {
 
-  selectedUser =
-    user;
-
-  pinValue =
-    "";
-
-  updatePinDisplay();
-
+  selectedUser = user;
+  pinValue = "";
 
   document.getElementById(
-    "pinUserName"
-  ).textContent =
-    user.role === "admin"
-    ? "Администратор"
-    : user.name;
+    "usersList"
+  ).classList.add(
+    "hidden"
+  );
 
+  document.getElementById(
+    "usersLoading"
+  ).classList.add(
+    "hidden"
+  );
 
   document.getElementById(
     "pinCard"
@@ -1945,11 +1932,16 @@ function selectUser(user) {
     "hidden"
   );
 
-
   document.getElementById(
+    "pinUserName"
+  ).textContent =
+    user.name;
+
+  updatePinDisplay();
+
+  clearMessage(
     "loginMessage"
-  ).className =
-    "message";
+  );
 
 }
 
@@ -1965,40 +1957,35 @@ function updatePinDisplay() {
       "pinDisplay"
     );
 
+  if (!display) {
+    return;
+  }
 
-  let result = "";
 
-
-  for (
-    let i = 0;
-    i < 4;
-    i++
-  ) {
-
-    result +=
-      i < pinValue.length
-      ? "●"
-      : "•";
-
+  if (!pinValue) {
+    display.textContent =
+      "••••";
+    return;
   }
 
 
   display.textContent =
-    result;
-
+    "●".repeat(
+      pinValue.length
+    ) +
+    "○".repeat(
+      4 - pinValue.length
+    );
 }
 
 
 function pinPress(number) {
 
-  if (
-    pinValue.length >= 4
-  ) {
+  if (pinValue.length >= 4) {
     return;
   }
 
-  pinValue +=
-    number;
+  pinValue += number;
 
   updatePinDisplay();
 
@@ -2014,6 +2001,41 @@ function pinClear() {
     );
 
   updatePinDisplay();
+
+}
+
+
+function backToUsers() {
+
+  selectedUser = null;
+  pinValue = "";
+
+  document.getElementById(
+    "pinCard"
+  ).classList.add(
+    "hidden"
+  );
+
+  document.getElementById(
+    "usersList"
+  ).classList.remove(
+    "hidden"
+  );
+
+  document.getElementById(
+    "usersLoading"
+  ).classList.remove(
+    "hidden"
+  );
+
+  document.getElementById(
+    "usersLoading"
+  ).style.display =
+    "none";
+
+  clearMessage(
+    "loginMessage"
+  );
 
 }
 
@@ -2035,9 +2057,7 @@ async function login() {
   }
 
 
-  if (
-    pinValue.length !== 4
-  ) {
+  if (pinValue.length !== 4) {
 
     message.className =
       "message error";
@@ -2046,8 +2066,14 @@ async function login() {
       "Введите PIN из 4 цифр";
 
     return;
-
   }
+
+
+  message.className =
+    "message";
+
+  message.textContent =
+    "";
 
 
   try {
@@ -2056,15 +2082,16 @@ async function login() {
       await callRPC(
         "login_by_pin",
         {
-          p_pin: pinValue
+          p_pin:
+            pinValue
         }
       );
 
 
     const user =
       Array.isArray(result)
-      ? result[0]
-      : result;
+        ? result[0]
+        : result;
 
 
     if (!user) {
@@ -2087,7 +2114,6 @@ async function login() {
       "hidden"
     );
 
-
     document.getElementById(
       "appScreen"
     ).classList.remove(
@@ -2095,39 +2121,37 @@ async function login() {
     );
 
 
-    document.getElementById(
-      "currentUserName"
-    ).textContent =
-      user.role === "admin"
-      ? "Администратор"
-      : user.name;
-
-
-    const settingsButton =
-      document.getElementById(
-        "settingsButton"
-      );
+    setText(
+      "currentUserName",
+      user.name
+    );
 
 
     if (
       user.role === "admin"
     ) {
 
-      settingsButton.classList.remove(
+      document.getElementById(
+        "settingsButton"
+      ).classList.remove(
         "hidden"
       );
 
     }
     else {
 
-      settingsButton.classList.add(
+      document.getElementById(
+        "settingsButton"
+      ).classList.add(
         "hidden"
       );
 
     }
 
 
-    setBaristaSelect();
+    setToday();
+
+    loadBaristas();
 
     calculate();
 
@@ -2147,39 +2171,61 @@ async function login() {
 
 
 /* =====================================================
-   BACK
+   DATE / TIME
 ===================================================== */
 
-function backToUsers() {
+function setToday() {
 
-  selectedUser =
-    null;
+  const date =
+    document.getElementById(
+      "date"
+    );
 
-  pinValue =
-    "";
+  if (!date.value) {
 
-  updatePinDisplay();
+    const now =
+      new Date();
+
+    const year =
+      now.getFullYear();
+
+    const month =
+      String(
+        now.getMonth() + 1
+      ).padStart(2, "0");
+
+    const day =
+      String(
+        now.getDate()
+      ).padStart(2, "0");
 
 
-  document.getElementById(
-    "pinCard"
-  ).classList.add(
-    "hidden"
-  );
+    date.value =
+      year +
+      "-" +
+      month +
+      "-" +
+      day;
+
+  }
 
 }
 
 
 /* =====================================================
-   BARISTA
+   BARISTAS
 ===================================================== */
 
-function setBaristaSelect() {
+function loadBaristas() {
 
   const select =
     document.getElementById(
       "barista"
     );
+
+  if (!select) {
+    return;
+  }
 
 
   select.innerHTML =
@@ -2232,17 +2278,10 @@ function setBaristaSelect() {
 
 function logout() {
 
-  currentUser =
-    null;
-
-  currentPin =
-    "";
-
-  selectedUser =
-    null;
-
-  pinValue =
-    "";
+  currentUser = null;
+  currentPin = "";
+  selectedUser = null;
+  pinValue = "";
 
 
   document.getElementById(
@@ -2251,13 +2290,11 @@ function logout() {
     "hidden"
   );
 
-
   document.getElementById(
     "loginScreen"
   ).classList.remove(
     "hidden"
   );
-
 
   document.getElementById(
     "pinCard"
@@ -2265,27 +2302,11 @@ function logout() {
     "hidden"
   );
 
-
   document.getElementById(
-    "historyScreen"
-  ).classList.add(
-    "hidden"
-  );
-
-
-  document.getElementById(
-    "settingsScreen"
-  ).classList.add(
-    "hidden"
-  );
-
-
-  document.getElementById(
-    "formScreen"
+    "usersList"
   ).classList.remove(
     "hidden"
   );
-
 
   loadLoginUsers();
 
@@ -2293,7 +2314,7 @@ function logout() {
 
 
 /* =====================================================
-   CALCULATE
+   CALCULATIONS
 ===================================================== */
 
 function calculate() {
@@ -2305,11 +2326,14 @@ function calculate() {
     num("card");
 
 
+  const paymentTotal =
+    cash +
+    card;
+
+
   setText(
     "paymentTotal",
-    money(
-      cash + card
-    )
+    money(paymentTotal)
   );
 
 
@@ -2424,19 +2448,19 @@ async function saveToSupabase() {
 
   const commentFields = [
 
-    ["Наличные","cashComment"],
-    ["Безнал","cardComment"],
+    ["Наличные", "cashComment"],
+    ["Безнал", "cardComment"],
 
-    ["Бариста","baristaComment1"],
-    ["Бариста","baristaComment2"],
-    ["Бариста","baristaComment3"],
+    ["Бариста", "baristaComment1"],
+    ["Бариста", "baristaComment2"],
+    ["Бариста", "baristaComment3"],
 
-    ["Поставщик","supplierComment1"],
-    ["Поставщик","supplierComment2"],
-    ["Поставщик","supplierComment3"],
-    ["Поставщик","supplierComment4"],
+    ["Поставщик", "supplierComment1"],
+    ["Поставщик", "supplierComment2"],
+    ["Поставщик", "supplierComment3"],
+    ["Поставщик", "supplierComment4"],
 
-    ["Изъятие","withdrawComment"]
+    ["Изъятие", "withdrawComment"]
 
   ];
 
@@ -2538,10 +2562,8 @@ function fillReportRow(
       rowId
     );
 
-
   const amount =
     val(amountId).trim();
-
 
   const comment =
     val(commentId).trim();
@@ -2553,7 +2575,6 @@ function fillReportRow(
       "none";
 
     return;
-
   }
 
 
@@ -2625,7 +2646,6 @@ function createReport() {
       "rCashRow"
     );
 
-
   const cardRow =
     document.getElementById(
       "rCardRow"
@@ -2696,28 +2716,26 @@ function createReport() {
 
 
   fillReportRow(
-    "rBaristaExpenseRow1",
+    "rBaristaRow1",
     "baristaExpense1",
     "baristaComment1",
-    "rBaristaExpense1",
+    "rBarista1",
     "rBaristaComment1"
   );
 
-
   fillReportRow(
-    "rBaristaExpenseRow2",
+    "rBaristaRow2",
     "baristaExpense2",
     "baristaComment2",
-    "rBaristaExpense2",
+    "rBarista2",
     "rBaristaComment2"
   );
 
-
   fillReportRow(
-    "rBaristaExpenseRow3",
+    "rBaristaRow3",
     "baristaExpense3",
     "baristaComment3",
-    "rBaristaExpense3",
+    "rBarista3",
     "rBaristaComment3"
   );
 
@@ -2730,7 +2748,6 @@ function createReport() {
     "rSupplierComment1"
   );
 
-
   fillReportRow(
     "rSupplierRow2",
     "supplier2",
@@ -2739,7 +2756,6 @@ function createReport() {
     "rSupplierComment2"
   );
 
-
   fillReportRow(
     "rSupplierRow3",
     "supplier3",
@@ -2747,7 +2763,6 @@ function createReport() {
     "rSupplier3",
     "rSupplierComment3"
   );
-
 
   fillReportRow(
     "rSupplierRow4",
@@ -2767,7 +2782,7 @@ function createReport() {
   );
 
 
-  const expenses =
+  const expenseTotal =
     num("baristaExpense1") +
     num("baristaExpense2") +
     num("baristaExpense3") +
@@ -2780,14 +2795,14 @@ function createReport() {
 
   setText(
     "rExpenseTotal",
-    money(expenses)
+    money(expenseTotal)
   );
 
 
   const expected =
     num("openCash") +
     num("cash") -
-    expenses;
+    expenseTotal;
 
 
   setText(
@@ -2876,6 +2891,9 @@ async function saveReportAndJPEG() {
   message.className =
     "message";
 
+  message.textContent =
+    "";
+
 
   try {
 
@@ -2895,24 +2913,12 @@ async function saveReportAndJPEG() {
     }
 
 
-    const date =
-      val("date") ||
-      "отчёт";
-
-
-    const barista =
-      val("barista") ||
-      "бариста";
-
-
     const file =
       new File(
-        [blob],
-        "A5_" +
-        date +
-        "_" +
-        barista +
-        ".jpg",
+        [
+          blob
+        ],
+        "A5_Отчёт_смены.jpg",
         {
           type:
             "image/jpeg"
@@ -2921,11 +2927,11 @@ async function saveReportAndJPEG() {
 
 
     if (
-      navigator.share &&
       navigator.canShare &&
       navigator.canShare({
         files: [file]
-      })
+      }) &&
+      navigator.share
     ) {
 
       await navigator.share({
@@ -2935,6 +2941,20 @@ async function saveReportAndJPEG() {
       });
 
     }
+
+    else if (
+      navigator.share
+    ) {
+
+      await navigator.share({
+        title:
+          "Отчёт смены A5",
+        text:
+          "Отчёт смены бариста A5"
+      });
+
+    }
+
     else {
 
       const url =
@@ -3034,6 +3054,7 @@ function toggleHistory() {
     loadHistory();
 
   }
+
   else {
 
     history.classList.add(
@@ -3050,7 +3071,7 @@ function toggleHistory() {
 
 
 /* =====================================================
-   HISTORY ROW
+   HISTORY
 ===================================================== */
 
 function addHistoryRow(
@@ -3065,7 +3086,7 @@ function addHistoryRow(
     );
 
   row.className =
-    "history-row";
+    "history-money-row";
 
 
   row.innerHTML =
@@ -3084,9 +3105,37 @@ function addHistoryRow(
 }
 
 
-/* =====================================================
-   HISTORY
-===================================================== */
+function addHistoryInline(
+  item,
+  title,
+  value
+) {
+
+  const row =
+    document.createElement(
+      "div"
+    );
+
+  row.className =
+    "history-inline-row";
+
+
+  row.innerHTML =
+    '<span class="history-inline-title">' +
+    escapeHtml(title) +
+    "</span>" +
+
+    '<span class="history-inline-value">' +
+    escapeHtml(value) +
+    "</span>";
+
+
+  item.appendChild(
+    row
+  );
+
+}
+
 
 async function loadHistory() {
 
@@ -3121,7 +3170,6 @@ async function loadHistory() {
         '<div style="color:#aaa;text-align:center;padding:15px;">Отчётов пока нет</div>';
 
       return;
-
     }
 
 
@@ -3133,27 +3181,42 @@ async function loadHistory() {
             "div"
           );
 
-
         item.className =
           "history-item";
 
 
-        /* ШАПКА */
+        /*
+          ДАТА И ВРЕМЯ
+        */
 
-        const head =
+        const header =
           document.createElement(
             "div"
           );
 
+        header.className =
+          "history-header";
 
-        head.className =
-          "history-head";
+
+        const headerName =
+          document.createElement(
+            "div"
+          );
+
+        headerName.className =
+          "history-header-name";
+
+        headerName.textContent =
+          "Дата и время";
 
 
-        const name =
-          report.barista_name ||
-          report.name ||
-          "Бариста";
+        const headerDate =
+          document.createElement(
+            "div"
+          );
+
+        headerDate.className =
+          "history-header-date";
 
 
         const date =
@@ -3162,40 +3225,67 @@ async function loadHistory() {
           "";
 
 
-        head.innerHTML =
-          "<span>" +
-          escapeHtml(name) +
-          "</span>" +
-          "<span>" +
-          escapeHtml(date) +
-          "</span>";
+        let dateTime =
+          formatDate(date);
 
+
+        if (
+          report.opening_time
+        ) {
+
+          const openingTime =
+            String(
+              report.opening_time
+            ).slice(0, 5);
+
+
+          if (openingTime) {
+
+            dateTime +=
+              " · " +
+              openingTime;
+
+          }
+
+        }
+
+
+        headerDate.textContent =
+          dateTime;
+
+
+        header.appendChild(
+          headerName
+        );
+
+        header.appendChild(
+          headerDate
+        );
 
         item.appendChild(
-          head
+          header
         );
 
 
-        /* =========================================
-           ОСТАТОК НА НАЧАЛО СМЕНЫ
-        ========================================= */
+        /*
+          ОСТАТОК НА НАЧАЛО
+        */
 
         const openingBlock =
           document.createElement(
             "div"
           );
 
-
         openingBlock.className =
           "history-special-block";
 
 
         openingBlock.innerHTML =
-          "<div class=\"history-special-title\">" +
+          '<div class="history-special-title">' +
           "Остаток наличности на начало смены" +
           "</div>" +
 
-          "<div class=\"history-special-value\">" +
+          '<div class="history-special-value">' +
           money(
             report.opening_cash || 0
           ) +
@@ -3208,9 +3298,9 @@ async function loadHistory() {
         );
 
 
-        /* =========================================
-           ВЫРУЧКА
-        ========================================= */
+        /*
+          ВЫРУЧКА
+        */
 
         const sales =
           Number(
@@ -3224,33 +3314,17 @@ async function loadHistory() {
           );
 
 
-        const revenueBlock =
-          document.createElement(
-            "div"
-          );
-
-
-        revenueBlock.className =
-          "history-special-block";
-
-
-        revenueBlock.innerHTML =
-          "<div class=\"history-special-title\">" +
-          "Выручка" +
-          "</div>" +
-
-          "<div class=\"history-special-value\">" +
+        addHistoryInline(
+          item,
+          "Выручка",
           money(sales) +
-          " ₽" +
-          "</div>";
-
-
-        item.appendChild(
-          revenueBlock
+          " ₽"
         );
 
 
-        /* НАЛИЧНЫЕ */
+        /*
+          НАЛИЧНЫЕ
+        */
 
         addHistoryRow(
           item,
@@ -3262,21 +3336,28 @@ async function loadHistory() {
         );
 
 
-        /* БЕЗНАЛ */
+        /*
+          БЕЗНАЛ
+        */
 
         addHistoryRow(
           item,
           "Безнал",
           money(
-            report.card || 0
+            Number(
+              report.card || 0
+            ) +
+            Number(
+              report.qr || 0
+            )
           ) +
           " ₽"
         );
 
 
-        /* =========================================
-           РАСХОДЫ
-        ========================================= */
+        /*
+          РАСХОДЫ
+        */
 
         const expenses =
           Number(
@@ -3290,104 +3371,69 @@ async function loadHistory() {
           );
 
 
-        const expensesBlock =
-          document.createElement(
-            "div"
-          );
-
-
-        expensesBlock.className =
-          "history-special-block";
-
-
-        expensesBlock.innerHTML =
-          "<div class=\"history-special-title\">" +
-          "Расходы" +
-          "</div>" +
-
-          "<div class=\"history-special-value\">" +
+        addHistoryInline(
+          item,
+          "Расходы",
           money(expenses) +
-          " ₽" +
-          "</div>";
-
-
-        item.appendChild(
-          expensesBlock
+          " ₽"
         );
 
 
-        /* =========================================
-           ОСТАТОК НА КОНЕЦ СМЕНЫ
-        ========================================= */
+        /*
+          ОСТАТОК НА КОНЕЦ
+        */
 
-        const closingBlock =
+        const closingRow =
           document.createElement(
             "div"
           );
 
+        closingRow.className =
+          "history-inline-row history-closing-row";
 
-        closingBlock.className =
-          "history-special-block";
 
-
-        closingBlock.innerHTML =
-          "<div class=\"history-special-title\">" +
+        closingRow.innerHTML =
+          '<span class="history-inline-title">' +
           "Остаток наличности на конец смены" +
-          "</div>" +
+          "</span>" +
 
-          "<div class=\"history-special-value\">" +
+          '<span class="history-inline-value">' +
           money(
             report.actual_cash || 0
           ) +
           " ₽" +
-          "</div>";
+          "</span>";
 
 
         item.appendChild(
-          closingBlock
+          closingRow
         );
 
 
-        /* ВРЕМЯ ОТКРЫТИЯ */
-
-        if (
-          report.opening_time
-        ) {
-
-          addHistoryRow(
-            item,
-            "Время открытия",
-            report.opening_time
-          );
-
-        }
-
-
-        /* ВРЕМЯ ЗАКРЫТИЯ */
-
-        if (
-          report.closing_time
-        ) {
-
-          addHistoryRow(
-            item,
-            "Время закрытия",
-            report.closing_time
-          );
-
-        }
-
-
-        /* КОММЕНТАРИЙ */
+        /*
+          КОММЕНТАРИЙ
+        */
 
         if (
           report.comment_barista
         ) {
 
-          addHistoryRow(
-            item,
-            "Комментарий",
-            report.comment_barista
+          const comment =
+            document.createElement(
+              "div"
+            );
+
+          comment.className =
+            "history-comment";
+
+          comment.innerHTML =
+            "<strong>Комментарий:</strong> " +
+            escapeHtml(
+              report.comment_barista
+            );
+
+          item.appendChild(
+            comment
           );
 
         }
@@ -3427,7 +3473,6 @@ function toggleSettings() {
   ) {
 
     return;
-
   }
 
 
@@ -3466,9 +3511,10 @@ function toggleSettings() {
       "hidden"
     );
 
-    loadSettings();
+    loadSettingsUsers();
 
   }
+
   else {
 
     settings.classList.add(
@@ -3484,21 +3530,7 @@ function toggleSettings() {
 }
 
 
-/* =====================================================
-   SETTINGS LIST
-===================================================== */
-
-function loadSettings() {
-
-  if (
-    !currentUser ||
-    currentUser.role !== "admin"
-  ) {
-
-    return;
-
-  }
-
+async function loadSettingsUsers() {
 
   const container =
     document.getElementById(
@@ -3507,185 +3539,105 @@ function loadSettings() {
 
 
   container.innerHTML =
-    "";
+    '<div style="color:#aaa;">Загрузка...</div>';
 
 
-  const baristas =
-    loginUsers.filter(
-      user =>
-        user.role === "barista"
-    );
+  try {
 
-
-  baristas.forEach(
-    user => {
-
-      const box =
-        document.createElement(
-          "div"
-        );
-
-
-      box.className =
-        "settings-user";
-
-
-      const title =
-        document.createElement(
-          "div"
-        );
-
-
-      title.className =
-        "settings-user-title";
-
-
-      title.textContent =
-        user.name;
-
-
-      box.appendChild(
-        title
+    const users =
+      await callRPC(
+        "get_login_users"
       );
 
 
-      const nameLabel =
-        document.createElement(
-          "label"
-        );
+    container.innerHTML =
+      "";
 
 
-      nameLabel.textContent =
-        "Имя бариста";
+    users
+      .filter(
+        user =>
+          user.role === "barista"
+      )
+      .forEach(
+        user => {
+
+          const block =
+            document.createElement(
+              "div"
+            );
+
+          block.className =
+            "settings-user";
 
 
-      box.appendChild(
-        nameLabel
-      );
+          block.innerHTML =
+
+            '<div class="settings-user-title">' +
+            escapeHtml(
+              user.name
+            ) +
+            "</div>" +
+
+            '<label>Имя</label>' +
+
+            '<input type="text" ' +
+            'id="settingsName_' +
+            escapeHtml(
+              user.id
+            ) +
+            '" value="' +
+            escapeHtml(
+              user.name
+            ) +
+            '">' +
+
+            '<label>Новый PIN</label>' +
+
+            '<input type="text" ' +
+            'inputmode="numeric" ' +
+            'maxlength="4" ' +
+            'id="settingsPin_' +
+            escapeHtml(
+              user.id
+            ) +
+            '" placeholder="4 цифры">' +
+
+            '<button class="main-button settings-save" ' +
+            'onclick="updateUserAccount(\'' +
+            escapeHtml(
+              user.id
+            ) +
+            '\')">' +
+            "Сохранить" +
+            "</button>" +
+
+            '<div class="message" ' +
+            'id="settingsMessage_' +
+            escapeHtml(
+              user.id
+            ) +
+            '"></div>';
 
 
-      const nameInput =
-        document.createElement(
-          "input"
-        );
-
-
-      nameInput.type =
-        "text";
-
-
-      nameInput.value =
-        user.name;
-
-
-      nameInput.id =
-        "settingsName_" +
-        user.id;
-
-
-      box.appendChild(
-        nameInput
-      );
-
-
-      const pinLabel =
-        document.createElement(
-          "label"
-        );
-
-
-      pinLabel.textContent =
-        "Новый PIN";
-
-
-      box.appendChild(
-        pinLabel
-      );
-
-
-      const pinInput =
-        document.createElement(
-          "input"
-        );
-
-
-      pinInput.type =
-        "text";
-
-      pinInput.inputMode =
-        "numeric";
-
-      pinInput.maxLength =
-        4;
-
-      pinInput.placeholder =
-        "4 цифры";
-
-      pinInput.id =
-        "settingsPin_" +
-        user.id;
-
-
-      box.appendChild(
-        pinInput
-      );
-
-
-      const saveButton =
-        document.createElement(
-          "button"
-        );
-
-
-      saveButton.className =
-        "main-button settings-save";
-
-
-      saveButton.textContent =
-        "Сохранить";
-
-
-      saveButton.onclick =
-        function() {
-
-          updateUserAccount(
-            user.id
+          container.appendChild(
+            block
           );
 
-        };
-
-
-      box.appendChild(
-        saveButton
+        }
       );
 
+  }
+  catch(error) {
 
-      const message =
-        document.createElement(
-          "div"
-        );
+    container.innerHTML =
+      '<div class="message error" style="display:block">' +
+      escapeHtml(
+        error.message
+      ) +
+      "</div>";
 
-
-      message.id =
-        "settingsMessage_" +
-        user.id;
-
-
-      message.className =
-        "message";
-
-
-      box.appendChild(
-        message
-      );
-
-
-      container.appendChild(
-        box
-      );
-
-    }
-  );
+  }
 
 }
 
@@ -3728,7 +3680,6 @@ async function updateUserAccount(
       "Введите имя";
 
     return;
-
   }
 
 
@@ -3745,7 +3696,6 @@ async function updateUserAccount(
       "PIN должен состоять из 4 цифр";
 
     return;
-
   }
 
 
@@ -3780,8 +3730,6 @@ async function updateUserAccount(
 
     await loadLoginUsers();
 
-    loadSettings();
-
   }
   catch(error) {
 
@@ -3798,7 +3746,7 @@ async function updateUserAccount(
 
 
 /* =====================================================
-   START
+   INITIALIZATION
 ===================================================== */
 
 document.addEventListener(
