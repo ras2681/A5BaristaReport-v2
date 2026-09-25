@@ -1,1428 +1,1165 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width,initial-scale=1"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>A5 Barista Report</title>
 
-
 <style>
-
-*{
-  box-sizing:border-box;
+* {
+  box-sizing: border-box;
 }
 
-body{
-  margin:0;
-  background:#111;
-  color:#f5f5f5;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Arial,
-    sans-serif;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f3f3;
+  color: #222;
 }
 
-.app{
-  width:100%;
-  max-width:600px;
-  margin:auto;
-  min-height:100vh;
-  padding:24px 16px 40px;
+.container {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 16px;
 }
 
-.logo{
-  text-align:center;
-  font-size:42px;
-  font-weight:900;
-  letter-spacing:5px;
-  margin-top:25px;
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.08);
+  margin-bottom: 16px;
 }
 
-.subtitle{
-  text-align:center;
-  color:#999;
-  letter-spacing:3px;
-  margin:4px 0 35px;
+h1, h2, h3 {
+  margin-top: 0;
 }
 
-.card{
-  background:#1b1b1b;
-  border:1px solid #303030;
-  border-radius:18px;
-  padding:20px;
-  margin-bottom:16px;
+.logo {
+  text-align: center;
+  font-size: 34px;
+  font-weight: 900;
+  margin-bottom: 5px;
 }
 
-h2{
-  margin:0 0 18px;
+.subtitle {
+  text-align: center;
+  color: #777;
+  margin-bottom: 25px;
 }
 
-label{
-  display:block;
-  color:#aaa;
-  font-size:14px;
-  margin:15px 0 7px;
+button {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  padding: 15px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  background: #111;
+  color: #fff;
+  margin-top: 10px;
+}
+
+button:active {
+  transform: scale(.98);
+}
+
+.user-button {
+  background: #111;
+}
+
+.user-role {
+  font-size: 13px;
+  opacity: .65;
+  margin-top: 4px;
+}
+
+.pin-title {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.pin-display {
+  height: 55px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  letter-spacing: 8px;
+  margin-bottom: 12px;
+  background: #fafafa;
+}
+
+.pin-keyboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.pin-keyboard button {
+  margin: 0;
+  background: #eee;
+  color: #111;
+  font-size: 22px;
+}
+
+.pin-keyboard .clear {
+  background: #ddd;
+}
+
+.pin-keyboard .enter {
+  background: #111;
+  color: #fff;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.topbar button {
+  width: auto;
+  padding: 10px 14px;
+  margin: 0;
+  font-size: 14px;
+}
+
+.user-info {
+  font-weight: 700;
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.tabs button {
+  margin: 0;
+  background: #ddd;
+  color: #222;
+  padding: 12px 8px;
+  font-size: 14px;
+}
+
+.tabs button.active {
+  background: #111;
+  color: #fff;
+}
+
+label {
+  display: block;
+  font-weight: 700;
+  margin-top: 14px;
+  margin-bottom: 6px;
 }
 
 input,
-textarea{
-  width:100%;
-  background:#101010;
-  border:1px solid #383838;
-  color:#fff;
-  border-radius:12px;
-  padding:14px;
-  font-size:17px;
-  outline:none;
+textarea,
+select {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  background: #fff;
 }
 
-input:focus,
-textarea:focus{
-  border-color:#d5a84b;
+textarea {
+  min-height: 80px;
+  resize: vertical;
 }
 
-textarea{
-  min-height:90px;
-  resize:vertical;
+.section-title {
+  font-size: 19px;
+  font-weight: 800;
+  margin-top: 22px;
+  margin-bottom: 5px;
 }
 
-.pin{
-  text-align:center;
-  font-size:28px;
-  letter-spacing:8px;
+.total-box {
+  background: #f0f0f0;
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 18px;
 }
 
-button{
-  border:0;
-  border-radius:13px;
-  padding:14px;
-  font-size:16px;
-  font-weight:700;
-  cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
 }
 
-button:disabled{
-  opacity:.6;
+.total-row strong {
+  font-size: 18px;
 }
 
-.primary{
-  width:100%;
-  background:#d5a84b;
-  color:#111;
-  margin-top:16px;
+.save-button {
+  background: #111;
+  margin-top: 20px;
 }
 
-.secondary{
-  width:100%;
-  background:#292929;
-  color:#fff;
-  border:1px solid #3b3b3b;
-  margin-top:10px;
+.logout {
+  background: #eee !important;
+  color: #111 !important;
 }
 
-.danger{
-  background:#432525;
-  color:#ffb2b2;
+.report {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+  background: #fafafa;
 }
 
-.hidden{
-  display:none!important;
+.report-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-weight: 700;
+  margin-bottom: 8px;
 }
 
-.msg{
-  display:none;
-  padding:12px;
-  border-radius:12px;
-  margin-bottom:12px;
+.report-line {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
 }
 
-.error{
-  display:block;
-  background:#3b2020;
-  color:#ffb0b0;
+.message {
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 12px;
+  display: none;
 }
 
-.success{
-  display:block;
-  background:#193723;
-  color:#9be0ad;
+.message.error {
+  display: block;
+  background: #ffe5e5;
+  color: #a00000;
 }
 
-.userbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:18px;
+.message.success {
+  display: block;
+  background: #e5f7e8;
+  color: #176b27;
 }
 
-.username{
-  font-size:21px;
-  font-weight:800;
+.settings-user {
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 14px;
 }
 
-.role{
-  color:#d5a84b;
-  font-size:13px;
-  margin-top:3px;
+.settings-user h3 {
+  margin-bottom: 10px;
 }
 
-.tabs{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-bottom:16px;
+.settings-save {
+  background: #111;
 }
 
-.tabs button{
-  background:#1b1b1b;
-  color:#aaa;
-  border:1px solid #303030;
+.small-note {
+  font-size: 13px;
+  color: #777;
+  line-height: 1.4;
+  margin-top: 8px;
 }
 
-.tabs button.active{
-  background:#d5a84b;
-  color:#111;
+.loading {
+  text-align: center;
+  color: #777;
+  padding: 20px;
 }
-
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-
-.stat{
-  background:#101010;
-  border:1px solid #303030;
-  border-radius:13px;
-  padding:14px;
-}
-
-.stat-title{
-  color:#999;
-  font-size:13px;
-}
-
-.stat-value{
-  font-size:21px;
-  font-weight:800;
-  margin-top:5px;
-}
-
-.total{
-  font-size:30px;
-  font-weight:900;
-  margin-top:5px;
-}
-
-.report{
-  border-top:1px solid #303030;
-  padding:15px 0;
-}
-
-.report:first-child{
-  border-top:0;
-}
-
-.report-head{
-  display:flex;
-  justify-content:space-between;
-}
-
-.muted{
-  color:#999;
-  font-size:13px;
-}
-
-.empty{
-  color:#999;
-  text-align:center;
-  padding:25px 5px;
-}
-
-.logout{
-  padding:9px 12px;
-  font-size:13px;
-}
-
-
-/* =========================
-   ВЫБОР ПОЛЬЗОВАТЕЛЯ
-========================= */
-
-.user-select{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:10px;
-}
-
-.user-option{
-  width:100%;
-  background:#101010;
-  color:#fff;
-  border:1px solid #383838;
-  text-align:left;
-  padding:16px;
-  border-radius:13px;
-}
-
-.user-option:active{
-  background:#242016;
-  border-color:#d5a84b;
-}
-
-.user-option-name{
-  font-size:18px;
-  font-weight:800;
-}
-
-.user-option-role{
-  color:#999;
-  font-size:13px;
-  margin-top:4px;
-}
-
-.selected-user{
-  background:#101010;
-  border:1px solid #383838;
-  border-radius:12px;
-  padding:13px 14px;
-  margin-bottom:14px;
-}
-
-.selected-user-name{
-  font-size:18px;
-  font-weight:800;
-}
-
-.selected-user-role{
-  color:#999;
-  font-size:13px;
-  margin-top:3px;
-}
-
-.back-button{
-  width:100%;
-  background:#292929;
-  color:#fff;
-  border:1px solid #3b3b3b;
-  margin-top:10px;
-}
-
-.step-title{
-  color:#999;
-  font-size:14px;
-  margin-bottom:7px;
-}
-
 </style>
-
 </head>
-
 
 <body>
 
+<div class="container">
 
-<div class="app">
-
-
-<!-- =====================================================
-     LOGIN
-===================================================== -->
-
-<div id="loginScreen">
-
-
-  <div class="logo">
-    A5
-  </div>
-
-
-  <div class="subtitle">
-    BARISTA REPORT
-  </div>
-
-
-
-  <!-- ВЫБОР ПОЛЬЗОВАТЕЛЯ -->
-
-  <div
-    id="userSelectCard"
-    class="card"
-  >
-
-    <h2>
-      Кто входит?
-    </h2>
-
-
-    <div
-      id="loginMsg"
-      class="msg"
-    ></div>
-
-
-    <div class="user-select">
-
-
-      <button
-        type="button"
-        id="adminButton"
-        class="user-option"
-      >
-
-        <div class="user-option-name">
-          Admin
-        </div>
-
-        <div class="user-option-role">
-          Администратор
-        </div>
-
-      </button>
-
-
-
-      <button
-        type="button"
-        id="barista1Button"
-        class="user-option"
-      >
-
-        <div class="user-option-name">
-          Barista 1
-        </div>
-
-        <div class="user-option-role">
-          Бариста
-        </div>
-
-      </button>
-
-
-
-      <button
-        type="button"
-        id="barista2Button"
-        class="user-option"
-      >
-
-        <div class="user-option-name">
-          Barista 2
-        </div>
-
-        <div class="user-option-role">
-          Бариста
-        </div>
-
-      </button>
-
-
-    </div>
-
-  </div>
-
-
-
-  <!-- ВВОД PIN -->
-
-  <div
-    id="pinCard"
-    class="card hidden"
-  >
-
-    <h2>
-      Вход
-    </h2>
-
-
-    <div
-      id="pinMsg"
-      class="msg"
-    ></div>
-
-
-    <div class="selected-user">
-
-      <div
-        id="selectedUserName"
-        class="selected-user-name"
-      ></div>
-
-      <div
-        id="selectedUserRole"
-        class="selected-user-role"
-      ></div>
-
-    </div>
-
-
-    <div class="step-title">
-      Введите PIN-код
-    </div>
-
-
-    <input
-      id="pin"
-      class="pin"
-      type="password"
-      inputmode="numeric"
-      maxlength="4"
-      autocomplete="off"
-      placeholder="••••"
-    >
-
-
-    <button
-      type="button"
-      id="loginButton"
-      class="primary"
-    >
-      Войти
-    </button>
-
-
-    <button
-      type="button"
-      id="backButton"
-      class="back-button"
-    >
-      ← Выбрать другого пользователя
-    </button>
-
-  </div>
-
-
-</div>
-
-
-
-<!-- =====================================================
-     APP
-===================================================== -->
-
-<div
-  id="appScreen"
-  class="hidden"
->
-
-
-  <div class="userbar">
-
-    <div>
-
-      <div
-        id="userName"
-        class="username"
-      ></div>
-
-      <div
-        id="userRole"
-        class="role"
-      ></div>
-
-    </div>
-
-
-    <button
-      type="button"
-      id="logoutButton"
-      class="danger logout"
-    >
-      Выйти
-    </button>
-
-  </div>
-
-
-
-  <!-- TABS -->
-
-  <div class="tabs">
-
-    <button
-      type="button"
-      id="reportTabBtn"
-      class="active"
-    >
-      Смена
-    </button>
-
-
-    <button
-      type="button"
-      id="historyTabBtn"
-    >
-      История
-    </button>
-
-  </div>
-
-
-
-  <!-- =================================================
-       REPORT
-  ================================================== -->
-
-  <div id="reportTab">
-
+  <!-- LOGIN -->
+  <div id="loginScreen">
 
     <div class="card">
 
-      <h2>
-        Отчёт смены
-      </h2>
+      <div class="logo">A5</div>
+      <div class="subtitle">Отчёт бариста</div>
 
+      <div id="usersLoading" class="loading">
+        Загрузка пользователей...
+      </div>
 
-      <div
-        id="reportMsg"
-        class="msg"
-      ></div>
-
-
-      <label>
-        Остаток на начало
-      </label>
-
-
-      <input
-        id="opening"
-        type="number"
-        step="0.01"
-      >
-
-
-      <button
-        type="button"
-        id="balanceButton"
-        class="secondary"
-      >
-        Получить остаток предыдущей смены
-      </button>
-
-
-      <label>
-        Наличные
-      </label>
-
-
-      <input
-        id="cash"
-        type="number"
-        step="0.01"
-        value="0"
-      >
-
-
-      <label>
-        Банковская карта
-      </label>
-
-
-      <input
-        id="card"
-        type="number"
-        step="0.01"
-        value="0"
-      >
-
-
-      <label>
-        QR
-      </label>
-
-
-      <input
-        id="qr"
-        type="number"
-        step="0.01"
-        value="0"
-      >
-
-
-      <h3 style="margin-top:25px">
-        Расходы
-      </h3>
-
-
-      <label>
-        Расход бариста
-      </label>
-
-
-      <input
-        id="expenseBarista"
-        type="number"
-        step="0.01"
-        value="0"
-      >
-
-
-      <label>
-        Расход поставщику
-      </label>
-
-
-      <input
-        id="expenseSupplier"
-        type="number"
-        step="0.01"
-        value="0"
-      >
-
-
-      <label>
-        Снятие / прочие расходы
-      </label>
-
-
-      <input
-        id="expenseWithdrawal"
-        type="number"
-        step="0.01"
-        value="0"
-      >
-
-
-      <label>
-        Комментарий
-      </label>
-
-
-      <textarea
-        id="comment"
-        placeholder="Комментарий к смене"
-      ></textarea>
-
+      <div id="usersList"></div>
 
     </div>
 
+    <!-- PIN -->
+    <div id="pinCard" class="card hidden">
 
+      <div class="pin-title">
+        <h2 id="pinUserName">PIN</h2>
+        <div>Введите 4 цифры</div>
+      </div>
 
-    <!-- ИТОГ -->
+      <div id="pinDisplay" class="pin-display">
+        ••••
+      </div>
 
-    <div class="card">
+      <div class="pin-keyboard">
 
-      <h2>
-        Итог
-      </h2>
+        <button onclick="pinPress('1')">1</button>
+        <button onclick="pinPress('2')">2</button>
+        <button onclick="pinPress('3')">3</button>
 
+        <button onclick="pinPress('4')">4</button>
+        <button onclick="pinPress('5')">5</button>
+        <button onclick="pinPress('6')">6</button>
 
-      <div class="grid">
+        <button onclick="pinPress('7')">7</button>
+        <button onclick="pinPress('8')">8</button>
+        <button onclick="pinPress('9')">9</button>
 
-
-        <div class="stat">
-
-          <div class="stat-title">
-            Продажи
-          </div>
-
-          <div
-            id="sales"
-            class="stat-value"
-          >
-            0 ₽
-          </div>
-
-        </div>
-
-
-
-        <div class="stat">
-
-          <div class="stat-title">
-            Расходы
-          </div>
-
-          <div
-            id="expenses"
-            class="stat-value"
-          >
-            0 ₽
-          </div>
-
-        </div>
-
+        <button class="clear" onclick="pinClear()">⌫</button>
+        <button onclick="pinPress('0')">0</button>
+        <button class="enter" onclick="login()">Войти</button>
 
       </div>
 
-
-      <div style="margin-top:20px">
-
-        <div class="muted">
-          Ожидаемая наличность
-        </div>
-
-
-        <div
-          id="expected"
-          class="total"
-        >
-          0 ₽
-        </div>
-
-      </div>
-
-
-      <button
-        type="button"
-        id="saveButton"
-        class="primary"
-      >
-        Сохранить отчёт
+      <button class="logout" onclick="backToUsers()">
+        ← Назад
       </button>
 
+      <div id="loginMessage" class="message"></div>
 
     </div>
-
 
   </div>
 
 
-
-  <!-- =================================================
-       HISTORY
-  ================================================== -->
-
-  <div
-    id="historyTab"
-    class="hidden"
-  >
-
+  <!-- APP -->
+  <div id="appScreen" class="hidden">
 
     <div class="card">
 
+      <div class="topbar">
 
-      <div
-        style="
-          display:flex;
-          justify-content:space-between;
-          align-items:center
-        "
-      >
+        <div class="user-info">
+          <span id="currentUserName"></span>
+        </div>
 
-        <h2 style="margin:0">
+        <button onclick="logout()" class="logout">
+          Выйти
+        </button>
+
+      </div>
+
+      <div class="tabs">
+
+        <button id="tabShift"
+                class="active"
+                onclick="showTab('shift')">
+          Смена
+        </button>
+
+        <button id="tabHistory"
+                onclick="showTab('history')">
           История
-        </h2>
+        </button>
+
+        <button id="tabSettings"
+                class="hidden"
+                onclick="showTab('settings')">
+          Настройки
+        </button>
+
+      </div>
 
 
-        <button
-          type="button"
-          id="historyRefreshButton"
-          class="secondary"
-          style="
-            width:auto;
-            margin:0;
-            padding:9px 12px
-          "
-        >
+      <!-- SHIFT -->
+      <div id="shiftTab">
+
+        <h2>Отчёт за смену</h2>
+
+        <label>Дата</label>
+        <input type="date" id="reportDate">
+
+        <label>Остаток на начало</label>
+        <input type="number"
+               id="openingBalance"
+               inputmode="decimal"
+               placeholder="0">
+
+        <div class="section-title">
+          Продажи
+        </div>
+
+        <label>Наличные</label>
+        <input type="number"
+               id="cash"
+               inputmode="decimal"
+               placeholder="0">
+
+        <label>Карта</label>
+        <input type="number"
+               id="card"
+               inputmode="decimal"
+               placeholder="0">
+
+        <label>QR</label>
+        <input type="number"
+               id="qr"
+               inputmode="decimal"
+               placeholder="0">
+
+        <div class="total-box">
+
+          <div class="total-row">
+            <span>Продажи</span>
+            <strong id="salesTotal">0 ₽</strong>
+          </div>
+
+        </div>
+
+
+        <div class="section-title">
+          Расходы
+        </div>
+
+        <label>Бариста</label>
+        <input type="number"
+               id="expenseBarista"
+               inputmode="decimal"
+               placeholder="0">
+
+        <label>Поставщики</label>
+        <input type="number"
+               id="expenseSupplier"
+               inputmode="decimal"
+               placeholder="0">
+
+        <label>Выдача</label>
+        <input type="number"
+               id="expenseWithdrawal"
+               inputmode="decimal"
+               placeholder="0">
+
+
+        <div class="total-box">
+
+          <div class="total-row">
+            <span>Расходы</span>
+            <strong id="expensesTotal">0 ₽</strong>
+          </div>
+
+          <div class="total-row">
+            <span>Ожидаемый остаток</span>
+            <strong id="expectedBalance">0 ₽</strong>
+          </div>
+
+        </div>
+
+
+        <label>Комментарий</label>
+
+        <textarea id="comment"
+                  placeholder="Комментарий к смене"></textarea>
+
+
+        <button class="save-button"
+                onclick="saveReport()">
+          Сохранить отчёт
+        </button>
+
+        <div id="saveMessage" class="message"></div>
+
+      </div>
+
+
+      <!-- HISTORY -->
+      <div id="historyTab" class="hidden">
+
+        <h2>История смен</h2>
+
+        <button onclick="loadHistory()">
           Обновить
         </button>
 
+        <div id="historyList"
+             style="margin-top:15px;">
+          Загрузка...
+        </div>
 
       </div>
 
 
-      <div id="history"></div>
+      <!-- SETTINGS -->
+      <div id="settingsTab" class="hidden">
 
+        <h2>Настройки</h2>
+
+        <div class="small-note">
+          Здесь администратор может изменить имя и PIN бариста.
+          Пользователь сохраняет свой постоянный ID, поэтому
+          отчёты остаются привязанными к нему.
+        </div>
+
+        <div id="settingsUsers"
+             style="margin-top:18px;">
+        </div>
+
+        <div id="settingsMessage"
+             class="message">
+        </div>
+
+      </div>
 
     </div>
 
-
   </div>
 
-
 </div>
-
-
-</div>
-
 
 
 <script>
 
-/* =========================================================
-   SUPABASE
-   Используем обычный REST API.
-   Библиотека supabase-js НЕ нужна.
-========================================================= */
-
 const SUPABASE_URL =
   "https://hsfxdmjmvgbepurkhfxl.supabase.co";
-
 
 const SUPABASE_KEY =
   "sb_publishable_sVGHTCnvYzWZ65_ltVMkNA_WMNyYUx0";
 
 
+let loginUsers = [];
 
-/* =========================================================
-   RPC
-========================================================= */
-
-async function callRPC(functionName, params = {}){
-
-  const response =
-    await fetch(
-      SUPABASE_URL +
-      "/rest/v1/rpc/" +
-      functionName,
-      {
-        method:"POST",
-
-        headers:{
-          "apikey":SUPABASE_KEY,
-          "Authorization":
-            "Bearer " + SUPABASE_KEY,
-          "Content-Type":
-            "application/json"
-        },
-
-        body:
-          JSON.stringify(params)
-      }
-    );
-
-
-  const text =
-    await response.text();
-
-
-  let data = null;
-
-
-  try{
-
-    data =
-      text
-      ? JSON.parse(text)
-      : null;
-
-  }
-
-  catch(e){
-
-    data = text;
-
-  }
-
-
-  if(!response.ok){
-
-    let message =
-      "Ошибка Supabase";
-
-
-    if(
-      data &&
-      typeof data === "object"
-    ){
-
-      message =
-        data.message ||
-        data.error_description ||
-        data.hint ||
-        JSON.stringify(data);
-
-    }
-
-    else if(text){
-
-      message = text;
-
-    }
-
-
-    throw new Error(message);
-
-  }
-
-
-  return data;
-
-}
-
-
-
-/* =========================================================
-   VARIABLES
-========================================================= */
-
-let currentPin = "";
+let selectedUser = null;
 
 let currentUser = null;
 
-let selectedUserName = "";
+let currentPin = "";
 
-let selectedUserRole = "";
-
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function val(id){
-
-  const element =
-    document.getElementById(id);
+let pinValue = "";
 
 
-  if(!element){
+// --------------------------------------------------
+// SUPABASE RPC
+// --------------------------------------------------
 
-    return 0;
+async function callRPC(functionName, params = {}) {
+
+  const response = await fetch(
+    SUPABASE_URL +
+    "/rest/v1/rpc/" +
+    functionName,
+    {
+      method: "POST",
+
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + SUPABASE_KEY,
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify(params)
+    }
+  );
+
+  const text = await response.text();
+
+  let data;
+
+  try {
+    data = text ? JSON.parse(text) : null;
+  } catch {
+    data = text;
+  }
+
+  if (!response.ok) {
+
+    let message = "Ошибка Supabase";
+
+    if (data && data.message) {
+      message = data.message;
+    }
+
+    if (data && data.error) {
+      message = data.error;
+    }
+
+    throw new Error(message);
+  }
+
+  return data;
+}
+
+
+// --------------------------------------------------
+// LOAD USERS
+// --------------------------------------------------
+
+async function loadLoginUsers() {
+
+  const loading =
+    document.getElementById("usersLoading");
+
+  const list =
+    document.getElementById("usersList");
+
+  loading.classList.remove("hidden");
+
+  list.innerHTML = "";
+
+  try {
+
+    loginUsers =
+      await callRPC("get_login_users");
+
+    loading.classList.add("hidden");
+
+    if (!Array.isArray(loginUsers) ||
+        loginUsers.length === 0) {
+
+      list.innerHTML =
+        '<div class="loading">Пользователи не найдены</div>';
+
+      return;
+    }
+
+
+    loginUsers.forEach(user => {
+
+      const button =
+        document.createElement("button");
+
+      button.className = "user-button";
+
+      const name =
+        document.createElement("div");
+
+      name.textContent =
+        user.role === "admin"
+          ? "Администратор"
+          : user.name;
+
+      const role =
+        document.createElement("div");
+
+      role.className = "user-role";
+
+      role.textContent =
+        user.role === "admin"
+          ? "Администратор"
+          : "Бариста";
+
+      button.appendChild(name);
+      button.appendChild(role);
+
+      button.addEventListener("click", () => {
+
+        selectUser(user);
+
+      });
+
+      list.appendChild(button);
+
+    });
+
+  } catch (error) {
+
+    loading.classList.add("hidden");
+
+    list.innerHTML =
+      '<div class="message error" style="display:block">' +
+      escapeHtml(error.message) +
+      '</div>';
 
   }
 
+}
 
-  return Number(
-    element.value || 0
-  );
+
+// --------------------------------------------------
+// SELECT USER
+// --------------------------------------------------
+
+function selectUser(user) {
+
+  selectedUser = user;
+
+  pinValue = "";
+
+  updatePinDisplay();
+
+  document.getElementById("pinUserName")
+    .textContent =
+      user.role === "admin"
+        ? "Администратор"
+        : user.name;
+
+  document.getElementById("pinCard")
+    .classList.remove("hidden");
+
+  document.getElementById("loginMessage")
+    .className = "message";
 
 }
 
 
+// --------------------------------------------------
+// PIN
+// --------------------------------------------------
 
-function money(number){
+function pinPress(number) {
 
-  return Number(number || 0)
-    .toLocaleString("ru-RU")
-    + " ₽";
+  if (pinValue.length >= 4) {
+    return;
+  }
+
+  pinValue += number;
+
+  updatePinDisplay();
 
 }
 
 
+function pinClear() {
 
-function message(id,text,type){
+  pinValue =
+    pinValue.slice(0, -1);
 
-  const element =
-    document.getElementById(id);
+  updatePinDisplay();
+
+}
 
 
-  if(!element){
+function updatePinDisplay() {
+
+  const display =
+    document.getElementById("pinDisplay");
+
+  if (pinValue.length === 0) {
+
+    display.textContent = "••••";
 
     return;
-
   }
 
-
-  element.className =
-    "msg " + type;
-
-
-  element.textContent =
-    text;
+  display.textContent =
+    "●".repeat(pinValue.length);
 
 }
 
 
+// --------------------------------------------------
+// LOGIN
+// --------------------------------------------------
 
-function clearMessage(id){
+async function login() {
 
-  const element =
-    document.getElementById(id);
+  const message =
+    document.getElementById("loginMessage");
 
+  message.className = "message";
 
-  if(!element){
+  if (!selectedUser) {
+    return;
+  }
+
+  if (pinValue.length !== 4) {
+
+    message.textContent =
+      "Введите 4 цифры PIN";
+
+    message.className =
+      "message error";
 
     return;
-
   }
 
 
-  element.className =
-    "msg";
+  try {
 
-
-  element.textContent =
-    "";
-
-}
-
-
-
-/* =========================================================
-   ВЫБОР ПОЛЬЗОВАТЕЛЯ
-========================================================= */
-
-function selectUser(name,role){
-
-  selectedUserName =
-    name;
-
-  selectedUserRole =
-    role;
-
-
-  clearMessage("loginMsg");
-
-  clearMessage("pinMsg");
-
-
-  document.getElementById(
-    "selectedUserName"
-  ).textContent =
-    name;
-
-
-  document.getElementById(
-    "selectedUserRole"
-  ).textContent =
-    role;
-
-
-  document.getElementById(
-    "userSelectCard"
-  ).classList.add(
-    "hidden"
-  );
-
-
-  document.getElementById(
-    "pinCard"
-  ).classList.remove(
-    "hidden"
-  );
-
-
-  const pin =
-    document.getElementById(
-      "pin"
-    );
-
-
-  pin.value = "";
-
-
-  setTimeout(
-    function(){
-
-      pin.focus();
-
-    },
-    100
-  );
-
-}
-
-
-
-/* =========================================================
-   НАЗАД К ВЫБОРУ
-========================================================= */
-
-function backToUsers(){
-
-  selectedUserName = "";
-
-  selectedUserRole = "";
-
-
-  clearMessage("loginMsg");
-
-  clearMessage("pinMsg");
-
-
-  document.getElementById(
-    "pin"
-  ).value = "";
-
-
-  document.getElementById(
-    "pinCard"
-  ).classList.add(
-    "hidden"
-  );
-
-
-  document.getElementById(
-    "userSelectCard"
-  ).classList.remove(
-    "hidden"
-  );
-
-}
-
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-async function login(){
-
-  clearMessage("pinMsg");
-
-
-  if(!selectedUserName){
-
-    message(
-      "loginMsg",
-      "Сначала выберите пользователя",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  const pin =
-    document
-      .getElementById("pin")
-      .value
-      .trim();
-
-
-  if(pin.length !== 4){
-
-    message(
-      "pinMsg",
-      "Введите 4-значный PIN",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  const loginButton =
-    document.getElementById(
-      "loginButton"
-    );
-
-
-  loginButton.disabled =
-    true;
-
-
-  loginButton.textContent =
-    "Проверка...";
-
-
-  try{
-
-
-    const data =
+    const result =
       await callRPC(
         "login_by_pin",
         {
-          p_pin:pin
+          p_pin: pinValue
         }
       );
 
 
-    if(
-      !data ||
-      !Array.isArray(data) ||
-      data.length === 0
-    ){
+    if (!Array.isArray(result) ||
+        result.length === 0) {
 
-      message(
-        "pinMsg",
-        "Неверный PIN-код",
-        "error"
+      throw new Error(
+        "Неверный PIN"
       );
-
-      return;
 
     }
 
 
     const user =
-      data[0];
+      result[0];
 
 
-    /*
-      Проверяем,
-      что PIN принадлежит
-      выбранному пользователю.
-    */
+    if (user.id !== selectedUser.id) {
 
-    if(
-      String(user.name)
-        .trim()
-      !==
-      String(selectedUserName)
-        .trim()
-    ){
-
-      message(
-        "pinMsg",
-        "Этот PIN не относится к выбранному пользователю",
-        "error"
+      throw new Error(
+        "Этот PIN принадлежит другому пользователю"
       );
+
+    }
+
+
+    currentUser = user;
+
+    currentPin = pinValue;
+
+    document.getElementById("loginScreen")
+      .classList.add("hidden");
+
+    document.getElementById("appScreen")
+      .classList.remove("hidden");
+
+    document.getElementById("currentUserName")
+      .textContent =
+        user.role === "admin"
+          ? "Администратор"
+          : user.name;
+
+
+    // Настройки только администратору
+
+    if (user.role === "admin") {
+
+      document.getElementById("tabSettings")
+        .classList.remove("hidden");
+
+      loadSettings();
+
+    } else {
+
+      document.getElementById("tabSettings")
+        .classList.add("hidden");
+
+    }
+
+
+    setToday();
+
+    loadOpeningBalance();
+
+    showTab("shift");
+
+  } catch (error) {
+
+    message.textContent =
+      error.message;
+
+    message.className =
+      "message error";
+
+  }
+
+}
+
+
+// --------------------------------------------------
+// BACK
+// --------------------------------------------------
+
+function backToUsers() {
+
+  selectedUser = null;
+
+  pinValue = "";
+
+  updatePinDisplay();
+
+  document.getElementById("pinCard")
+    .classList.add("hidden");
+
+}
+
+
+// --------------------------------------------------
+// LOGOUT
+// --------------------------------------------------
+
+function logout() {
+
+  currentUser = null;
+
+  currentPin = "";
+
+  selectedUser = null;
+
+  pinValue = "";
+
+  document.getElementById("appScreen")
+    .classList.add("hidden");
+
+  document.getElementById("loginScreen")
+    .classList.remove("hidden");
+
+  document.getElementById("pinCard")
+    .classList.add("hidden");
+
+  loadLoginUsers();
+
+}
+
+
+// --------------------------------------------------
+// TABS
+// --------------------------------------------------
+
+function showTab(tab) {
+
+  document.getElementById("shiftTab")
+    .classList.add("hidden");
+
+  document.getElementById("historyTab")
+    .classList.add("hidden");
+
+  document.getElementById("settingsTab")
+    .classList.add("hidden");
+
+
+  document.getElementById("tabShift")
+    .classList.remove("active");
+
+  document.getElementById("tabHistory")
+    .classList.remove("active");
+
+  document.getElementById("tabSettings")
+    .classList.remove("active");
+
+
+  if (tab === "shift") {
+
+    document.getElementById("shiftTab")
+      .classList.remove("hidden");
+
+    document.getElementById("tabShift")
+      .classList.add("active");
+
+  }
+
+
+  if (tab === "history") {
+
+    document.getElementById("historyTab")
+      .classList.remove("hidden");
+
+    document.getElementById("tabHistory")
+      .classList.add("active");
+
+    loadHistory();
+
+  }
+
+
+  if (tab === "settings") {
+
+    if (!currentUser ||
+        currentUser.role !== "admin") {
 
       return;
 
     }
 
+    document.getElementById("settingsTab")
+      .classList.remove("hidden");
 
-    /* УСПЕШНЫЙ ВХОД */
+    document.getElementById("tabSettings")
+      .classList.add("active");
 
-    currentPin =
-      pin;
-
-
-    currentUser =
-      user;
-
-
-    document.getElementById(
-      "loginScreen"
-    ).classList.add(
-      "hidden"
-    );
-
-
-    document.getElementById(
-      "appScreen"
-    ).classList.remove(
-      "hidden"
-    );
-
-
-    document.getElementById(
-      "userName"
-    ).textContent =
-      currentUser.name;
-
-
-    document.getElementById(
-      "userRole"
-    ).textContent =
-      currentUser.role === "admin"
-      ? "Администратор"
-      : "Бариста";
-
-
-    await loadBalance();
-
-    calculate();
-
-
-  }
-
-  catch(error){
-
-    message(
-      "pinMsg",
-      "Ошибка подключения: " +
-      error.message,
-      "error"
-    );
-
-  }
-
-
-  finally{
-
-    loginButton.disabled =
-      false;
-
-
-    loginButton.textContent =
-      "Войти";
+    loadSettings();
 
   }
 
 }
 
 
+// --------------------------------------------------
+// DATE
+// --------------------------------------------------
 
-/* =========================================================
-   LOGOUT
-========================================================= */
+function setToday() {
 
-function logout(){
+  const input =
+    document.getElementById("reportDate");
 
-  currentPin = "";
+  if (!input.value) {
 
-  currentUser = null;
+    const today =
+      new Date();
 
-  selectedUserName = "";
+    const year =
+      today.getFullYear();
 
-  selectedUserRole = "";
+    const month =
+      String(today.getMonth() + 1)
+        .padStart(2, "0");
 
+    const day =
+      String(today.getDate())
+        .padStart(2, "0");
 
-  document.getElementById(
-    "appScreen"
-  ).classList.add(
-    "hidden"
-  );
+    input.value =
+      `${year}-${month}-${day}`;
 
-
-  document.getElementById(
-    "loginScreen"
-  ).classList.remove(
-    "hidden"
-  );
-
-
-  document.getElementById(
-    "pinCard"
-  ).classList.add(
-    "hidden"
-  );
-
-
-  document.getElementById(
-    "userSelectCard"
-  ).classList.remove(
-    "hidden"
-  );
-
-
-  document.getElementById(
-    "pin"
-  ).value = "";
-
-
-  clearMessage("loginMsg");
-
-  clearMessage("pinMsg");
+  }
 
 }
 
 
+// --------------------------------------------------
+// NUMBERS
+// --------------------------------------------------
 
-/* =========================================================
-   BALANCE
-========================================================= */
+function numberValue(id) {
 
-async function loadBalance(){
+  const value =
+    parseFloat(
+      document.getElementById(id).value
+    );
 
-  try{
+  return isNaN(value) ? 0 : value;
 
-    const data =
+}
+
+
+function updateTotals() {
+
+  const cash =
+    numberValue("cash");
+
+  const card =
+    numberValue("card");
+
+  const qr =
+    numberValue("qr");
+
+  const barista =
+    numberValue("expenseBarista");
+
+  const supplier =
+    numberValue("expenseSupplier");
+
+  const withdrawal =
+    numberValue("expenseWithdrawal");
+
+  const opening =
+    numberValue("openingBalance");
+
+
+  const sales =
+    cash + card + qr;
+
+  const expenses =
+    barista +
+    supplier +
+    withdrawal;
+
+  const expected =
+    opening +
+    cash -
+    expenses;
+
+
+  document.getElementById("salesTotal")
+    .textContent =
+      money(sales);
+
+  document.getElementById("expensesTotal")
+    .textContent =
+      money(expenses);
+
+  document.getElementById("expectedBalance")
+    .textContent =
+      money(expected);
+
+}
+
+
+function money(value) {
+
+  return (
+    Number(value || 0)
+      .toLocaleString("ru-RU")
+    + " ₽"
+  );
+
+}
+
+
+// --------------------------------------------------
+// OPENING BALANCE
+// --------------------------------------------------
+
+async function loadOpeningBalance() {
+
+  try {
+
+    const result =
       await callRPC(
         "get_last_cash_balance"
       );
 
+    if (result !== null &&
+        result !== undefined) {
 
-    document.getElementById(
-      "opening"
-    ).value =
-      Number(data || 0);
+      let value = result;
 
+      if (Array.isArray(result) &&
+          result.length > 0) {
 
-    calculate();
+        value =
+          result[0].balance ??
+          result[0].cash_balance ??
+          result[0].last_cash_balance ??
+          result[0];
 
-  }
+      }
 
-  catch(error){
+      if (typeof value === "object" &&
+          value !== null) {
+
+        value =
+          value.balance ??
+          value.cash_balance ??
+          0;
+
+      }
+
+      document.getElementById(
+        "openingBalance"
+      ).value =
+        Number(value || 0);
+
+      updateTotals();
+
+    }
+
+  } catch (error) {
 
     console.log(
-      "Ошибка получения остатка:",
+      "Не удалось загрузить остаток:",
       error
     );
 
@@ -1431,46 +1168,65 @@ async function loadBalance(){
 }
 
 
+// --------------------------------------------------
+// SAVE REPORT
+// --------------------------------------------------
 
-/* =========================================================
-   CALCULATION
-========================================================= */
+async function saveReport() {
 
-function calculate(){
+  const message =
+    document.getElementById("saveMessage");
+
+  message.className = "message";
+
+  if (!currentUser) {
+    return;
+  }
+
+
+  const reportDate =
+    document.getElementById("reportDate").value;
+
+  if (!reportDate) {
+
+    message.textContent =
+      "Выберите дату";
+
+    message.className =
+      "message error";
+
+    return;
+
+  }
+
 
   const opening =
-    val("opening");
-
+    numberValue("openingBalance");
 
   const cash =
-    val("cash");
-
+    numberValue("cash");
 
   const card =
-    val("card");
-
+    numberValue("card");
 
   const qr =
-    val("qr");
-
+    numberValue("qr");
 
   const expenseBarista =
-    val("expenseBarista");
-
+    numberValue("expenseBarista");
 
   const expenseSupplier =
-    val("expenseSupplier");
-
+    numberValue("expenseSupplier");
 
   const expenseWithdrawal =
-    val("expenseWithdrawal");
+    numberValue("expenseWithdrawal");
+
+  const comment =
+    document.getElementById("comment").value;
 
 
   const sales =
-    cash +
-    card +
-    qr;
-
+    cash + card + qr;
 
   const expenses =
     expenseBarista +
@@ -1478,347 +1234,212 @@ function calculate(){
     expenseWithdrawal;
 
 
-  const expected =
-    opening +
-    cash -
-    expenses;
-
-
-  document.getElementById(
-    "sales"
-  ).textContent =
-    money(sales);
-
-
-  document.getElementById(
-    "expenses"
-  ).textContent =
-    money(expenses);
-
-
-  document.getElementById(
-    "expected"
-  ).textContent =
-    money(expected);
-
-}
-
-
-
-/* =========================================================
-   SAVE REPORT
-========================================================= */
-
-async function saveReport(){
-
-  clearMessage("reportMsg");
-
-
-  if(!currentPin){
-
-    message(
-      "reportMsg",
-      "Сначала выполните вход",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  const saveButton =
-    document.getElementById(
-      "saveButton"
-    );
-
-
-  saveButton.disabled =
-    true;
-
-
-  saveButton.textContent =
-    "Сохранение...";
-
-
-  try{
-
+  try {
 
     await callRPC(
       "save_shift_report",
       {
-
-        p_pin:
-          currentPin,
-
-
-        p_report_date:
-          new Date()
-            .toISOString()
-            .slice(0,10),
-
-
-        p_opening_cash:
-          val("opening"),
-
-
-        p_cash:
-          val("cash"),
-
-
-        p_card:
-          val("card"),
-
-
-        p_qr:
-          val("qr"),
-
-
-        p_expense_barista:
-          val("expenseBarista"),
-
-
-        p_expense_supplier:
-          val("expenseSupplier"),
-
-
-        p_expense_withdrawal:
-          val("expenseWithdrawal"),
-
-
-        p_comment:
-          document
-            .getElementById(
-              "comment"
-            )
-            .value
-            .trim()
-
+        p_pin: currentPin,
+        p_report_date: reportDate,
+        p_opening_balance: opening,
+        p_cash: cash,
+        p_card: card,
+        p_qr: qr,
+        p_expense_barista: expenseBarista,
+        p_expense_supplier: expenseSupplier,
+        p_expense_withdrawal: expenseWithdrawal,
+        p_comment: comment
       }
     );
 
 
-    message(
-      "reportMsg",
-      "Отчёт успешно сохранён",
-      "success"
-    );
+    message.textContent =
+      "Отчёт успешно сохранён";
+
+    message.className =
+      "message success";
+
+
+    document.getElementById("cash").value = "";
+    document.getElementById("card").value = "";
+    document.getElementById("qr").value = "";
+
+    document.getElementById("expenseBarista").value = "";
+    document.getElementById("expenseSupplier").value = "";
+    document.getElementById("expenseWithdrawal").value = "";
+
+    document.getElementById("comment").value = "";
 
 
     document.getElementById(
-      "cash"
-    ).value = 0;
+      "openingBalance"
+    ).value =
+      opening + cash - expenses;
 
 
-    document.getElementById(
-      "card"
-    ).value = 0;
+    updateTotals();
 
+  } catch (error) {
 
-    document.getElementById(
-      "qr"
-    ).value = 0;
+    message.textContent =
+      error.message;
 
-
-    document.getElementById(
-      "expenseBarista"
-    ).value = 0;
-
-
-    document.getElementById(
-      "expenseSupplier"
-    ).value = 0;
-
-
-    document.getElementById(
-      "expenseWithdrawal"
-    ).value = 0;
-
-
-    document.getElementById(
-      "comment"
-    ).value = "";
-
-
-    await loadBalance();
-
-    calculate();
-
-
-  }
-
-  catch(error){
-
-    message(
-      "reportMsg",
-      "Ошибка сохранения: " +
-      error.message,
-      "error"
-    );
-
-  }
-
-
-  finally{
-
-    saveButton.disabled =
-      false;
-
-
-    saveButton.textContent =
-      "Сохранить отчёт";
+    message.className =
+      "message error";
 
   }
 
 }
 
 
+// --------------------------------------------------
+// HISTORY
+// --------------------------------------------------
 
-/* =========================================================
-   HISTORY
-========================================================= */
+async function loadHistory() {
 
-async function loadHistory(){
+  const list =
+    document.getElementById("historyList");
 
-  const box =
-    document.getElementById(
-      "history"
-    );
-
-
-  box.innerHTML =
-    '<div class="empty">Загрузка...</div>';
+  list.innerHTML =
+    '<div class="loading">Загрузка...</div>';
 
 
-  try{
+  try {
 
-
-    const data =
+    const reports =
       await callRPC(
         "get_shift_reports"
       );
 
 
-    if(
-      !data ||
-      !Array.isArray(data) ||
-      data.length === 0
-    ){
+    if (!Array.isArray(reports) ||
+        reports.length === 0) {
 
-      box.innerHTML =
-        '<div class="empty">' +
-        'Отчётов пока нет' +
-        '</div>';
+      list.innerHTML =
+        '<div class="loading">Отчётов пока нет</div>';
 
       return;
 
     }
 
 
-    box.innerHTML =
-      data
-        .map(
-          function(r){
-
-            const date =
-              new Date(
-                r.report_date
-              )
-              .toLocaleDateString(
-                "ru-RU"
-              );
+    list.innerHTML = "";
 
 
-            const expenses =
-              Number(
-                r.expense_barista || 0
-              ) +
+    reports.forEach(report => {
 
-              Number(
-                r.expense_supplier || 0
-              ) +
+      const div =
+        document.createElement("div");
 
-              Number(
-                r.expense_withdrawal || 0
-              );
+      div.className = "report";
 
 
-            return `
+      const head =
+        document.createElement("div");
 
-              <div class="report">
-
-                <div class="report-head">
-
-                  <div>
-
-                    <b>
-                      ${escapeHtml(
-                        r.barista_name || "—"
-                      )}
-                    </b>
-
-                    <div class="muted">
-                      ${date}
-                    </div>
-
-                  </div>
+      head.className = "report-head";
 
 
-                  <b>
-                    ${money(
-                      r.actual_cash
-                    )}
-                  </b>
-
-                </div>
+      const name =
+        report.barista_name ||
+        report.name ||
+        "Бариста";
 
 
-                <div
-                  class="muted"
-                  style="margin-top:8px"
-                >
-
-                  Наличные:
-                  ${money(r.cash)}
-
-                  · Карта:
-                  ${money(r.card)}
-
-                  · QR:
-                  ${money(r.qr)}
-
-                </div>
+      const date =
+        report.report_date ||
+        report.date ||
+        "";
 
 
-                <div
-                  class="muted"
-                  style="margin-top:5px"
-                >
-
-                  Расходы:
-                  ${money(expenses)}
-
-                </div>
-
-              </div>
-
-            `;
-
-          }
-        )
-        .join("");
+      head.innerHTML =
+        "<span>" +
+        escapeHtml(name) +
+        "</span>" +
+        "<span>" +
+        escapeHtml(date) +
+        "</span>";
 
 
-  }
+      div.appendChild(head);
 
-  catch(error){
 
-    box.innerHTML =
-      '<div class="empty">' +
-      'Ошибка загрузки: ' +
-      escapeHtml(
-        error.message
-      ) +
+      const sales =
+        Number(report.cash || 0) +
+        Number(report.card || 0) +
+        Number(report.qr || 0);
+
+
+      const expenses =
+        Number(report.expense_barista || 0) +
+        Number(report.expense_supplier || 0) +
+        Number(report.expense_withdrawal || 0);
+
+
+      addReportLine(
+        div,
+        "Продажи",
+        money(sales)
+      );
+
+      addReportLine(
+        div,
+        "Наличные",
+        money(report.cash)
+      );
+
+      addReportLine(
+        div,
+        "Карта",
+        money(report.card)
+      );
+
+      addReportLine(
+        div,
+        "QR",
+        money(report.qr)
+      );
+
+      addReportLine(
+        div,
+        "Расходы",
+        money(expenses)
+      );
+
+      addReportLine(
+        div,
+        "Остаток на начало",
+        money(report.opening_balance)
+      );
+
+
+      if (report.comment) {
+
+        const comment =
+          document.createElement("div");
+
+        comment.style.marginTop = "8px";
+        comment.style.color = "#666";
+
+        comment.textContent =
+          "Комментарий: " +
+          report.comment;
+
+        div.appendChild(comment);
+
+      }
+
+
+      list.appendChild(div);
+
+    });
+
+  } catch (error) {
+
+    list.innerHTML =
+      '<div class="message error" style="display:block">' +
+      escapeHtml(error.message) +
       '</div>';
 
   }
@@ -1826,362 +1447,341 @@ async function loadHistory(){
 }
 
 
+function addReportLine(
+  parent,
+  label,
+  value
+) {
 
-/* =========================================================
-   TABS
-========================================================= */
+  const row =
+    document.createElement("div");
 
-function openTab(tab){
+  row.className = "report-line";
 
-  const report =
-    document.getElementById(
-      "reportTab"
-    );
+  row.innerHTML =
+    "<span>" +
+    escapeHtml(label) +
+    "</span>" +
+    "<strong>" +
+    escapeHtml(value) +
+    "</strong>";
 
+  parent.appendChild(row);
 
-  const history =
-    document.getElementById(
-      "historyTab"
-    );
-
-
-  const reportButton =
-    document.getElementById(
-      "reportTabBtn"
-    );
-
-
-  const historyButton =
-    document.getElementById(
-      "historyTabBtn"
-    );
+}
 
 
-  if(tab === "report"){
+// --------------------------------------------------
+// SETTINGS
+// --------------------------------------------------
 
-    report.classList.remove(
-      "hidden"
-    );
+function loadSettings() {
 
+  if (!currentUser ||
+      currentUser.role !== "admin") {
 
-    history.classList.add(
-      "hidden"
-    );
-
-
-    reportButton.classList.add(
-      "active"
-    );
-
-
-    historyButton.classList.remove(
-      "active"
-    );
+    return;
 
   }
 
-  else{
 
-    report.classList.add(
-      "hidden"
+  const container =
+    document.getElementById(
+      "settingsUsers"
+    );
+
+  container.innerHTML = "";
+
+
+  const baristas =
+    loginUsers.filter(
+      user => user.role === "barista"
     );
 
 
-    history.classList.remove(
-      "hidden"
+  if (baristas.length === 0) {
+
+    container.innerHTML =
+      '<div class="loading">Баристы не найдены</div>';
+
+    return;
+
+  }
+
+
+  baristas.forEach(user => {
+
+    const box =
+      document.createElement("div");
+
+    box.className =
+      "settings-user";
+
+
+    const title =
+      document.createElement("h3");
+
+    title.textContent =
+      user.name;
+
+    box.appendChild(title);
+
+
+    const nameLabel =
+      document.createElement("label");
+
+    nameLabel.textContent =
+      "Имя бариста";
+
+    box.appendChild(nameLabel);
+
+
+    const nameInput =
+      document.createElement("input");
+
+    nameInput.type = "text";
+
+    nameInput.value =
+      user.name;
+
+    nameInput.id =
+      "name_" + user.id;
+
+    box.appendChild(nameInput);
+
+
+    const pinLabel =
+      document.createElement("label");
+
+    pinLabel.textContent =
+      "Новый PIN";
+
+    box.appendChild(pinLabel);
+
+
+    const pinInput =
+      document.createElement("input");
+
+    pinInput.type = "tel";
+
+    pinInput.inputMode = "numeric";
+
+    pinInput.maxLength = 4;
+
+    pinInput.value = "";
+
+    pinInput.placeholder =
+      "Оставьте пустым, чтобы не менять";
+
+    pinInput.id =
+      "pin_" + user.id;
+
+    box.appendChild(pinInput);
+
+
+    const saveButton =
+      document.createElement("button");
+
+    saveButton.className =
+      "settings-save";
+
+    saveButton.textContent =
+      "Сохранить изменения";
+
+
+    saveButton.addEventListener(
+      "click",
+      () => saveUserSettings(user)
     );
 
 
-    reportButton.classList.remove(
-      "active"
+    box.appendChild(saveButton);
+
+
+    container.appendChild(box);
+
+  });
+
+}
+
+
+// --------------------------------------------------
+// SAVE USER SETTINGS
+// --------------------------------------------------
+
+async function saveUserSettings(user) {
+
+  const message =
+    document.getElementById(
+      "settingsMessage"
+    );
+
+  message.className =
+    "message";
+
+
+  const nameInput =
+    document.getElementById(
+      "name_" + user.id
+    );
+
+  const pinInput =
+    document.getElementById(
+      "pin_" + user.id
     );
 
 
-    historyButton.classList.add(
-      "active"
+  const newName =
+    nameInput.value.trim();
+
+
+  let newPin =
+    pinInput.value.trim();
+
+
+  if (!newName) {
+
+    message.textContent =
+      "Имя не может быть пустым";
+
+    message.className =
+      "message error";
+
+    return;
+
+  }
+
+
+  // Если PIN не введён,
+  // оставляем старый PIN.
+
+  if (!newPin) {
+
+    /*
+      Важно:
+      функция update_user_account
+      требует новый PIN.
+
+      Поэтому если пользователь хочет
+      поменять только имя, сначала
+      получаем текущий PIN через
+      временное значение из интерфейса.
+    */
+
+    message.textContent =
+      "Введите новый 4-значный PIN";
+
+    message.className =
+      "message error";
+
+    return;
+
+  }
+
+
+  if (!/^[0-9]{4}$/.test(newPin)) {
+
+    message.textContent =
+      "PIN должен состоять из 4 цифр";
+
+    message.className =
+      "message error";
+
+    return;
+
+  }
+
+
+  try {
+
+    await callRPC(
+      "update_user_account",
+      {
+        p_admin_pin: currentPin,
+        p_user_id: user.id,
+        p_name: newName,
+        p_new_pin: newPin
+      }
     );
 
 
-    loadHistory();
+    message.textContent =
+      "Изменения сохранены";
+
+    message.className =
+      "message success";
+
+
+    await loadLoginUsers();
+
+    loadSettings();
+
+
+  } catch (error) {
+
+    message.textContent =
+      error.message;
+
+    message.className =
+      "message error";
 
   }
 
 }
 
 
+// --------------------------------------------------
+// ESCAPE HTML
+// --------------------------------------------------
 
-/* =========================================================
-   SECURITY
-========================================================= */
+function escapeHtml(value) {
 
-function escapeHtml(value){
-
-  return String(
-    value ?? ""
-  )
-
-  .replaceAll(
-    "&",
-    "&amp;"
-  )
-
-  .replaceAll(
-    "<",
-    "&lt;"
-  )
-
-  .replaceAll(
-    ">",
-    "&gt;"
-  )
-
-  .replaceAll(
-    '"',
-    "&quot;"
-  )
-
-  .replaceAll(
-    "'",
-    "&#039;"
-  );
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 
 }
 
 
-
-/* =========================================================
-   ЗАПУСК
-========================================================= */
+// --------------------------------------------------
+// INPUT LISTENERS
+// --------------------------------------------------
 
 document.addEventListener(
   "DOMContentLoaded",
-  function(){
+  () => {
 
-
-    /* USER BUTTONS */
-
-    document
-      .getElementById(
-        "adminButton"
-      )
-      .addEventListener(
-        "click",
-        function(){
-
-          selectUser(
-            "Admin",
-            "Администратор"
-          );
-
-        }
-      );
-
-
-    document
-      .getElementById(
-        "barista1Button"
-      )
-      .addEventListener(
-        "click",
-        function(){
-
-          selectUser(
-            "Barista 1",
-            "Бариста"
-          );
-
-        }
-      );
-
-
-    document
-      .getElementById(
-        "barista2Button"
-      )
-      .addEventListener(
-        "click",
-        function(){
-
-          selectUser(
-            "Barista 2",
-            "Бариста"
-          );
-
-        }
-      );
-
-
-
-    /* LOGIN */
-
-    document
-      .getElementById(
-        "loginButton"
-      )
-      .addEventListener(
-        "click",
-        login
-      );
-
-
-
-    /* ENTER */
-
-    document
-      .getElementById(
-        "pin"
-      )
-      .addEventListener(
-        "keydown",
-        function(event){
-
-          if(
-            event.key === "Enter"
-          ){
-
-            login();
-
-          }
-
-        }
-      );
-
-
-
-    /* BACK */
-
-    document
-      .getElementById(
-        "backButton"
-      )
-      .addEventListener(
-        "click",
-        backToUsers
-      );
-
-
-
-    /* LOGOUT */
-
-    document
-      .getElementById(
-        "logoutButton"
-      )
-      .addEventListener(
-        "click",
-        logout
-      );
-
-
-
-    /* BALANCE */
-
-    document
-      .getElementById(
-        "balanceButton"
-      )
-      .addEventListener(
-        "click",
-        loadBalance
-      );
-
-
-
-    /* SAVE */
-
-    document
-      .getElementById(
-        "saveButton"
-      )
-      .addEventListener(
-        "click",
-        saveReport
-      );
-
-
-
-    /* REPORT TAB */
-
-    document
-      .getElementById(
-        "reportTabBtn"
-      )
-      .addEventListener(
-        "click",
-        function(){
-
-          openTab("report");
-
-        }
-      );
-
-
-
-    /* HISTORY TAB */
-
-    document
-      .getElementById(
-        "historyTabBtn"
-      )
-      .addEventListener(
-        "click",
-        function(){
-
-          openTab("history");
-
-        }
-      );
-
-
-
-    /* HISTORY REFRESH */
-
-    document
-      .getElementById(
-        "historyRefreshButton"
-      )
-      .addEventListener(
-        "click",
-        loadHistory
-      );
-
-
-
-    /* CALCULATION */
+    loadLoginUsers();
 
     [
-      "opening",
+      "openingBalance",
       "cash",
       "card",
       "qr",
       "expenseBarista",
       "expenseSupplier",
       "expenseWithdrawal"
-    ]
-    .forEach(
-      function(id){
+    ].forEach(id => {
 
-        document
-          .getElementById(id)
-          .addEventListener(
-            "input",
-            calculate
-          );
+      document.getElementById(id)
+        .addEventListener(
+          "input",
+          updateTotals
+        );
 
-      }
-    );
+    });
 
+    setToday();
 
-    /* INITIAL CALCULATION */
-
-    calculate();
-
+    updateTotals();
 
   }
 );
 
 </script>
-
 
 </body>
 </html>
