@@ -1585,11 +1585,6 @@ onclick="saveReportAndJPEG()">
   <tbody>
 
   <tr>
-    <td>Ожидаемый остаток</td>
-    <td id="rExpectedCash"></td>
-  </tr>
-
-  <tr>
     <td>Время закрытия</td>
     <td id="rCloseTime"></td>
   </tr>
@@ -2728,7 +2723,6 @@ document.addEventListener(
 
 /* =====================================================
    SAVE TO SUPABASE
-   RETURN REPORT ID
 ===================================================== */
 
 async function saveToSupabase() {
@@ -3338,21 +3332,6 @@ function createReport() {
     money(
       expenseTotal
     )
-  );
-
-
-  const expected =
-    num("openCash") +
-    num("cash") -
-    expenseTotal;
-
-
-  setText(
-    "rExpectedCash",
-    money(
-      expected
-    ) +
-    " ₽"
   );
 
 
