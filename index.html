@@ -184,11 +184,6 @@ button {
   background: #444;
 }
 
-.pin-keyboard .enter {
-  background: #fff;
-  color: #000;
-}
-
 .pin-keyboard .clear {
   background: #333;
 }
@@ -915,9 +910,6 @@ input[type="number"] {
               onclick="pinClear()">⌫</button>
 
       <button onclick="pinPress('0')">0</button>
-
-      <button class="enter"
-              onclick="login()">Войти</button>
 
     </div>
 
@@ -2960,9 +2952,7 @@ async function uploadReportImage(
 
       const data =
         text
-          ? JSON.parse(
-              text
-            )
+          ? JSON.parse(text)
           : null;
 
 
