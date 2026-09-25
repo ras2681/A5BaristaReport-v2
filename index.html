@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1"
+>
+
 <title>A5 Barista Report</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 *{
   box-sizing:border-box;
 }
@@ -16,7 +22,12 @@ body{
   margin:0;
   background:#111;
   color:#f5f5f5;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
 }
 
 .app{
@@ -96,6 +107,11 @@ button{
   font-size:16px;
   font-weight:700;
   cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+
+button:disabled{
+  opacity:.6;
 }
 
 .primary{
@@ -237,7 +253,10 @@ button{
   font-size:13px;
 }
 
-/* USER SELECT */
+
+/* =========================
+   ВЫБОР ПОЛЬЗОВАТЕЛЯ
+========================= */
 
 .user-select{
   display:grid;
@@ -256,7 +275,8 @@ button{
 }
 
 .user-option:active{
-  transform:scale(.99);
+  background:#242016;
+  border-color:#d5a84b;
 }
 
 .user-option-name{
@@ -302,44 +322,62 @@ button{
   font-size:14px;
   margin-bottom:7px;
 }
+
 </style>
+
 </head>
 
 
 <body>
 
+
 <div class="app">
 
 
-<!-- ================= LOGIN ================= -->
+<!-- =====================================================
+     LOGIN
+===================================================== -->
 
 <div id="loginScreen">
+
 
   <div class="logo">
     A5
   </div>
+
 
   <div class="subtitle">
     BARISTA REPORT
   </div>
 
 
+
   <!-- ВЫБОР ПОЛЬЗОВАТЕЛЯ -->
 
-  <div id="userSelectCard" class="card">
+  <div
+    id="userSelectCard"
+    class="card"
+  >
 
     <h2>
       Кто входит?
     </h2>
 
-    <div id="loginMsg" class="msg"></div>
+
+    <div
+      id="loginMsg"
+      class="msg"
+    ></div>
+
 
     <div class="user-select">
 
+
       <button
         type="button"
+        id="adminButton"
         class="user-option"
-        id="adminButton">
+      >
 
         <div class="user-option-name">
           Admin
@@ -352,10 +390,12 @@ button{
       </button>
 
 
+
       <button
         type="button"
+        id="barista1Button"
         class="user-option"
-        id="barista1Button">
+      >
 
         <div class="user-option-name">
           Barista 1
@@ -368,10 +408,12 @@ button{
       </button>
 
 
+
       <button
         type="button"
+        id="barista2Button"
         class="user-option"
-        id="barista2Button">
+      >
 
         <div class="user-option-name">
           Barista 2
@@ -383,33 +425,42 @@ button{
 
       </button>
 
+
     </div>
 
   </div>
 
 
+
   <!-- ВВОД PIN -->
 
-  <div id="pinCard" class="card hidden">
+  <div
+    id="pinCard"
+    class="card hidden"
+  >
 
     <h2>
       Вход
     </h2>
 
-    <div id="pinMsg" class="msg"></div>
+
+    <div
+      id="pinMsg"
+      class="msg"
+    ></div>
 
 
     <div class="selected-user">
 
       <div
         id="selectedUserName"
-        class="selected-user-name">
-      </div>
+        class="selected-user-name"
+      ></div>
 
       <div
         id="selectedUserRole"
-        class="selected-user-role">
-      </div>
+        class="selected-user-role"
+      ></div>
 
     </div>
 
@@ -433,31 +484,35 @@ button{
     <button
       type="button"
       id="loginButton"
-      class="primary">
-
+      class="primary"
+    >
       Войти
-
     </button>
 
 
     <button
       type="button"
       id="backButton"
-      class="back-button">
-
+      class="back-button"
+    >
       ← Выбрать другого пользователя
-
     </button>
 
   </div>
+
 
 </div>
 
 
 
-<!-- ================= APP ================= -->
+<!-- =====================================================
+     APP
+===================================================== -->
 
-<div id="appScreen" class="hidden">
+<div
+  id="appScreen"
+  class="hidden"
+>
 
 
   <div class="userbar">
@@ -466,13 +521,13 @@ button{
 
       <div
         id="userName"
-        class="username">
-      </div>
+        class="username"
+      ></div>
 
       <div
         id="userRole"
-        class="role">
-      </div>
+        class="role"
+      ></div>
 
     </div>
 
@@ -480,10 +535,9 @@ button{
     <button
       type="button"
       id="logoutButton"
-      class="danger logout">
-
+      class="danger logout"
+    >
       Выйти
-
     </button>
 
   </div>
@@ -497,28 +551,29 @@ button{
     <button
       type="button"
       id="reportTabBtn"
-      class="active">
-
+      class="active"
+    >
       Смена
-
     </button>
 
 
     <button
       type="button"
-      id="historyTabBtn">
-
+      id="historyTabBtn"
+    >
       История
-
     </button>
 
   </div>
 
 
 
-  <!-- ================= REPORT ================= -->
+  <!-- =================================================
+       REPORT
+  ================================================== -->
 
   <div id="reportTab">
+
 
     <div class="card">
 
@@ -529,13 +584,14 @@ button{
 
       <div
         id="reportMsg"
-        class="msg">
-      </div>
+        class="msg"
+      ></div>
 
 
       <label>
         Остаток на начало
       </label>
+
 
       <input
         id="opening"
@@ -547,16 +603,16 @@ button{
       <button
         type="button"
         id="balanceButton"
-        class="secondary">
-
+        class="secondary"
+      >
         Получить остаток предыдущей смены
-
       </button>
 
 
       <label>
         Наличные
       </label>
+
 
       <input
         id="cash"
@@ -570,6 +626,7 @@ button{
         Банковская карта
       </label>
 
+
       <input
         id="card"
         type="number"
@@ -581,6 +638,7 @@ button{
       <label>
         QR
       </label>
+
 
       <input
         id="qr"
@@ -599,6 +657,7 @@ button{
         Расход бариста
       </label>
 
+
       <input
         id="expenseBarista"
         type="number"
@@ -610,6 +669,7 @@ button{
       <label>
         Расход поставщику
       </label>
+
 
       <input
         id="expenseSupplier"
@@ -623,6 +683,7 @@ button{
         Снятие / прочие расходы
       </label>
 
+
       <input
         id="expenseWithdrawal"
         type="number"
@@ -635,9 +696,12 @@ button{
         Комментарий
       </label>
 
+
       <textarea
         id="comment"
-        placeholder="Комментарий к смене"></textarea>
+        placeholder="Комментарий к смене"
+      ></textarea>
+
 
     </div>
 
@@ -654,6 +718,7 @@ button{
 
       <div class="grid">
 
+
         <div class="stat">
 
           <div class="stat-title">
@@ -662,13 +727,13 @@ button{
 
           <div
             id="sales"
-            class="stat-value">
-
+            class="stat-value"
+          >
             0 ₽
-
           </div>
 
         </div>
+
 
 
         <div class="stat">
@@ -679,13 +744,13 @@ button{
 
           <div
             id="expenses"
-            class="stat-value">
-
+            class="stat-value"
+          >
             0 ₽
-
           </div>
 
         </div>
+
 
       </div>
 
@@ -696,12 +761,12 @@ button{
           Ожидаемая наличность
         </div>
 
+
         <div
           id="expected"
-          class="total">
-
+          class="total"
+        >
           0 ₽
-
         </div>
 
       </div>
@@ -710,29 +775,39 @@ button{
       <button
         type="button"
         id="saveButton"
-        class="primary">
-
+        class="primary"
+      >
         Сохранить отчёт
-
       </button>
 
+
     </div>
+
 
   </div>
 
 
 
-  <!-- ================= HISTORY ================= -->
+  <!-- =================================================
+       HISTORY
+  ================================================== -->
 
   <div
     id="historyTab"
-    class="hidden">
+    class="hidden"
+  >
+
 
     <div class="card">
 
 
       <div
-        style="display:flex;justify-content:space-between;align-items:center">
+        style="
+          display:flex;
+          justify-content:space-between;
+          align-items:center
+        "
+      >
 
         <h2 style="margin:0">
           История
@@ -743,22 +818,30 @@ button{
           type="button"
           id="historyRefreshButton"
           class="secondary"
-          style="width:auto;margin:0;padding:9px 12px">
-
+          style="
+            width:auto;
+            margin:0;
+            padding:9px 12px
+          "
+        >
           Обновить
-
         </button>
+
 
       </div>
 
 
       <div id="history"></div>
 
+
     </div>
+
 
   </div>
 
+
 </div>
+
 
 </div>
 
@@ -768,20 +851,104 @@ button{
 
 /* =========================================================
    SUPABASE
+   Используем обычный REST API.
+   Библиотека supabase-js НЕ нужна.
 ========================================================= */
 
 const SUPABASE_URL =
   "https://hsfxdmjmvgbepurkhfxl.supabase.co";
 
+
 const SUPABASE_KEY =
   "sb_publishable_sVGHTCnvYzWZ65_ltVMkNA_WMNyYUx0";
 
 
-const supabase =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+
+/* =========================================================
+   RPC
+========================================================= */
+
+async function callRPC(functionName, params = {}){
+
+  const response =
+    await fetch(
+      SUPABASE_URL +
+      "/rest/v1/rpc/" +
+      functionName,
+      {
+        method:"POST",
+
+        headers:{
+          "apikey":SUPABASE_KEY,
+          "Authorization":
+            "Bearer " + SUPABASE_KEY,
+          "Content-Type":
+            "application/json"
+        },
+
+        body:
+          JSON.stringify(params)
+      }
+    );
+
+
+  const text =
+    await response.text();
+
+
+  let data = null;
+
+
+  try{
+
+    data =
+      text
+      ? JSON.parse(text)
+      : null;
+
+  }
+
+  catch(e){
+
+    data = text;
+
+  }
+
+
+  if(!response.ok){
+
+    let message =
+      "Ошибка Supabase";
+
+
+    if(
+      data &&
+      typeof data === "object"
+    ){
+
+      message =
+        data.message ||
+        data.error_description ||
+        data.hint ||
+        JSON.stringify(data);
+
+    }
+
+    else if(text){
+
+      message = text;
+
+    }
+
+
+    throw new Error(message);
+
+  }
+
+
+  return data;
+
+}
 
 
 
@@ -790,9 +957,11 @@ const supabase =
 ========================================================= */
 
 let currentPin = "";
+
 let currentUser = null;
 
 let selectedUserName = "";
+
 let selectedUserRole = "";
 
 
@@ -806,14 +975,20 @@ function val(id){
   const element =
     document.getElementById(id);
 
+
   if(!element){
+
     return 0;
+
   }
+
 
   return Number(
     element.value || 0
   );
+
 }
+
 
 
 function money(number){
@@ -825,17 +1000,23 @@ function money(number){
 }
 
 
+
 function message(id,text,type){
 
   const element =
     document.getElementById(id);
 
+
   if(!element){
+
     return;
+
   }
+
 
   element.className =
     "msg " + type;
+
 
   element.textContent =
     text;
@@ -843,17 +1024,23 @@ function message(id,text,type){
 }
 
 
+
 function clearMessage(id){
 
   const element =
     document.getElementById(id);
 
+
   if(!element){
+
     return;
+
   }
+
 
   element.className =
     "msg";
+
 
   element.textContent =
     "";
@@ -863,66 +1050,84 @@ function clearMessage(id){
 
 
 /* =========================================================
-   SELECT USER
+   ВЫБОР ПОЛЬЗОВАТЕЛЯ
 ========================================================= */
 
 function selectUser(name,role){
 
-  selectedUserName = name;
-  selectedUserRole = role;
+  selectedUserName =
+    name;
+
+  selectedUserRole =
+    role;
 
 
   clearMessage("loginMsg");
+
   clearMessage("pinMsg");
 
 
   document.getElementById(
     "selectedUserName"
-  ).textContent = name;
+  ).textContent =
+    name;
 
 
   document.getElementById(
     "selectedUserRole"
-  ).textContent = role;
+  ).textContent =
+    role;
 
 
   document.getElementById(
     "userSelectCard"
-  ).classList.add("hidden");
+  ).classList.add(
+    "hidden"
+  );
 
 
   document.getElementById(
     "pinCard"
-  ).classList.remove("hidden");
+  ).classList.remove(
+    "hidden"
+  );
 
 
   const pin =
-    document.getElementById("pin");
+    document.getElementById(
+      "pin"
+    );
 
 
   pin.value = "";
 
-  setTimeout(function(){
 
-    pin.focus();
+  setTimeout(
+    function(){
 
-  },100);
+      pin.focus();
+
+    },
+    100
+  );
 
 }
 
 
 
 /* =========================================================
-   BACK TO USERS
+   НАЗАД К ВЫБОРУ
 ========================================================= */
 
 function backToUsers(){
 
   selectedUserName = "";
+
   selectedUserRole = "";
 
 
   clearMessage("loginMsg");
+
   clearMessage("pinMsg");
 
 
@@ -933,12 +1138,16 @@ function backToUsers(){
 
   document.getElementById(
     "pinCard"
-  ).classList.add("hidden");
+  ).classList.add(
+    "hidden"
+  );
 
 
   document.getElementById(
     "userSelectCard"
-  ).classList.remove("hidden");
+  ).classList.remove(
+    "hidden"
+  );
 
 }
 
@@ -961,9 +1170,8 @@ async function login(){
       "error"
     );
 
-    backToUsers();
-
     return;
+
   }
 
 
@@ -983,6 +1191,7 @@ async function login(){
     );
 
     return;
+
   }
 
 
@@ -992,41 +1201,31 @@ async function login(){
     );
 
 
-  loginButton.disabled = true;
-  loginButton.textContent = "Проверка...";
+  loginButton.disabled =
+    true;
+
+
+  loginButton.textContent =
+    "Проверка...";
 
 
   try{
 
-    const result =
-      await supabase.rpc(
+
+    const data =
+      await callRPC(
         "login_by_pin",
         {
-          p_pin: pin
+          p_pin:pin
         }
       );
 
 
-    const data =
-      result.data;
-
-    const error =
-      result.error;
-
-
-    if(error){
-
-      message(
-        "pinMsg",
-        "Ошибка: " + error.message,
-        "error"
-      );
-
-      return;
-    }
-
-
-    if(!data || data.length === 0){
+    if(
+      !data ||
+      !Array.isArray(data) ||
+      data.length === 0
+    ){
 
       message(
         "pinMsg",
@@ -1035,6 +1234,7 @@ async function login(){
       );
 
       return;
+
     }
 
 
@@ -1043,13 +1243,17 @@ async function login(){
 
 
     /*
-      Проверяем, что PIN принадлежит
+      Проверяем,
+      что PIN принадлежит
       выбранному пользователю.
     */
 
     if(
-      String(user.name).trim() !==
-      String(selectedUserName).trim()
+      String(user.name)
+        .trim()
+      !==
+      String(selectedUserName)
+        .trim()
     ){
 
       message(
@@ -1059,23 +1263,32 @@ async function login(){
       );
 
       return;
+
     }
 
 
     /* УСПЕШНЫЙ ВХОД */
 
-    currentPin = pin;
-    currentUser = user;
+    currentPin =
+      pin;
+
+
+    currentUser =
+      user;
 
 
     document.getElementById(
       "loginScreen"
-    ).classList.add("hidden");
+    ).classList.add(
+      "hidden"
+    );
 
 
     document.getElementById(
       "appScreen"
-    ).classList.remove("hidden");
+    ).classList.remove(
+      "hidden"
+    );
 
 
     document.getElementById(
@@ -1088,13 +1301,14 @@ async function login(){
       "userRole"
     ).textContent =
       currentUser.role === "admin"
-        ? "Администратор"
-        : "Бариста";
+      ? "Администратор"
+      : "Бариста";
 
 
     await loadBalance();
 
     calculate();
+
 
   }
 
@@ -1109,10 +1323,15 @@ async function login(){
 
   }
 
+
   finally{
 
-    loginButton.disabled = false;
-    loginButton.textContent = "Войти";
+    loginButton.disabled =
+      false;
+
+
+    loginButton.textContent =
+      "Войти";
 
   }
 
@@ -1127,30 +1346,40 @@ async function login(){
 function logout(){
 
   currentPin = "";
+
   currentUser = null;
 
   selectedUserName = "";
+
   selectedUserRole = "";
 
 
   document.getElementById(
     "appScreen"
-  ).classList.add("hidden");
+  ).classList.add(
+    "hidden"
+  );
 
 
   document.getElementById(
     "loginScreen"
-  ).classList.remove("hidden");
+  ).classList.remove(
+    "hidden"
+  );
 
 
   document.getElementById(
     "pinCard"
-  ).classList.add("hidden");
+  ).classList.add(
+    "hidden"
+  );
 
 
   document.getElementById(
     "userSelectCard"
-  ).classList.remove("hidden");
+  ).classList.remove(
+    "hidden"
+  );
 
 
   document.getElementById(
@@ -1159,6 +1388,7 @@ function logout(){
 
 
   clearMessage("loginMsg");
+
   clearMessage("pinMsg");
 
 }
@@ -1171,37 +1401,32 @@ function logout(){
 
 async function loadBalance(){
 
-  const result =
-    await supabase.rpc(
-      "get_last_cash_balance"
-    );
+  try{
+
+    const data =
+      await callRPC(
+        "get_last_cash_balance"
+      );
 
 
-  const data =
-    result.data;
+    document.getElementById(
+      "opening"
+    ).value =
+      Number(data || 0);
 
-  const error =
-    result.error;
 
+    calculate();
 
-  if(error){
+  }
+
+  catch(error){
 
     console.log(
       "Ошибка получения остатка:",
       error
     );
 
-    return;
   }
-
-
-  document.getElementById(
-    "opening"
-  ).value =
-    Number(data || 0);
-
-
-  calculate();
 
 }
 
@@ -1216,11 +1441,14 @@ function calculate(){
   const opening =
     val("opening");
 
+
   const cash =
     val("cash");
 
+
   const card =
     val("card");
+
 
   const qr =
     val("qr");
@@ -1229,15 +1457,19 @@ function calculate(){
   const expenseBarista =
     val("expenseBarista");
 
+
   const expenseSupplier =
     val("expenseSupplier");
+
 
   const expenseWithdrawal =
     val("expenseWithdrawal");
 
 
   const sales =
-    cash + card + qr;
+    cash +
+    card +
+    qr;
 
 
   const expenses =
@@ -1291,6 +1523,7 @@ async function saveReport(){
     );
 
     return;
+
   }
 
 
@@ -1300,80 +1533,69 @@ async function saveReport(){
     );
 
 
-  saveButton.disabled = true;
-  saveButton.textContent = "Сохранение...";
+  saveButton.disabled =
+    true;
+
+
+  saveButton.textContent =
+    "Сохранение...";
 
 
   try{
 
-    const result =
-      await supabase.rpc(
-        "save_shift_report",
-        {
 
-          p_pin:
-            currentPin,
+    await callRPC(
+      "save_shift_report",
+      {
 
-
-          p_report_date:
-            new Date()
-              .toISOString()
-              .slice(0,10),
+        p_pin:
+          currentPin,
 
 
-          p_opening_cash:
-            val("opening"),
+        p_report_date:
+          new Date()
+            .toISOString()
+            .slice(0,10),
 
 
-          p_cash:
-            val("cash"),
+        p_opening_cash:
+          val("opening"),
 
 
-          p_card:
-            val("card"),
+        p_cash:
+          val("cash"),
 
 
-          p_qr:
-            val("qr"),
+        p_card:
+          val("card"),
 
 
-          p_expense_barista:
-            val("expenseBarista"),
+        p_qr:
+          val("qr"),
 
 
-          p_expense_supplier:
-            val("expenseSupplier"),
+        p_expense_barista:
+          val("expenseBarista"),
 
 
-          p_expense_withdrawal:
-            val("expenseWithdrawal"),
+        p_expense_supplier:
+          val("expenseSupplier"),
 
 
-          p_comment:
-            document
-              .getElementById("comment")
-              .value
-              .trim()
-
-        }
-      );
+        p_expense_withdrawal:
+          val("expenseWithdrawal"),
 
 
-    const error =
-      result.error;
+        p_comment:
+          document
+            .getElementById(
+              "comment"
+            )
+            .value
+            .trim()
 
-
-    if(error){
-
-      message(
-        "reportMsg",
-        "Ошибка сохранения: " +
-        error.message,
-        "error"
-      );
-
-      return;
-    }
+      }
+    );
 
 
     message(
@@ -1422,22 +1644,27 @@ async function saveReport(){
 
     calculate();
 
+
   }
 
   catch(error){
 
     message(
       "reportMsg",
-      "Ошибка подключения: " +
+      "Ошибка сохранения: " +
       error.message,
       "error"
     );
 
   }
 
+
   finally{
 
-    saveButton.disabled = false;
+    saveButton.disabled =
+      false;
+
+
     saveButton.textContent =
       "Сохранить отчёт";
 
@@ -1463,125 +1690,138 @@ async function loadHistory(){
     '<div class="empty">Загрузка...</div>';
 
 
-  const result =
-    await supabase.rpc(
-      "get_shift_reports"
-    );
+  try{
 
 
-  const data =
-    result.data;
+    const data =
+      await callRPC(
+        "get_shift_reports"
+      );
 
-  const error =
-    result.error;
+
+    if(
+      !data ||
+      !Array.isArray(data) ||
+      data.length === 0
+    ){
+
+      box.innerHTML =
+        '<div class="empty">' +
+        'Отчётов пока нет' +
+        '</div>';
+
+      return;
+
+    }
 
 
-  if(error){
+    box.innerHTML =
+      data
+        .map(
+          function(r){
+
+            const date =
+              new Date(
+                r.report_date
+              )
+              .toLocaleDateString(
+                "ru-RU"
+              );
+
+
+            const expenses =
+              Number(
+                r.expense_barista || 0
+              ) +
+
+              Number(
+                r.expense_supplier || 0
+              ) +
+
+              Number(
+                r.expense_withdrawal || 0
+              );
+
+
+            return `
+
+              <div class="report">
+
+                <div class="report-head">
+
+                  <div>
+
+                    <b>
+                      ${escapeHtml(
+                        r.barista_name || "—"
+                      )}
+                    </b>
+
+                    <div class="muted">
+                      ${date}
+                    </div>
+
+                  </div>
+
+
+                  <b>
+                    ${money(
+                      r.actual_cash
+                    )}
+                  </b>
+
+                </div>
+
+
+                <div
+                  class="muted"
+                  style="margin-top:8px"
+                >
+
+                  Наличные:
+                  ${money(r.cash)}
+
+                  · Карта:
+                  ${money(r.card)}
+
+                  · QR:
+                  ${money(r.qr)}
+
+                </div>
+
+
+                <div
+                  class="muted"
+                  style="margin-top:5px"
+                >
+
+                  Расходы:
+                  ${money(expenses)}
+
+                </div>
+
+              </div>
+
+            `;
+
+          }
+        )
+        .join("");
+
+
+  }
+
+  catch(error){
 
     box.innerHTML =
       '<div class="empty">' +
       'Ошибка загрузки: ' +
-      escapeHtml(error.message) +
+      escapeHtml(
+        error.message
+      ) +
       '</div>';
 
-    return;
   }
-
-
-  if(!data || data.length === 0){
-
-    box.innerHTML =
-      '<div class="empty">' +
-      'Отчётов пока нет' +
-      '</div>';
-
-    return;
-  }
-
-
-  box.innerHTML =
-    data.map(function(r){
-
-      const date =
-        new Date(
-          r.report_date
-        ).toLocaleDateString(
-          "ru-RU"
-        );
-
-
-      const expenses =
-        Number(
-          r.expense_barista || 0
-        ) +
-
-        Number(
-          r.expense_supplier || 0
-        ) +
-
-        Number(
-          r.expense_withdrawal || 0
-        );
-
-
-      return `
-        <div class="report">
-
-          <div class="report-head">
-
-            <div>
-
-              <b>
-                ${escapeHtml(
-                  r.barista_name || "—"
-                )}
-              </b>
-
-              <div class="muted">
-                ${date}
-              </div>
-
-            </div>
-
-
-            <b>
-              ${money(
-                r.actual_cash
-              )}
-            </b>
-
-          </div>
-
-
-          <div
-            class="muted"
-            style="margin-top:8px">
-
-            Наличные:
-            ${money(r.cash)}
-
-            · Карта:
-            ${money(r.card)}
-
-            · QR:
-            ${money(r.qr)}
-
-          </div>
-
-
-          <div
-            class="muted"
-            style="margin-top:5px">
-
-            Расходы:
-            ${money(expenses)}
-
-          </div>
-
-        </div>
-      `;
-
-    }).join("");
 
 }
 
@@ -1598,6 +1838,7 @@ function openTab(tab){
       "reportTab"
     );
 
+
   const history =
     document.getElementById(
       "historyTab"
@@ -1608,6 +1849,7 @@ function openTab(tab){
     document.getElementById(
       "reportTabBtn"
     );
+
 
   const historyButton =
     document.getElementById(
@@ -1621,6 +1863,7 @@ function openTab(tab){
       "hidden"
     );
 
+
     history.classList.add(
       "hidden"
     );
@@ -1629,6 +1872,7 @@ function openTab(tab){
     reportButton.classList.add(
       "active"
     );
+
 
     historyButton.classList.remove(
       "active"
@@ -1642,6 +1886,7 @@ function openTab(tab){
       "hidden"
     );
 
+
     history.classList.remove(
       "hidden"
     );
@@ -1650,6 +1895,7 @@ function openTab(tab){
     reportButton.classList.remove(
       "active"
     );
+
 
     historyButton.classList.add(
       "active"
@@ -1704,19 +1950,20 @@ function escapeHtml(value){
 
 
 /* =========================================================
-   START APP
+   ЗАПУСК
 ========================================================= */
 
 document.addEventListener(
   "DOMContentLoaded",
   function(){
 
-    /*
-      КНОПКИ ВЫБОРА ПОЛЬЗОВАТЕЛЯ
-    */
+
+    /* USER BUTTONS */
 
     document
-      .getElementById("adminButton")
+      .getElementById(
+        "adminButton"
+      )
       .addEventListener(
         "click",
         function(){
@@ -1731,7 +1978,9 @@ document.addEventListener(
 
 
     document
-      .getElementById("barista1Button")
+      .getElementById(
+        "barista1Button"
+      )
       .addEventListener(
         "click",
         function(){
@@ -1746,7 +1995,9 @@ document.addEventListener(
 
 
     document
-      .getElementById("barista2Button")
+      .getElementById(
+        "barista2Button"
+      )
       .addEventListener(
         "click",
         function(){
@@ -1760,29 +2011,33 @@ document.addEventListener(
       );
 
 
-    /*
-      ВХОД
-    */
+
+    /* LOGIN */
 
     document
-      .getElementById("loginButton")
+      .getElementById(
+        "loginButton"
+      )
       .addEventListener(
         "click",
         login
       );
 
 
-    /*
-      ENTER В PIN
-    */
+
+    /* ENTER */
 
     document
-      .getElementById("pin")
+      .getElementById(
+        "pin"
+      )
       .addEventListener(
         "keydown",
         function(event){
 
-          if(event.key === "Enter"){
+          if(
+            event.key === "Enter"
+          ){
 
             login();
 
@@ -1792,72 +2047,65 @@ document.addEventListener(
       );
 
 
-    /*
-      НАЗАД
-    */
+
+    /* BACK */
 
     document
-      .getElementById("backButton")
+      .getElementById(
+        "backButton"
+      )
       .addEventListener(
         "click",
         backToUsers
       );
 
 
-    /*
-      ВЫХОД
-    */
+
+    /* LOGOUT */
 
     document
-      .getElementById("logoutButton")
+      .getElementById(
+        "logoutButton"
+      )
       .addEventListener(
         "click",
         logout
       );
 
 
-    /*
-      ОСТАТОК
-    */
+
+    /* BALANCE */
 
     document
-      .getElementById("balanceButton")
+      .getElementById(
+        "balanceButton"
+      )
       .addEventListener(
         "click",
         loadBalance
       );
 
 
-    /*
-      СОХРАНЕНИЕ
-    */
+
+    /* SAVE */
 
     document
-      .getElementById("saveButton")
+      .getElementById(
+        "saveButton"
+      )
       .addEventListener(
         "click",
         saveReport
       );
 
 
-    /*
-      ИСТОРИЯ
-    */
+
+    /* REPORT TAB */
 
     document
-      .getElementById("historyTabBtn")
-      .addEventListener(
-        "click",
-        function(){
-
-          openTab("history");
-
-        }
-      );
-
-
-    document
-      .getElementById("reportTabBtn")
+      .getElementById(
+        "reportTabBtn"
+      )
       .addEventListener(
         "click",
         function(){
@@ -1868,17 +2116,38 @@ document.addEventListener(
       );
 
 
+
+    /* HISTORY TAB */
+
     document
-      .getElementById("historyRefreshButton")
+      .getElementById(
+        "historyTabBtn"
+      )
+      .addEventListener(
+        "click",
+        function(){
+
+          openTab("history");
+
+        }
+      );
+
+
+
+    /* HISTORY REFRESH */
+
+    document
+      .getElementById(
+        "historyRefreshButton"
+      )
       .addEventListener(
         "click",
         loadHistory
       );
 
 
-    /*
-      ПЕРЕСЧЁТ
-    */
+
+    /* CALCULATION */
 
     [
       "opening",
@@ -1888,28 +2157,31 @@ document.addEventListener(
       "expenseBarista",
       "expenseSupplier",
       "expenseWithdrawal"
-    ].forEach(function(id){
+    ]
+    .forEach(
+      function(id){
 
-      document
-        .getElementById(id)
-        .addEventListener(
-          "input",
-          calculate
-        );
+        document
+          .getElementById(id)
+          .addEventListener(
+            "input",
+            calculate
+          );
 
-    });
+      }
+    );
 
 
-    /*
-      Начальный расчёт
-    */
+    /* INITIAL CALCULATION */
 
     calculate();
+
 
   }
 );
 
 </script>
+
 
 </body>
 </html>
