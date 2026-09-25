@@ -500,8 +500,6 @@ input[type="number"] {
 .settings-save {
   margin-top: 10px;
   padding: 10px;
-  background: #fff;
-  color: #000;
 }
 
 
@@ -879,6 +877,8 @@ input[type="number"] {
         0
       </button>
 
+      <!-- Кнопка оставлена как запасной вариант,
+           но нажимать её больше не требуется -->
       <button class="enter"
               onclick="login()">
         Войти
@@ -1620,48 +1620,92 @@ let pinValue = "";
 let currentUser = null;
 let currentPin = "";
 
+let loginInProgress = false;
+
 
 /* =====================================================
    HELPERS
 ===================================================== */
 
 function val(id) {
-  const el = document.getElementById(id);
-  return el ? el.value : "";
+
+  const el =
+    document.getElementById(id);
+
+  return el
+    ? el.value
+    : "";
+
 }
 
 
 function num(id) {
-  const value = parseFloat(val(id));
-  return Number.isFinite(value) ? value : 0;
+
+  const value =
+    parseFloat(
+      val(id)
+    );
+
+  return Number.isFinite(value)
+    ? value
+    : 0;
+
 }
 
 
 function setText(id, value) {
-  const el = document.getElementById(id);
+
+  const el =
+    document.getElementById(id);
+
   if (el) {
-    el.textContent = value;
+    el.textContent =
+      value;
   }
+
 }
 
 
 function money(value) {
-  return Number(value || 0).toLocaleString(
+
+  return Number(
+    value || 0
+  ).toLocaleString(
     "ru-RU",
     {
       maximumFractionDigits: 2
     }
   );
+
 }
 
 
 function escapeHtml(value) {
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+
+  return String(
+    value ?? ""
+  )
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+  .replace(
+    /</g,
+    "&lt;"
+  )
+  .replace(
+    />/g,
+    "&gt;"
+  )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+  .replace(
+    /'/g,
+    "&#039;"
+  );
+
 }
 
 
@@ -1672,9 +1716,13 @@ function formatDate(dateString) {
   }
 
   const parts =
-    String(dateString).split("-");
+    String(
+      dateString
+    ).split("-");
 
-  if (parts.length !== 3) {
+  if (
+    parts.length !== 3
+  ) {
     return dateString;
   }
 
@@ -1685,6 +1733,25 @@ function formatDate(dateString) {
     "." +
     parts[0]
   );
+
+}
+
+
+function clearMessage(id) {
+
+  const element =
+    document.getElementById(id);
+
+  if (!element) {
+    return;
+  }
+
+  element.className =
+    "message";
+
+  element.textContent =
+    "";
+
 }
 
 
@@ -1729,14 +1796,20 @@ async function callRPC(
 
   let data = null;
 
+
   try {
+
     data =
       text
       ? JSON.parse(text)
       : null;
+
   }
   catch(e) {
-    data = text;
+
+    data =
+      text;
+
   }
 
 
@@ -1745,36 +1818,72 @@ async function callRPC(
     let message =
       "Ошибка Supabase";
 
+
     if (data) {
 
-      if (typeof data === "string") {
-        message = data;
-      }
-      else if (data.message) {
-        message = data.message;
-      }
-      else if (data.error) {
-        message = data.error;
-      }
-      else if (data.hint) {
-        message = data.hint;
-      }
-      else {
+      if (
+        typeof data ===
+        "string"
+      ) {
+
         message =
-          JSON.stringify(data);
+          data;
+
       }
+
+      else if (
+        data.message
+      ) {
+
+        message =
+          data.message;
+
+      }
+
+      else if (
+        data.error
+      ) {
+
+        message =
+          data.error;
+
+      }
+
+      else if (
+        data.hint
+      ) {
+
+        message =
+          data.hint;
+
+      }
+
+      else {
+
+        message =
+          JSON.stringify(
+            data
+          );
+
+      }
+
     }
 
-    throw new Error(message);
+
+    throw new Error(
+      message
+    );
+
   }
 
 
   return data;
+
 }
 
 
 /* =====================================================
-   LOGIN USERS
+   LOAD USERS
 ===================================================== */
 
 async function loadLoginUsers() {
@@ -1800,26 +1909,31 @@ async function loadLoginUsers() {
 
     loginUsers =
       Array.isArray(users)
-      ? users
-      : [];
+        ? users
+        : [];
 
 
     loading.style.display =
       "none";
 
-    list.innerHTML = "";
+
+    list.innerHTML =
+      "";
 
 
     const baristas =
       loginUsers.filter(
         user =>
-          user.role === "barista"
+          user.role ===
+          "barista"
       );
+
 
     const admins =
       loginUsers.filter(
         user =>
-          user.role === "admin"
+          user.role ===
+          "admin"
       );
 
 
@@ -1831,28 +1945,45 @@ async function loadLoginUsers() {
             "button"
           );
 
+
         button.className =
           "login-user-button";
 
+
         button.innerHTML =
-          escapeHtml(user.name) +
-          '<span class="login-role">Бариста</span>';
+          escapeHtml(
+            user.name
+          ) +
+
+          '<span class="login-role">' +
+          "Бариста" +
+          "</span>";
+
 
         button.onclick =
-          () => selectUser(user);
+          () =>
+            selectUser(
+              user
+            );
 
-        list.appendChild(button);
+
+        list.appendChild(
+          button
+        );
 
       }
     );
 
 
-    if (admins.length) {
+    if (
+      admins.length
+    ) {
 
       const adminSpace =
         document.createElement(
           "div"
         );
+
 
       adminSpace.className =
         "admin-login-space";
@@ -1866,15 +1997,27 @@ async function loadLoginUsers() {
               "button"
             );
 
+
           button.className =
             "login-user-button admin-login-button";
 
+
           button.innerHTML =
-            escapeHtml(user.name) +
-            '<span class="login-role">Администратор</span>';
+            escapeHtml(
+              user.name
+            ) +
+
+            '<span class="login-role">' +
+            "Администратор" +
+            "</span>";
+
 
           button.onclick =
-            () => selectUser(user);
+            () =>
+              selectUser(
+                user
+              );
+
 
           adminSpace.appendChild(
             button
@@ -1887,6 +2030,7 @@ async function loadLoginUsers() {
       list.appendChild(
         adminSpace
       );
+
     }
 
   }
@@ -1895,10 +2039,14 @@ async function loadLoginUsers() {
     loading.textContent =
       "Ошибка загрузки пользователей";
 
+
     loading.style.color =
       "#ff8b8b";
 
-    console.error(error);
+
+    console.error(
+      error
+    );
 
   }
 
@@ -1911,8 +2059,15 @@ async function loadLoginUsers() {
 
 function selectUser(user) {
 
-  selectedUser = user;
-  pinValue = "";
+  selectedUser =
+    user;
+
+  pinValue =
+    "";
+
+  loginInProgress =
+    false;
+
 
   document.getElementById(
     "usersList"
@@ -1920,11 +2075,13 @@ function selectUser(user) {
     "hidden"
   );
 
+
   document.getElementById(
     "usersLoading"
   ).classList.add(
     "hidden"
   );
+
 
   document.getElementById(
     "pinCard"
@@ -1932,12 +2089,15 @@ function selectUser(user) {
     "hidden"
   );
 
+
   document.getElementById(
     "pinUserName"
   ).textContent =
     user.name;
 
+
   updatePinDisplay();
+
 
   clearMessage(
     "loginMessage"
@@ -1947,7 +2107,7 @@ function selectUser(user) {
 
 
 /* =====================================================
-   PIN
+   PIN DISPLAY
 ===================================================== */
 
 function updatePinDisplay() {
@@ -1957,15 +2117,19 @@ function updatePinDisplay() {
       "pinDisplay"
     );
 
+
   if (!display) {
     return;
   }
 
 
   if (!pinValue) {
+
     display.textContent =
       "••••";
+
     return;
+
   }
 
 
@@ -1973,26 +2137,78 @@ function updatePinDisplay() {
     "●".repeat(
       pinValue.length
     ) +
+
     "○".repeat(
-      4 - pinValue.length
+      4 -
+      pinValue.length
     );
+
 }
 
+
+/* =====================================================
+   PIN INPUT
+   АВТОМАТИЧЕСКИЙ ВХОД
+===================================================== */
 
 function pinPress(number) {
 
-  if (pinValue.length >= 4) {
+  if (
+    loginInProgress
+  ) {
     return;
   }
 
-  pinValue += number;
+
+  if (
+    pinValue.length >= 4
+  ) {
+    return;
+  }
+
+
+  pinValue +=
+    number;
+
 
   updatePinDisplay();
+
+
+  /*
+    После ввода 4-й цифры
+    автоматически запускаем вход.
+  */
+
+  if (
+    pinValue.length === 4
+  ) {
+
+    setTimeout(
+      () => {
+
+        login();
+
+      },
+      80
+    );
+
+  }
 
 }
 
 
+/* =====================================================
+   CLEAR PIN
+===================================================== */
+
 function pinClear() {
+
+  if (
+    loginInProgress
+  ) {
+    return;
+  }
+
 
   pinValue =
     pinValue.slice(
@@ -2000,15 +2216,31 @@ function pinClear() {
       -1
     );
 
+
   updatePinDisplay();
 
 }
 
 
+/* =====================================================
+   BACK
+===================================================== */
+
 function backToUsers() {
 
-  selectedUser = null;
-  pinValue = "";
+  if (
+    loginInProgress
+  ) {
+    return;
+  }
+
+
+  selectedUser =
+    null;
+
+  pinValue =
+    "";
+
 
   document.getElementById(
     "pinCard"
@@ -2016,22 +2248,26 @@ function backToUsers() {
     "hidden"
   );
 
+
   document.getElementById(
     "usersList"
   ).classList.remove(
     "hidden"
   );
 
+
   document.getElementById(
     "usersLoading"
   ).classList.remove(
     "hidden"
   );
 
+
   document.getElementById(
     "usersLoading"
   ).style.display =
     "none";
+
 
   clearMessage(
     "loginMessage"
@@ -2046,6 +2282,13 @@ function backToUsers() {
 
 async function login() {
 
+  if (
+    loginInProgress
+  ) {
+    return;
+  }
+
+
   const message =
     document.getElementById(
       "loginMessage"
@@ -2057,7 +2300,9 @@ async function login() {
   }
 
 
-  if (pinValue.length !== 4) {
+  if (
+    pinValue.length !== 4
+  ) {
 
     message.className =
       "message error";
@@ -2066,7 +2311,12 @@ async function login() {
       "Введите PIN из 4 цифр";
 
     return;
+
   }
+
+
+  loginInProgress =
+    true;
 
 
   message.className =
@@ -2089,15 +2339,19 @@ async function login() {
 
 
     const user =
-      Array.isArray(result)
+      Array.isArray(
+        result
+      )
         ? result[0]
         : result;
 
 
     if (!user) {
+
       throw new Error(
         "Неверный PIN"
       );
+
     }
 
 
@@ -2114,6 +2368,7 @@ async function login() {
       "hidden"
     );
 
+
     document.getElementById(
       "appScreen"
     ).classList.remove(
@@ -2128,7 +2383,8 @@ async function login() {
 
 
     if (
-      user.role === "admin"
+      user.role ===
+      "admin"
     ) {
 
       document.getElementById(
@@ -2158,12 +2414,30 @@ async function login() {
   }
   catch(error) {
 
+    loginInProgress =
+      false;
+
+
     message.className =
       "message error";
+
 
     message.textContent =
       error.message ||
       "Ошибка входа";
+
+
+    /*
+      При неправильном PIN
+      очищаем введённые цифры,
+      чтобы можно было сразу
+      набрать новый PIN.
+    */
+
+    pinValue =
+      "";
+
+    updatePinDisplay();
 
   }
 
@@ -2171,7 +2445,7 @@ async function login() {
 
 
 /* =====================================================
-   DATE / TIME
+   DATE
 ===================================================== */
 
 function setToday() {
@@ -2181,23 +2455,35 @@ function setToday() {
       "date"
     );
 
-  if (!date.value) {
+
+  if (
+    !date.value
+  ) {
 
     const now =
       new Date();
 
+
     const year =
       now.getFullYear();
+
 
     const month =
       String(
         now.getMonth() + 1
-      ).padStart(2, "0");
+      ).padStart(
+        2,
+        "0"
+      );
+
 
     const day =
       String(
         now.getDate()
-      ).padStart(2, "0");
+      ).padStart(
+        2,
+        "0"
+      );
 
 
     date.value =
@@ -2223,6 +2509,7 @@ function loadBaristas() {
       "barista"
     );
 
+
   if (!select) {
     return;
   }
@@ -2235,7 +2522,8 @@ function loadBaristas() {
   loginUsers
     .filter(
       user =>
-        user.role === "barista"
+        user.role ===
+        "barista"
     )
     .forEach(
       user => {
@@ -2245,11 +2533,14 @@ function loadBaristas() {
             "option"
           );
 
+
         option.value =
           user.name;
 
+
         option.textContent =
           user.name;
+
 
         select.appendChild(
           option
@@ -2261,7 +2552,8 @@ function loadBaristas() {
 
   if (
     currentUser &&
-    currentUser.role === "barista"
+    currentUser.role ===
+    "barista"
   ) {
 
     select.value =
@@ -2278,10 +2570,20 @@ function loadBaristas() {
 
 function logout() {
 
-  currentUser = null;
-  currentPin = "";
-  selectedUser = null;
-  pinValue = "";
+  currentUser =
+    null;
+
+  currentPin =
+    "";
+
+  selectedUser =
+    null;
+
+  pinValue =
+    "";
+
+  loginInProgress =
+    false;
 
 
   document.getElementById(
@@ -2290,11 +2592,13 @@ function logout() {
     "hidden"
   );
 
+
   document.getElementById(
     "loginScreen"
   ).classList.remove(
     "hidden"
   );
+
 
   document.getElementById(
     "pinCard"
@@ -2302,11 +2606,13 @@ function logout() {
     "hidden"
   );
 
+
   document.getElementById(
     "usersList"
   ).classList.remove(
     "hidden"
   );
+
 
   loadLoginUsers();
 
@@ -2322,6 +2628,7 @@ function calculate() {
   const cash =
     num("cash");
 
+
   const card =
     num("card");
 
@@ -2333,7 +2640,9 @@ function calculate() {
 
   setText(
     "paymentTotal",
-    money(paymentTotal)
+    money(
+      paymentTotal
+    )
   );
 
 
@@ -2362,7 +2671,9 @@ function calculate() {
 
   setText(
     "expenseTotal",
-    money(expenseTotal)
+    money(
+      expenseTotal
+    )
   );
 
 
@@ -2374,7 +2685,9 @@ function calculate() {
 
   setText(
     "expectedCash",
-    money(expected)
+    money(
+      expected
+    )
   );
 
 }
@@ -2448,19 +2761,55 @@ async function saveToSupabase() {
 
   const commentFields = [
 
-    ["Наличные", "cashComment"],
-    ["Безнал", "cardComment"],
+    [
+      "Наличные",
+      "cashComment"
+    ],
 
-    ["Бариста", "baristaComment1"],
-    ["Бариста", "baristaComment2"],
-    ["Бариста", "baristaComment3"],
+    [
+      "Безнал",
+      "cardComment"
+    ],
 
-    ["Поставщик", "supplierComment1"],
-    ["Поставщик", "supplierComment2"],
-    ["Поставщик", "supplierComment3"],
-    ["Поставщик", "supplierComment4"],
+    [
+      "Бариста",
+      "baristaComment1"
+    ],
 
-    ["Изъятие", "withdrawComment"]
+    [
+      "Бариста",
+      "baristaComment2"
+    ],
+
+    [
+      "Бариста",
+      "baristaComment3"
+    ],
+
+    [
+      "Поставщик",
+      "supplierComment1"
+    ],
+
+    [
+      "Поставщик",
+      "supplierComment2"
+    ],
+
+    [
+      "Поставщик",
+      "supplierComment3"
+    ],
+
+    [
+      "Поставщик",
+      "supplierComment4"
+    ],
+
+    [
+      "Изъятие",
+      "withdrawComment"
+    ]
 
   ];
 
@@ -2546,7 +2895,7 @@ async function saveToSupabase() {
 
 
 /* =====================================================
-   REPORT
+   REPORT ROW
 ===================================================== */
 
 function fillReportRow(
@@ -2562,19 +2911,29 @@ function fillReportRow(
       rowId
     );
 
+
   const amount =
-    val(amountId).trim();
+    val(
+      amountId
+    ).trim();
+
 
   const comment =
-    val(commentId).trim();
+    val(
+      commentId
+    ).trim();
 
 
-  if (!amount && !comment) {
+  if (
+    !amount &&
+    !comment
+  ) {
 
     row.style.display =
       "none";
 
     return;
+
   }
 
 
@@ -2598,6 +2957,10 @@ function fillReportRow(
 
 }
 
+
+/* =====================================================
+   CREATE REPORT
+===================================================== */
 
 function createReport() {
 
@@ -2634,17 +2997,22 @@ function createReport() {
 
 
   const cash =
-    val("cash").trim();
+    val(
+      "cash"
+    ).trim();
 
 
   const card =
-    val("card").trim();
+    val(
+      "card"
+    ).trim();
 
 
   const cashRow =
     document.getElementById(
       "rCashRow"
     );
+
 
   const cardRow =
     document.getElementById(
@@ -2663,6 +3031,7 @@ function createReport() {
     cashRow.style.display =
       "";
 
+
     setText(
       "rCash",
       money(
@@ -2671,9 +3040,12 @@ function createReport() {
       " ₽"
     );
 
+
     setText(
       "rCashComment",
-      val("cashComment")
+      val(
+        "cashComment"
+      )
     );
 
   }
@@ -2690,6 +3062,7 @@ function createReport() {
     cardRow.style.display =
       "";
 
+
     setText(
       "rCard",
       money(
@@ -2698,9 +3071,12 @@ function createReport() {
       " ₽"
     );
 
+
     setText(
       "rCardComment",
-      val("cardComment")
+      val(
+        "cardComment"
+      )
     );
 
   }
@@ -2723,6 +3099,7 @@ function createReport() {
     "rBaristaComment1"
   );
 
+
   fillReportRow(
     "rBaristaRow2",
     "baristaExpense2",
@@ -2730,6 +3107,7 @@ function createReport() {
     "rBarista2",
     "rBaristaComment2"
   );
+
 
   fillReportRow(
     "rBaristaRow3",
@@ -2748,6 +3126,7 @@ function createReport() {
     "rSupplierComment1"
   );
 
+
   fillReportRow(
     "rSupplierRow2",
     "supplier2",
@@ -2756,6 +3135,7 @@ function createReport() {
     "rSupplierComment2"
   );
 
+
   fillReportRow(
     "rSupplierRow3",
     "supplier3",
@@ -2763,6 +3143,7 @@ function createReport() {
     "rSupplier3",
     "rSupplierComment3"
   );
+
 
   fillReportRow(
     "rSupplierRow4",
@@ -2786,16 +3167,20 @@ function createReport() {
     num("baristaExpense1") +
     num("baristaExpense2") +
     num("baristaExpense3") +
+
     num("supplier1") +
     num("supplier2") +
     num("supplier3") +
     num("supplier4") +
+
     num("withdraw");
 
 
   setText(
     "rExpenseTotal",
-    money(expenseTotal)
+    money(
+      expenseTotal
+    )
   );
 
 
@@ -2807,7 +3192,9 @@ function createReport() {
 
   setText(
     "rExpectedCash",
-    money(expected) +
+    money(
+      expected
+    ) +
     " ₽"
   );
 
@@ -2830,7 +3217,7 @@ function createReport() {
 
 
 /* =====================================================
-   JPEG
+   MAKE JPEG
 ===================================================== */
 
 async function makeJPEG() {
@@ -2863,7 +3250,9 @@ async function makeJPEG() {
       canvas.toBlob(
         blob => {
 
-          resolve(blob);
+          resolve(
+            blob
+          );
 
         },
         "image/jpeg",
@@ -2929,16 +3318,23 @@ async function saveReportAndJPEG() {
     if (
       navigator.canShare &&
       navigator.canShare({
-        files: [file]
+        files: [
+          file
+        ]
       }) &&
       navigator.share
     ) {
 
-      await navigator.share({
-        files: [file],
-        title:
-          "Отчёт смены A5"
-      });
+      await navigator.share(
+        {
+          files: [
+            file
+          ],
+
+          title:
+            "Отчёт смены A5"
+        }
+      );
 
     }
 
@@ -2946,12 +3342,15 @@ async function saveReportAndJPEG() {
       navigator.share
     ) {
 
-      await navigator.share({
-        title:
-          "Отчёт смены A5",
-        text:
-          "Отчёт смены бариста A5"
-      });
+      await navigator.share(
+        {
+          title:
+            "Отчёт смены A5",
+
+          text:
+            "Отчёт смены бариста A5"
+        }
+      );
 
     }
 
@@ -2968,19 +3367,25 @@ async function saveReportAndJPEG() {
           "a"
         );
 
+
       link.href =
         url;
 
+
       link.download =
         file.name;
+
 
       document.body.appendChild(
         link
       );
 
+
       link.click();
 
+
       link.remove();
+
 
       URL.revokeObjectURL(
         url
@@ -2992,6 +3397,7 @@ async function saveReportAndJPEG() {
     message.className =
       "message success";
 
+
     message.textContent =
       "Отчёт сохранён";
 
@@ -3000,6 +3406,7 @@ async function saveReportAndJPEG() {
 
     message.className =
       "message error";
+
 
     message.textContent =
       error.message ||
@@ -3021,10 +3428,12 @@ function toggleHistory() {
       "formScreen"
     );
 
+
   const history =
     document.getElementById(
       "historyScreen"
     );
+
 
   const settings =
     document.getElementById(
@@ -3047,9 +3456,11 @@ function toggleHistory() {
       "hidden"
     );
 
+
     history.classList.remove(
       "hidden"
     );
+
 
     loadHistory();
 
@@ -3061,6 +3472,7 @@ function toggleHistory() {
       "hidden"
     );
 
+
     form.classList.remove(
       "hidden"
     );
@@ -3071,7 +3483,7 @@ function toggleHistory() {
 
 
 /* =====================================================
-   HISTORY
+   HISTORY ROW
 ===================================================== */
 
 function addHistoryRow(
@@ -3085,16 +3497,22 @@ function addHistoryRow(
       "div"
     );
 
+
   row.className =
     "history-money-row";
 
 
   row.innerHTML =
     "<span>" +
-    escapeHtml(title) +
+    escapeHtml(
+      title
+    ) +
     "</span>" +
+
     "<span>" +
-    escapeHtml(value) +
+    escapeHtml(
+      value
+    ) +
     "</span>";
 
 
@@ -3104,6 +3522,10 @@ function addHistoryRow(
 
 }
 
+
+/* =====================================================
+   HISTORY INLINE
+===================================================== */
 
 function addHistoryInline(
   item,
@@ -3116,17 +3538,22 @@ function addHistoryInline(
       "div"
     );
 
+
   row.className =
     "history-inline-row";
 
 
   row.innerHTML =
     '<span class="history-inline-title">' +
-    escapeHtml(title) +
+    escapeHtml(
+      title
+    ) +
     "</span>" +
 
     '<span class="history-inline-value">' +
-    escapeHtml(value) +
+    escapeHtml(
+      value
+    ) +
     "</span>";
 
 
@@ -3136,6 +3563,10 @@ function addHistoryInline(
 
 }
 
+
+/* =====================================================
+   LOAD HISTORY
+===================================================== */
 
 async function loadHistory() {
 
@@ -3162,14 +3593,18 @@ async function loadHistory() {
 
 
     if (
-      !Array.isArray(reports) ||
+      !Array.isArray(
+        reports
+      ) ||
       reports.length === 0
     ) {
 
       list.innerHTML =
         '<div style="color:#aaa;text-align:center;padding:15px;">Отчётов пока нет</div>';
 
+
       return;
+
     }
 
 
@@ -3181,18 +3616,20 @@ async function loadHistory() {
             "div"
           );
 
+
         item.className =
           "history-item";
 
 
-        /*
-          ДАТА И ВРЕМЯ
-        */
+        /* =========================
+           ДАТА И ВРЕМЯ
+        ========================= */
 
         const header =
           document.createElement(
             "div"
           );
+
 
         header.className =
           "history-header";
@@ -3203,8 +3640,10 @@ async function loadHistory() {
             "div"
           );
 
+
         headerName.className =
           "history-header-name";
+
 
         headerName.textContent =
           "Дата и время";
@@ -3214,6 +3653,7 @@ async function loadHistory() {
           document.createElement(
             "div"
           );
+
 
         headerDate.className =
           "history-header-date";
@@ -3226,7 +3666,9 @@ async function loadHistory() {
 
 
         let dateTime =
-          formatDate(date);
+          formatDate(
+            date
+          );
 
 
         if (
@@ -3236,10 +3678,15 @@ async function loadHistory() {
           const openingTime =
             String(
               report.opening_time
-            ).slice(0, 5);
+            ).slice(
+              0,
+              5
+            );
 
 
-          if (openingTime) {
+          if (
+            openingTime
+          ) {
 
             dateTime +=
               " · " +
@@ -3258,36 +3705,41 @@ async function loadHistory() {
           headerName
         );
 
+
         header.appendChild(
           headerDate
         );
+
 
         item.appendChild(
           header
         );
 
 
-        /*
-          ОСТАТОК НА НАЧАЛО
-        */
+        /* =========================
+           ОСТАТОК НА НАЧАЛО
+        ========================= */
 
         const openingBlock =
           document.createElement(
             "div"
           );
 
+
         openingBlock.className =
           "history-special-block";
 
 
         openingBlock.innerHTML =
+
           '<div class="history-special-title">' +
           "Остаток наличности на начало смены" +
           "</div>" +
 
           '<div class="history-special-value">' +
           money(
-            report.opening_cash || 0
+            report.opening_cash ||
+            0
           ) +
           " ₽" +
           "</div>";
@@ -3298,108 +3750,129 @@ async function loadHistory() {
         );
 
 
-        /*
-          ВЫРУЧКА
-        */
+        /* =========================
+           ВЫРУЧКА
+        ========================= */
 
         const sales =
           Number(
-            report.cash || 0
+            report.cash ||
+            0
           ) +
+
           Number(
-            report.card || 0
+            report.card ||
+            0
           ) +
+
           Number(
-            report.qr || 0
+            report.qr ||
+            0
           );
 
 
         addHistoryInline(
           item,
           "Выручка",
-          money(sales) +
-          " ₽"
-        );
-
-
-        /*
-          НАЛИЧНЫЕ
-        */
-
-        addHistoryRow(
-          item,
-          "Наличные",
           money(
-            report.cash || 0
+            sales
           ) +
           " ₽"
         );
 
 
-        /*
-          БЕЗНАЛ
-        */
+        /* =========================
+           НАЛИЧНЫЕ
+        ========================= */
+
+        addHistoryRow(
+          item,
+          "Наличные",
+          money(
+            report.cash ||
+            0
+          ) +
+          " ₽"
+        );
+
+
+        /* =========================
+           БЕЗНАЛ
+        ========================= */
 
         addHistoryRow(
           item,
           "Безнал",
           money(
             Number(
-              report.card || 0
+              report.card ||
+              0
             ) +
+
             Number(
-              report.qr || 0
+              report.qr ||
+              0
             )
           ) +
           " ₽"
         );
 
 
-        /*
-          РАСХОДЫ
-        */
+        /* =========================
+           РАСХОДЫ
+        ========================= */
 
         const expenses =
           Number(
-            report.expense_barista || 0
+            report.expense_barista ||
+            0
           ) +
+
           Number(
-            report.expense_supplier || 0
+            report.expense_supplier ||
+            0
           ) +
+
           Number(
-            report.expense_withdrawal || 0
+            report.expense_withdrawal ||
+            0
           );
 
 
         addHistoryInline(
           item,
           "Расходы",
-          money(expenses) +
+          money(
+            expenses
+          ) +
           " ₽"
         );
 
 
-        /*
-          ОСТАТОК НА КОНЕЦ
-        */
+        /* =========================
+           ОСТАТОК НА КОНЕЦ
+        ========================= */
 
         const closingRow =
           document.createElement(
             "div"
           );
 
+
         closingRow.className =
           "history-inline-row history-closing-row";
 
 
         closingRow.innerHTML =
+
           '<span class="history-inline-title">' +
           "Остаток наличности на конец смены" +
           "</span>" +
 
           '<span class="history-inline-value">' +
           money(
-            report.actual_cash || 0
+            report.actual_cash ||
+            0
           ) +
           " ₽" +
           "</span>";
@@ -3410,9 +3883,9 @@ async function loadHistory() {
         );
 
 
-        /*
-          КОММЕНТАРИЙ
-        */
+        /* =========================
+           COMMENT
+        ========================= */
 
         if (
           report.comment_barista
@@ -3423,14 +3896,17 @@ async function loadHistory() {
               "div"
             );
 
+
           comment.className =
             "history-comment";
+
 
           comment.innerHTML =
             "<strong>Комментарий:</strong> " +
             escapeHtml(
               report.comment_barista
             );
+
 
           item.appendChild(
             comment
@@ -3469,10 +3945,12 @@ function toggleSettings() {
 
   if (
     !currentUser ||
-    currentUser.role !== "admin"
+    currentUser.role !==
+    "admin"
   ) {
 
     return;
+
   }
 
 
@@ -3481,10 +3959,12 @@ function toggleSettings() {
       "formScreen"
     );
 
+
   const history =
     document.getElementById(
       "historyScreen"
     );
+
 
   const settings =
     document.getElementById(
@@ -3507,9 +3987,11 @@ function toggleSettings() {
       "hidden"
     );
 
+
     settings.classList.remove(
       "hidden"
     );
+
 
     loadSettingsUsers();
 
@@ -3521,6 +4003,7 @@ function toggleSettings() {
       "hidden"
     );
 
+
     form.classList.remove(
       "hidden"
     );
@@ -3529,6 +4012,10 @@ function toggleSettings() {
 
 }
 
+
+/* =====================================================
+   SETTINGS USERS
+===================================================== */
 
 async function loadSettingsUsers() {
 
@@ -3557,7 +4044,8 @@ async function loadSettingsUsers() {
     users
       .filter(
         user =>
-          user.role === "barista"
+          user.role ===
+          "barista"
       )
       .forEach(
         user => {
@@ -3566,6 +4054,7 @@ async function loadSettingsUsers() {
             document.createElement(
               "div"
             );
+
 
           block.className =
             "settings-user";
@@ -3579,7 +4068,7 @@ async function loadSettingsUsers() {
             ) +
             "</div>" +
 
-            '<label>Имя</label>' +
+            "<label>Имя</label>" +
 
             '<input type="text" ' +
             'id="settingsName_' +
@@ -3592,7 +4081,7 @@ async function loadSettingsUsers() {
             ) +
             '">' +
 
-            '<label>Новый PIN</label>' +
+            "<label>Новый PIN</label>" +
 
             '<input type="text" ' +
             'inputmode="numeric" ' +
@@ -3676,10 +4165,13 @@ async function updateUserAccount(
     message.className =
       "message error";
 
+
     message.textContent =
       "Введите имя";
 
+
     return;
+
   }
 
 
@@ -3692,10 +4184,13 @@ async function updateUserAccount(
     message.className =
       "message error";
 
+
     message.textContent =
       "PIN должен состоять из 4 цифр";
 
+
     return;
+
   }
 
 
@@ -3724,6 +4219,7 @@ async function updateUserAccount(
     message.className =
       "message success";
 
+
     message.textContent =
       "Сохранено";
 
@@ -3735,6 +4231,7 @@ async function updateUserAccount(
 
     message.className =
       "message error";
+
 
     message.textContent =
       error.message ||
