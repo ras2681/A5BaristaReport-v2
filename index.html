@@ -2,20 +2,48 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no,
+               viewport-fit=cover">
 
 <title>A5 Barista Report</title>
 
 <style>
+
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;
 }
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  padding: 0;
   background: #f3f3f3;
   color: #222;
+  font-family: Arial, sans-serif;
+  touch-action: manipulation;
+  overscroll-behavior: none;
+}
+
+button,
+input,
+textarea,
+select {
+  touch-action: manipulation;
+  font-family: inherit;
+}
+
+button {
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .container {
@@ -29,17 +57,13 @@ body {
   background: #fff;
   border-radius: 16px;
   padding: 20px;
-  box-shadow: 0 4px 18px rgba(0,0,0,.08);
   margin-bottom: 16px;
-}
-
-h1, h2, h3 {
-  margin-top: 0;
+  box-shadow: 0 4px 18px rgba(0,0,0,.08);
 }
 
 .logo {
   text-align: center;
-  font-size: 34px;
+  font-size: 36px;
   font-weight: 900;
   margin-bottom: 5px;
 }
@@ -67,6 +91,12 @@ button:active {
   transform: scale(.98);
 }
 
+.hidden {
+  display: none !important;
+}
+
+/* LOGIN */
+
 .user-button {
   background: #111;
 }
@@ -77,22 +107,26 @@ button:active {
   margin-top: 4px;
 }
 
+/* PIN */
+
 .pin-title {
   text-align: center;
   margin-bottom: 12px;
 }
 
 .pin-display {
-  height: 55px;
+  height: 58px;
   border: 1px solid #ddd;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-size: 30px;
   letter-spacing: 8px;
   margin-bottom: 12px;
   background: #fafafa;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .pin-keyboard {
@@ -103,9 +137,18 @@ button:active {
 
 .pin-keyboard button {
   margin: 0;
+  height: 58px;
+  padding: 0;
   background: #eee;
   color: #111;
   font-size: 22px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.pin-keyboard button:active {
+  background: #ccc;
+  transform: scale(.96);
 }
 
 .pin-keyboard .clear {
@@ -117,9 +160,7 @@ button:active {
   color: #fff;
 }
 
-.hidden {
-  display: none !important;
-}
+/* APP */
 
 .topbar {
   display: flex;
@@ -159,6 +200,8 @@ button:active {
   color: #fff;
 }
 
+/* FORM */
+
 label {
   display: block;
   font-weight: 700;
@@ -175,6 +218,13 @@ select {
   border-radius: 10px;
   font-size: 16px;
   background: #fff;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #111;
 }
 
 textarea {
@@ -216,6 +266,8 @@ textarea {
   color: #111 !important;
 }
 
+/* HISTORY */
+
 .report {
   border: 1px solid #ddd;
   border-radius: 12px;
@@ -238,24 +290,7 @@ textarea {
   padding: 3px 0;
 }
 
-.message {
-  padding: 12px;
-  border-radius: 10px;
-  margin-top: 12px;
-  display: none;
-}
-
-.message.error {
-  display: block;
-  background: #ffe5e5;
-  color: #a00000;
-}
-
-.message.success {
-  display: block;
-  background: #e5f7e8;
-  color: #176b27;
-}
+/* SETTINGS */
 
 .settings-user {
   border: 1px solid #ddd;
@@ -279,11 +314,33 @@ textarea {
   margin-top: 8px;
 }
 
+/* MESSAGES */
+
+.message {
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 12px;
+  display: none;
+}
+
+.message.error {
+  display: block;
+  background: #ffe5e5;
+  color: #a00000;
+}
+
+.message.success {
+  display: block;
+  background: #e5f7e8;
+  color: #176b27;
+}
+
 .loading {
   text-align: center;
   color: #777;
   padding: 20px;
 }
+
 </style>
 </head>
 
@@ -291,240 +348,386 @@ textarea {
 
 <div class="container">
 
-  <!-- LOGIN -->
-  <div id="loginScreen">
+<!-- ================= LOGIN ================= -->
 
-    <div class="card">
+<div id="loginScreen">
 
-      <div class="logo">A5</div>
-      <div class="subtitle">Отчёт бариста</div>
+  <div class="card">
 
-      <div id="usersLoading" class="loading">
-        Загрузка пользователей...
-      </div>
+    <div class="logo">A5</div>
 
-      <div id="usersList"></div>
-
+    <div class="subtitle">
+      Отчёт бариста
     </div>
 
-    <!-- PIN -->
-    <div id="pinCard" class="card hidden">
-
-      <div class="pin-title">
-        <h2 id="pinUserName">PIN</h2>
-        <div>Введите 4 цифры</div>
-      </div>
-
-      <div id="pinDisplay" class="pin-display">
-        ••••
-      </div>
-
-      <div class="pin-keyboard">
-
-        <button onclick="pinPress('1')">1</button>
-        <button onclick="pinPress('2')">2</button>
-        <button onclick="pinPress('3')">3</button>
-
-        <button onclick="pinPress('4')">4</button>
-        <button onclick="pinPress('5')">5</button>
-        <button onclick="pinPress('6')">6</button>
-
-        <button onclick="pinPress('7')">7</button>
-        <button onclick="pinPress('8')">8</button>
-        <button onclick="pinPress('9')">9</button>
-
-        <button class="clear" onclick="pinClear()">⌫</button>
-        <button onclick="pinPress('0')">0</button>
-        <button class="enter" onclick="login()">Войти</button>
-
-      </div>
-
-      <button class="logout" onclick="backToUsers()">
-        ← Назад
-      </button>
-
-      <div id="loginMessage" class="message"></div>
-
+    <div id="usersLoading"
+         class="loading">
+      Загрузка пользователей...
     </div>
+
+    <div id="usersList"></div>
 
   </div>
 
 
-  <!-- APP -->
-  <div id="appScreen" class="hidden">
+  <!-- PIN -->
 
-    <div class="card">
+  <div id="pinCard"
+       class="card hidden">
 
-      <div class="topbar">
+    <div class="pin-title">
 
-        <div class="user-info">
-          <span id="currentUserName"></span>
+      <h2 id="pinUserName">
+        PIN
+      </h2>
+
+      <div>
+        Введите 4 цифры
+      </div>
+
+    </div>
+
+
+    <div id="pinDisplay"
+         class="pin-display">
+      ••••
+    </div>
+
+
+    <div class="pin-keyboard">
+
+      <button onclick="pinPress('1')">
+        1
+      </button>
+
+      <button onclick="pinPress('2')">
+        2
+      </button>
+
+      <button onclick="pinPress('3')">
+        3
+      </button>
+
+      <button onclick="pinPress('4')">
+        4
+      </button>
+
+      <button onclick="pinPress('5')">
+        5
+      </button>
+
+      <button onclick="pinPress('6')">
+        6
+      </button>
+
+      <button onclick="pinPress('7')">
+        7
+      </button>
+
+      <button onclick="pinPress('8')">
+        8
+      </button>
+
+      <button onclick="pinPress('9')">
+        9
+      </button>
+
+      <button class="clear"
+              onclick="pinClear()">
+        ⌫
+      </button>
+
+      <button onclick="pinPress('0')">
+        0
+      </button>
+
+      <button class="enter"
+              onclick="login()">
+        Войти
+      </button>
+
+    </div>
+
+
+    <button class="logout"
+            onclick="backToUsers()">
+      ← Назад
+    </button>
+
+
+    <div id="loginMessage"
+         class="message">
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= APP ================= -->
+
+<div id="appScreen"
+     class="hidden">
+
+  <div class="card">
+
+    <div class="topbar">
+
+      <div class="user-info">
+        <span id="currentUserName"></span>
+      </div>
+
+      <button onclick="logout()"
+              class="logout">
+        Выйти
+      </button>
+
+    </div>
+
+
+    <!-- TABS -->
+
+    <div class="tabs">
+
+      <button id="tabShift"
+              class="active"
+              onclick="showTab('shift')">
+        Смена
+      </button>
+
+      <button id="tabHistory"
+              onclick="showTab('history')">
+        История
+      </button>
+
+      <button id="tabSettings"
+              class="hidden"
+              onclick="showTab('settings')">
+        Настройки
+      </button>
+
+    </div>
+
+
+    <!-- ================= SHIFT ================= -->
+
+    <div id="shiftTab">
+
+      <h2>
+        Отчёт за смену
+      </h2>
+
+
+      <label>
+        Дата
+      </label>
+
+      <input type="date"
+             id="reportDate">
+
+
+      <label>
+        Остаток на начало
+      </label>
+
+      <input type="number"
+             id="openingBalance"
+             inputmode="decimal"
+             placeholder="0">
+
+
+      <div class="section-title">
+        Продажи
+      </div>
+
+
+      <label>
+        Наличные
+      </label>
+
+      <input type="number"
+             id="cash"
+             inputmode="decimal"
+             placeholder="0">
+
+
+      <label>
+        Карта
+      </label>
+
+      <input type="number"
+             id="card"
+             inputmode="decimal"
+             placeholder="0">
+
+
+      <label>
+        QR
+      </label>
+
+      <input type="number"
+             id="qr"
+             inputmode="decimal"
+             placeholder="0">
+
+
+      <div class="total-box">
+
+        <div class="total-row">
+
+          <span>
+            Продажи
+          </span>
+
+          <strong id="salesTotal">
+            0 ₽
+          </strong>
+
         </div>
-
-        <button onclick="logout()" class="logout">
-          Выйти
-        </button>
 
       </div>
 
-      <div class="tabs">
 
-        <button id="tabShift"
-                class="active"
-                onclick="showTab('shift')">
-          Смена
-        </button>
-
-        <button id="tabHistory"
-                onclick="showTab('history')">
-          История
-        </button>
-
-        <button id="tabSettings"
-                class="hidden"
-                onclick="showTab('settings')">
-          Настройки
-        </button>
-
+      <div class="section-title">
+        Расходы
       </div>
 
 
-      <!-- SHIFT -->
-      <div id="shiftTab">
+      <label>
+        Бариста
+      </label>
 
-        <h2>Отчёт за смену</h2>
-
-        <label>Дата</label>
-        <input type="date" id="reportDate">
-
-        <label>Остаток на начало</label>
-        <input type="number"
-               id="openingBalance"
-               inputmode="decimal"
-               placeholder="0">
-
-        <div class="section-title">
-          Продажи
-        </div>
-
-        <label>Наличные</label>
-        <input type="number"
-               id="cash"
-               inputmode="decimal"
-               placeholder="0">
-
-        <label>Карта</label>
-        <input type="number"
-               id="card"
-               inputmode="decimal"
-               placeholder="0">
-
-        <label>QR</label>
-        <input type="number"
-               id="qr"
-               inputmode="decimal"
-               placeholder="0">
-
-        <div class="total-box">
-
-          <div class="total-row">
-            <span>Продажи</span>
-            <strong id="salesTotal">0 ₽</strong>
-          </div>
-
-        </div>
+      <input type="number"
+             id="expenseBarista"
+             inputmode="decimal"
+             placeholder="0">
 
 
-        <div class="section-title">
-          Расходы
-        </div>
+      <label>
+        Поставщики
+      </label>
 
-        <label>Бариста</label>
-        <input type="number"
-               id="expenseBarista"
-               inputmode="decimal"
-               placeholder="0">
-
-        <label>Поставщики</label>
-        <input type="number"
-               id="expenseSupplier"
-               inputmode="decimal"
-               placeholder="0">
-
-        <label>Выдача</label>
-        <input type="number"
-               id="expenseWithdrawal"
-               inputmode="decimal"
-               placeholder="0">
+      <input type="number"
+             id="expenseSupplier"
+             inputmode="decimal"
+             placeholder="0">
 
 
-        <div class="total-box">
+      <label>
+        Выдача
+      </label>
 
-          <div class="total-row">
-            <span>Расходы</span>
-            <strong id="expensesTotal">0 ₽</strong>
-          </div>
+      <input type="number"
+             id="expenseWithdrawal"
+             inputmode="decimal"
+             placeholder="0">
 
-          <div class="total-row">
-            <span>Ожидаемый остаток</span>
-            <strong id="expectedBalance">0 ₽</strong>
-          </div>
+
+      <div class="total-box">
+
+        <div class="total-row">
+
+          <span>
+            Расходы
+          </span>
+
+          <strong id="expensesTotal">
+            0 ₽
+          </strong>
 
         </div>
 
 
-        <label>Комментарий</label>
+        <div class="total-row">
 
-        <textarea id="comment"
-                  placeholder="Комментарий к смене"></textarea>
+          <span>
+            Ожидаемый остаток
+          </span>
 
+          <strong id="expectedBalance">
+            0 ₽
+          </strong>
 
-        <button class="save-button"
-                onclick="saveReport()">
-          Сохранить отчёт
-        </button>
-
-        <div id="saveMessage" class="message"></div>
-
-      </div>
-
-
-      <!-- HISTORY -->
-      <div id="historyTab" class="hidden">
-
-        <h2>История смен</h2>
-
-        <button onclick="loadHistory()">
-          Обновить
-        </button>
-
-        <div id="historyList"
-             style="margin-top:15px;">
-          Загрузка...
         </div>
 
       </div>
 
 
-      <!-- SETTINGS -->
-      <div id="settingsTab" class="hidden">
+      <label>
+        Комментарий
+      </label>
 
-        <h2>Настройки</h2>
+      <textarea id="comment"
+                placeholder="Комментарий к смене">
+      </textarea>
 
-        <div class="small-note">
-          Здесь администратор может изменить имя и PIN бариста.
-          Пользователь сохраняет свой постоянный ID, поэтому
-          отчёты остаются привязанными к нему.
-        </div>
 
-        <div id="settingsUsers"
-             style="margin-top:18px;">
-        </div>
+      <button class="save-button"
+              onclick="saveReport()">
+        Сохранить отчёт
+      </button>
 
-        <div id="settingsMessage"
-             class="message">
-        </div>
 
+      <div id="saveMessage"
+           class="message">
+      </div>
+
+    </div>
+
+
+    <!-- ================= HISTORY ================= -->
+
+    <div id="historyTab"
+         class="hidden">
+
+      <h2>
+        История смен
+      </h2>
+
+
+      <button onclick="loadHistory()">
+        Обновить
+      </button>
+
+
+      <div id="historyList"
+           style="margin-top:15px;">
+        Загрузка...
+      </div>
+
+    </div>
+
+
+    <!-- ================= SETTINGS ================= -->
+
+    <div id="settingsTab"
+         class="hidden">
+
+      <h2>
+        Настройки
+      </h2>
+
+
+      <div class="small-note">
+
+        Здесь администратор может изменить
+        имя и PIN бариста.
+
+        <br><br>
+
+        Каждый бариста сохраняет свой
+        постоянный ID.
+
+      </div>
+
+
+      <div id="settingsUsers"
+           style="margin-top:18px;">
+      </div>
+
+
+      <div id="settingsMessage"
+           class="message">
       </div>
 
     </div>
@@ -536,12 +739,20 @@ textarea {
 
 <script>
 
+/* ==================================================
+   SUPABASE
+================================================== */
+
 const SUPABASE_URL =
-  "https://hsfxdmjmvgbepurkhfxl.supabase.co";
+"https://hsfxdmjmvgbepurkhfxl.supabase.co";
 
 const SUPABASE_KEY =
-  "sb_publishable_sVGHTCnvYzWZ65_ltVMkNA_WMNyYUx0";
+"sb_publishable_sVGHTCnvYzWZ65_ltVMkNA_WMNyYUx0";
 
+
+/* ==================================================
+   VARIABLES
+================================================== */
 
 let loginUsers = [];
 
@@ -554,135 +765,206 @@ let currentPin = "";
 let pinValue = "";
 
 
-// --------------------------------------------------
-// SUPABASE RPC
-// --------------------------------------------------
+/* ==================================================
+   RPC
+================================================== */
 
-async function callRPC(functionName, params = {}) {
+async function callRPC(
+  functionName,
+  params = {}
+) {
 
-  const response = await fetch(
-    SUPABASE_URL +
-    "/rest/v1/rpc/" +
-    functionName,
-    {
-      method: "POST",
+  const response =
+    await fetch(
+      SUPABASE_URL +
+      "/rest/v1/rpc/" +
+      functionName,
+      {
+        method: "POST",
 
-      headers: {
-        "apikey": SUPABASE_KEY,
-        "Authorization": "Bearer " + SUPABASE_KEY,
-        "Content-Type": "application/json"
-      },
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization":
+            "Bearer " + SUPABASE_KEY,
+          "Content-Type":
+            "application/json"
+        },
 
-      body: JSON.stringify(params)
-    }
-  );
+        body:
+          JSON.stringify(params)
+      }
+    );
 
-  const text = await response.text();
+
+  const text =
+    await response.text();
+
 
   let data;
 
+
   try {
-    data = text ? JSON.parse(text) : null;
+
+    data =
+      text
+      ? JSON.parse(text)
+      : null;
+
   } catch {
+
     data = text;
+
   }
+
 
   if (!response.ok) {
 
-    let message = "Ошибка Supabase";
+    let message =
+      "Ошибка Supabase";
+
 
     if (data && data.message) {
       message = data.message;
     }
 
+
     if (data && data.error) {
       message = data.error;
     }
 
+
     throw new Error(message);
+
   }
 
+
   return data;
+
 }
 
 
-// --------------------------------------------------
-// LOAD USERS
-// --------------------------------------------------
+/* ==================================================
+   LOAD USERS
+================================================== */
 
 async function loadLoginUsers() {
 
   const loading =
-    document.getElementById("usersLoading");
+    document.getElementById(
+      "usersLoading"
+    );
 
   const list =
-    document.getElementById("usersList");
+    document.getElementById(
+      "usersList"
+    );
 
-  loading.classList.remove("hidden");
+
+  loading.classList.remove(
+    "hidden"
+  );
 
   list.innerHTML = "";
+
 
   try {
 
     loginUsers =
-      await callRPC("get_login_users");
+      await callRPC(
+        "get_login_users"
+      );
 
-    loading.classList.add("hidden");
 
-    if (!Array.isArray(loginUsers) ||
-        loginUsers.length === 0) {
+    loading.classList.add(
+      "hidden"
+    );
+
+
+    if (
+      !Array.isArray(loginUsers) ||
+      loginUsers.length === 0
+    ) {
 
       list.innerHTML =
-        '<div class="loading">Пользователи не найдены</div>';
+        '<div class="loading">' +
+        'Пользователи не найдены' +
+        '</div>';
 
       return;
+
     }
 
 
-    loginUsers.forEach(user => {
+    loginUsers.forEach(
+      user => {
 
-      const button =
-        document.createElement("button");
+        const button =
+          document.createElement(
+            "button"
+          );
 
-      button.className = "user-button";
 
-      const name =
-        document.createElement("div");
+        button.className =
+          "user-button";
 
-      name.textContent =
-        user.role === "admin"
+
+        const name =
+          document.createElement(
+            "div"
+          );
+
+
+        name.textContent =
+          user.role === "admin"
           ? "Администратор"
           : user.name;
 
-      const role =
-        document.createElement("div");
 
-      role.className = "user-role";
+        const role =
+          document.createElement(
+            "div"
+          );
 
-      role.textContent =
-        user.role === "admin"
+
+        role.className =
+          "user-role";
+
+
+        role.textContent =
+          user.role === "admin"
           ? "Администратор"
           : "Бариста";
 
-      button.appendChild(name);
-      button.appendChild(role);
 
-      button.addEventListener("click", () => {
+        button.appendChild(name);
 
-        selectUser(user);
+        button.appendChild(role);
 
-      });
 
-      list.appendChild(button);
+        button.addEventListener(
+          "click",
+          function() {
+            selectUser(user);
+          }
+        );
 
-    });
 
-  } catch (error) {
+        list.appendChild(button);
 
-    loading.classList.add("hidden");
+      }
+    );
+
+
+  } catch(error) {
+
+    loading.classList.add(
+      "hidden"
+    );
+
 
     list.innerHTML =
-      '<div class="message error" style="display:block">' +
+      '<div class="message error" ' +
+      'style="display:block">' +
       escapeHtml(error.message) +
       '</div>';
 
@@ -691,44 +973,83 @@ async function loadLoginUsers() {
 }
 
 
-// --------------------------------------------------
-// SELECT USER
-// --------------------------------------------------
+/* ==================================================
+   SELECT USER
+================================================== */
 
 function selectUser(user) {
 
-  selectedUser = user;
+  selectedUser =
+    user;
 
-  pinValue = "";
+  pinValue =
+    "";
 
   updatePinDisplay();
 
-  document.getElementById("pinUserName")
-    .textContent =
-      user.role === "admin"
-        ? "Администратор"
-        : user.name;
 
-  document.getElementById("pinCard")
-    .classList.remove("hidden");
+  document.getElementById(
+    "pinUserName"
+  ).textContent =
+    user.role === "admin"
+    ? "Администратор"
+    : user.name;
 
-  document.getElementById("loginMessage")
-    .className = "message";
+
+  document.getElementById(
+    "pinCard"
+  ).classList.remove(
+    "hidden"
+  );
+
+
+  const message =
+    document.getElementById(
+      "loginMessage"
+    );
+
+
+  message.className =
+    "message";
+
+
+  /*
+    Прокручиваем экран к PIN.
+    Без увеличения масштаба.
+  */
+
+  setTimeout(
+    function() {
+
+      document.getElementById(
+        "pinCard"
+      ).scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+    },
+    50
+  );
 
 }
 
 
-// --------------------------------------------------
-// PIN
-// --------------------------------------------------
+/* ==================================================
+   PIN
+================================================== */
 
 function pinPress(number) {
 
-  if (pinValue.length >= 4) {
+  if (
+    pinValue.length >= 4
+  ) {
     return;
   }
 
+
   pinValue += number;
+
 
   updatePinDisplay();
 
@@ -738,7 +1059,11 @@ function pinPress(number) {
 function pinClear() {
 
   pinValue =
-    pinValue.slice(0, -1);
+    pinValue.slice(
+      0,
+      -1
+    );
+
 
   updatePinDisplay();
 
@@ -748,37 +1073,55 @@ function pinClear() {
 function updatePinDisplay() {
 
   const display =
-    document.getElementById("pinDisplay");
+    document.getElementById(
+      "pinDisplay"
+    );
 
-  if (pinValue.length === 0) {
 
-    display.textContent = "••••";
+  if (
+    pinValue.length === 0
+  ) {
+
+    display.textContent =
+      "••••";
 
     return;
+
   }
 
+
   display.textContent =
-    "●".repeat(pinValue.length);
+    "●".repeat(
+      pinValue.length
+    );
 
 }
 
 
-// --------------------------------------------------
-// LOGIN
-// --------------------------------------------------
+/* ==================================================
+   LOGIN
+================================================== */
 
 async function login() {
 
   const message =
-    document.getElementById("loginMessage");
+    document.getElementById(
+      "loginMessage"
+    );
 
-  message.className = "message";
+
+  message.className =
+    "message";
+
 
   if (!selectedUser) {
     return;
   }
 
-  if (pinValue.length !== 4) {
+
+  if (
+    pinValue.length !== 4
+  ) {
 
     message.textContent =
       "Введите 4 цифры PIN";
@@ -787,6 +1130,7 @@ async function login() {
       "message error";
 
     return;
+
   }
 
 
@@ -796,13 +1140,16 @@ async function login() {
       await callRPC(
         "login_by_pin",
         {
-          p_pin: pinValue
+          p_pin:
+            pinValue
         }
       );
 
 
-    if (!Array.isArray(result) ||
-        result.length === 0) {
+    if (
+      !Array.isArray(result) ||
+      result.length === 0
+    ) {
 
       throw new Error(
         "Неверный PIN"
@@ -815,7 +1162,10 @@ async function login() {
       result[0];
 
 
-    if (user.id !== selectedUser.id) {
+    if (
+      user.id !==
+      selectedUser.id
+    ) {
 
       throw new Error(
         "Этот PIN принадлежит другому пользователю"
@@ -824,36 +1174,55 @@ async function login() {
     }
 
 
-    currentUser = user;
+    currentUser =
+      user;
 
-    currentPin = pinValue;
-
-    document.getElementById("loginScreen")
-      .classList.add("hidden");
-
-    document.getElementById("appScreen")
-      .classList.remove("hidden");
-
-    document.getElementById("currentUserName")
-      .textContent =
-        user.role === "admin"
-          ? "Администратор"
-          : user.name;
+    currentPin =
+      pinValue;
 
 
-    // Настройки только администратору
+    document.getElementById(
+      "loginScreen"
+    ).classList.add(
+      "hidden"
+    );
 
-    if (user.role === "admin") {
 
-      document.getElementById("tabSettings")
-        .classList.remove("hidden");
+    document.getElementById(
+      "appScreen"
+    ).classList.remove(
+      "hidden"
+    );
+
+
+    document.getElementById(
+      "currentUserName"
+    ).textContent =
+      user.role === "admin"
+      ? "Администратор"
+      : user.name;
+
+
+    if (
+      user.role === "admin"
+    ) {
+
+      document.getElementById(
+        "tabSettings"
+      ).classList.remove(
+        "hidden"
+      );
+
 
       loadSettings();
 
     } else {
 
-      document.getElementById("tabSettings")
-        .classList.add("hidden");
+      document.getElementById(
+        "tabSettings"
+      ).classList.add(
+        "hidden"
+      );
 
     }
 
@@ -864,7 +1233,8 @@ async function login() {
 
     showTab("shift");
 
-  } catch (error) {
+
+  } catch(error) {
 
     message.textContent =
       error.message;
@@ -877,116 +1247,191 @@ async function login() {
 }
 
 
-// --------------------------------------------------
-// BACK
-// --------------------------------------------------
+/* ==================================================
+   BACK
+================================================== */
 
 function backToUsers() {
 
-  selectedUser = null;
+  selectedUser =
+    null;
 
-  pinValue = "";
+  pinValue =
+    "";
 
   updatePinDisplay();
 
-  document.getElementById("pinCard")
-    .classList.add("hidden");
+
+  document.getElementById(
+    "pinCard"
+  ).classList.add(
+    "hidden"
+  );
 
 }
 
 
-// --------------------------------------------------
-// LOGOUT
-// --------------------------------------------------
+/* ==================================================
+   LOGOUT
+================================================== */
 
 function logout() {
 
-  currentUser = null;
+  currentUser =
+    null;
 
-  currentPin = "";
+  currentPin =
+    "";
 
-  selectedUser = null;
+  selectedUser =
+    null;
 
-  pinValue = "";
+  pinValue =
+    "";
 
-  document.getElementById("appScreen")
-    .classList.add("hidden");
 
-  document.getElementById("loginScreen")
-    .classList.remove("hidden");
+  document.getElementById(
+    "appScreen"
+  ).classList.add(
+    "hidden"
+  );
 
-  document.getElementById("pinCard")
-    .classList.add("hidden");
+
+  document.getElementById(
+    "loginScreen"
+  ).classList.remove(
+    "hidden"
+  );
+
+
+  document.getElementById(
+    "pinCard"
+  ).classList.add(
+    "hidden"
+  );
+
 
   loadLoginUsers();
 
 }
 
 
-// --------------------------------------------------
-// TABS
-// --------------------------------------------------
+/* ==================================================
+   TABS
+================================================== */
 
 function showTab(tab) {
 
-  document.getElementById("shiftTab")
-    .classList.add("hidden");
-
-  document.getElementById("historyTab")
-    .classList.add("hidden");
-
-  document.getElementById("settingsTab")
-    .classList.add("hidden");
+  document.getElementById(
+    "shiftTab"
+  ).classList.add(
+    "hidden"
+  );
 
 
-  document.getElementById("tabShift")
-    .classList.remove("active");
-
-  document.getElementById("tabHistory")
-    .classList.remove("active");
-
-  document.getElementById("tabSettings")
-    .classList.remove("active");
+  document.getElementById(
+    "historyTab"
+  ).classList.add(
+    "hidden"
+  );
 
 
-  if (tab === "shift") {
+  document.getElementById(
+    "settingsTab"
+  ).classList.add(
+    "hidden"
+  );
 
-    document.getElementById("shiftTab")
-      .classList.remove("hidden");
 
-    document.getElementById("tabShift")
-      .classList.add("active");
+  document.getElementById(
+    "tabShift"
+  ).classList.remove(
+    "active"
+  );
+
+
+  document.getElementById(
+    "tabHistory"
+  ).classList.remove(
+    "active"
+  );
+
+
+  document.getElementById(
+    "tabSettings"
+  ).classList.remove(
+    "active"
+  );
+
+
+  if (
+    tab === "shift"
+  ) {
+
+    document.getElementById(
+      "shiftTab"
+    ).classList.remove(
+      "hidden"
+    );
+
+
+    document.getElementById(
+      "tabShift"
+    ).classList.add(
+      "active"
+    );
 
   }
 
 
-  if (tab === "history") {
+  if (
+    tab === "history"
+  ) {
 
-    document.getElementById("historyTab")
-      .classList.remove("hidden");
+    document.getElementById(
+      "historyTab"
+    ).classList.remove(
+      "hidden"
+    );
 
-    document.getElementById("tabHistory")
-      .classList.add("active");
+
+    document.getElementById(
+      "tabHistory"
+    ).classList.add(
+      "active"
+    );
+
 
     loadHistory();
 
   }
 
 
-  if (tab === "settings") {
+  if (
+    tab === "settings"
+  ) {
 
-    if (!currentUser ||
-        currentUser.role !== "admin") {
-
+    if (
+      !currentUser ||
+      currentUser.role !== "admin"
+    ) {
       return;
-
     }
 
-    document.getElementById("settingsTab")
-      .classList.remove("hidden");
 
-    document.getElementById("tabSettings")
-      .classList.add("active");
+    document.getElementById(
+      "settingsTab"
+    ).classList.remove(
+      "hidden"
+    );
+
+
+    document.getElementById(
+      "tabSettings"
+    ).classList.add(
+      "active"
+    );
+
 
     loadSettings();
 
@@ -995,86 +1440,134 @@ function showTab(tab) {
 }
 
 
-// --------------------------------------------------
-// DATE
-// --------------------------------------------------
+/* ==================================================
+   DATE
+================================================== */
 
 function setToday() {
 
   const input =
-    document.getElementById("reportDate");
+    document.getElementById(
+      "reportDate"
+    );
 
-  if (!input.value) {
+
+  if (
+    !input.value
+  ) {
 
     const today =
       new Date();
 
+
     const year =
       today.getFullYear();
 
+
     const month =
-      String(today.getMonth() + 1)
-        .padStart(2, "0");
+      String(
+        today.getMonth() + 1
+      ).padStart(
+        2,
+        "0"
+      );
+
 
     const day =
-      String(today.getDate())
-        .padStart(2, "0");
+      String(
+        today.getDate()
+      ).padStart(
+        2,
+        "0"
+      );
+
 
     input.value =
-      `${year}-${month}-${day}`;
+      year +
+      "-" +
+      month +
+      "-" +
+      day;
 
   }
 
 }
 
 
-// --------------------------------------------------
-// NUMBERS
-// --------------------------------------------------
+/* ==================================================
+   NUMBERS
+================================================== */
 
 function numberValue(id) {
 
   const value =
     parseFloat(
-      document.getElementById(id).value
+      document.getElementById(
+        id
+      ).value
     );
 
-  return isNaN(value) ? 0 : value;
+
+  return isNaN(value)
+    ? 0
+    : value;
 
 }
 
+
+/* ==================================================
+   TOTALS
+================================================== */
 
 function updateTotals() {
 
   const cash =
     numberValue("cash");
 
+
   const card =
     numberValue("card");
+
 
   const qr =
     numberValue("qr");
 
+
   const barista =
-    numberValue("expenseBarista");
+    numberValue(
+      "expenseBarista"
+    );
+
 
   const supplier =
-    numberValue("expenseSupplier");
+    numberValue(
+      "expenseSupplier"
+    );
+
 
   const withdrawal =
-    numberValue("expenseWithdrawal");
+    numberValue(
+      "expenseWithdrawal"
+    );
+
 
   const opening =
-    numberValue("openingBalance");
+    numberValue(
+      "openingBalance"
+    );
 
 
   const sales =
-    cash + card + qr;
+    cash +
+    card +
+    qr;
+
 
   const expenses =
     barista +
     supplier +
     withdrawal;
+
 
   const expected =
     opening +
@@ -1082,35 +1575,44 @@ function updateTotals() {
     expenses;
 
 
-  document.getElementById("salesTotal")
-    .textContent =
-      money(sales);
+  document.getElementById(
+    "salesTotal"
+  ).textContent =
+    money(sales);
 
-  document.getElementById("expensesTotal")
-    .textContent =
-      money(expenses);
 
-  document.getElementById("expectedBalance")
-    .textContent =
-      money(expected);
+  document.getElementById(
+    "expensesTotal"
+  ).textContent =
+    money(expenses);
+
+
+  document.getElementById(
+    "expectedBalance"
+  ).textContent =
+    money(expected);
 
 }
 
+
+/* ==================================================
+   MONEY
+================================================== */
 
 function money(value) {
 
   return (
     Number(value || 0)
-      .toLocaleString("ru-RU")
+    .toLocaleString("ru-RU")
     + " ₽"
   );
 
 }
 
 
-// --------------------------------------------------
-// OPENING BALANCE
-// --------------------------------------------------
+/* ==================================================
+   OPENING BALANCE
+================================================== */
 
 async function loadOpeningBalance() {
 
@@ -1121,13 +1623,20 @@ async function loadOpeningBalance() {
         "get_last_cash_balance"
       );
 
-    if (result !== null &&
-        result !== undefined) {
 
-      let value = result;
+    if (
+      result !== null &&
+      result !== undefined
+    ) {
 
-      if (Array.isArray(result) &&
-          result.length > 0) {
+      let value =
+        result;
+
+
+      if (
+        Array.isArray(result) &&
+        result.length > 0
+      ) {
 
         value =
           result[0].balance ??
@@ -1137,8 +1646,11 @@ async function loadOpeningBalance() {
 
       }
 
-      if (typeof value === "object" &&
-          value !== null) {
+
+      if (
+        typeof value === "object" &&
+        value !== null
+      ) {
 
         value =
           value.balance ??
@@ -1147,19 +1659,21 @@ async function loadOpeningBalance() {
 
       }
 
+
       document.getElementById(
         "openingBalance"
       ).value =
         Number(value || 0);
 
+
       updateTotals();
 
     }
 
-  } catch (error) {
+  } catch(error) {
 
     console.log(
-      "Не удалось загрузить остаток:",
+      "Ошибка загрузки остатка:",
       error
     );
 
@@ -1168,16 +1682,21 @@ async function loadOpeningBalance() {
 }
 
 
-// --------------------------------------------------
-// SAVE REPORT
-// --------------------------------------------------
+/* ==================================================
+   SAVE REPORT
+================================================== */
 
 async function saveReport() {
 
   const message =
-    document.getElementById("saveMessage");
+    document.getElementById(
+      "saveMessage"
+    );
 
-  message.className = "message";
+
+  message.className =
+    "message";
+
 
   if (!currentUser) {
     return;
@@ -1185,7 +1704,10 @@ async function saveReport() {
 
 
   const reportDate =
-    document.getElementById("reportDate").value;
+    document.getElementById(
+      "reportDate"
+    ).value;
+
 
   if (!reportDate) {
 
@@ -1201,32 +1723,52 @@ async function saveReport() {
 
 
   const opening =
-    numberValue("openingBalance");
+    numberValue(
+      "openingBalance"
+    );
+
 
   const cash =
-    numberValue("cash");
+    numberValue(
+      "cash"
+    );
+
 
   const card =
-    numberValue("card");
+    numberValue(
+      "card"
+    );
+
 
   const qr =
-    numberValue("qr");
+    numberValue(
+      "qr"
+    );
+
 
   const expenseBarista =
-    numberValue("expenseBarista");
+    numberValue(
+      "expenseBarista"
+    );
+
 
   const expenseSupplier =
-    numberValue("expenseSupplier");
+    numberValue(
+      "expenseSupplier"
+    );
+
 
   const expenseWithdrawal =
-    numberValue("expenseWithdrawal");
+    numberValue(
+      "expenseWithdrawal"
+    );
+
 
   const comment =
-    document.getElementById("comment").value;
+    document.getElementById(
+      "comment"
+    ).value.trim();
 
-
-  const sales =
-    cash + card + qr;
 
   const expenses =
     expenseBarista +
@@ -1239,16 +1781,35 @@ async function saveReport() {
     await callRPC(
       "save_shift_report",
       {
-        p_pin: currentPin,
-        p_report_date: reportDate,
-        p_opening_balance: opening,
-        p_cash: cash,
-        p_card: card,
-        p_qr: qr,
-        p_expense_barista: expenseBarista,
-        p_expense_supplier: expenseSupplier,
-        p_expense_withdrawal: expenseWithdrawal,
-        p_comment: comment
+        p_pin:
+          currentPin,
+
+        p_report_date:
+          reportDate,
+
+        p_opening_balance:
+          opening,
+
+        p_cash:
+          cash,
+
+        p_card:
+          card,
+
+        p_qr:
+          qr,
+
+        p_expense_barista:
+          expenseBarista,
+
+        p_expense_supplier:
+          expenseSupplier,
+
+        p_expense_withdrawal:
+          expenseWithdrawal,
+
+        p_comment:
+          comment
       }
     );
 
@@ -1256,30 +1817,58 @@ async function saveReport() {
     message.textContent =
       "Отчёт успешно сохранён";
 
+
     message.className =
       "message success";
 
 
-    document.getElementById("cash").value = "";
-    document.getElementById("card").value = "";
-    document.getElementById("qr").value = "";
+    document.getElementById(
+      "cash"
+    ).value = "";
 
-    document.getElementById("expenseBarista").value = "";
-    document.getElementById("expenseSupplier").value = "";
-    document.getElementById("expenseWithdrawal").value = "";
 
-    document.getElementById("comment").value = "";
+    document.getElementById(
+      "card"
+    ).value = "";
+
+
+    document.getElementById(
+      "qr"
+    ).value = "";
+
+
+    document.getElementById(
+      "expenseBarista"
+    ).value = "";
+
+
+    document.getElementById(
+      "expenseSupplier"
+    ).value = "";
+
+
+    document.getElementById(
+      "expenseWithdrawal"
+    ).value = "";
+
+
+    document.getElementById(
+      "comment"
+    ).value = "";
 
 
     document.getElementById(
       "openingBalance"
     ).value =
-      opening + cash - expenses;
+      opening +
+      cash -
+      expenses;
 
 
     updateTotals();
 
-  } catch (error) {
+
+  } catch(error) {
 
     message.textContent =
       error.message;
@@ -1292,17 +1881,22 @@ async function saveReport() {
 }
 
 
-// --------------------------------------------------
-// HISTORY
-// --------------------------------------------------
+/* ==================================================
+   HISTORY
+================================================== */
 
 async function loadHistory() {
 
   const list =
-    document.getElementById("historyList");
+    document.getElementById(
+      "historyList"
+    );
+
 
   list.innerHTML =
-    '<div class="loading">Загрузка...</div>';
+    '<div class="loading">' +
+    'Загрузка...' +
+    '</div>';
 
 
   try {
@@ -1313,133 +1907,182 @@ async function loadHistory() {
       );
 
 
-    if (!Array.isArray(reports) ||
-        reports.length === 0) {
+    if (
+      !Array.isArray(reports) ||
+      reports.length === 0
+    ) {
 
       list.innerHTML =
-        '<div class="loading">Отчётов пока нет</div>';
+        '<div class="loading">' +
+        'Отчётов пока нет' +
+        '</div>';
 
       return;
 
     }
 
 
-    list.innerHTML = "";
+    list.innerHTML =
+      "";
 
 
-    reports.forEach(report => {
+    reports.forEach(
+      report => {
 
-      const div =
-        document.createElement("div");
-
-      div.className = "report";
-
-
-      const head =
-        document.createElement("div");
-
-      head.className = "report-head";
+        const div =
+          document.createElement(
+            "div"
+          );
 
 
-      const name =
-        report.barista_name ||
-        report.name ||
-        "Бариста";
+        div.className =
+          "report";
 
 
-      const date =
-        report.report_date ||
-        report.date ||
-        "";
+        const head =
+          document.createElement(
+            "div"
+          );
 
 
-      head.innerHTML =
-        "<span>" +
-        escapeHtml(name) +
-        "</span>" +
-        "<span>" +
-        escapeHtml(date) +
-        "</span>";
+        head.className =
+          "report-head";
 
 
-      div.appendChild(head);
+        const name =
+          report.barista_name ||
+          report.name ||
+          "Бариста";
 
 
-      const sales =
-        Number(report.cash || 0) +
-        Number(report.card || 0) +
-        Number(report.qr || 0);
+        const date =
+          report.report_date ||
+          report.date ||
+          "";
 
 
-      const expenses =
-        Number(report.expense_barista || 0) +
-        Number(report.expense_supplier || 0) +
-        Number(report.expense_withdrawal || 0);
+        head.innerHTML =
+          "<span>" +
+          escapeHtml(name) +
+          "</span>" +
+          "<span>" +
+          escapeHtml(date) +
+          "</span>";
 
 
-      addReportLine(
-        div,
-        "Продажи",
-        money(sales)
-      );
-
-      addReportLine(
-        div,
-        "Наличные",
-        money(report.cash)
-      );
-
-      addReportLine(
-        div,
-        "Карта",
-        money(report.card)
-      );
-
-      addReportLine(
-        div,
-        "QR",
-        money(report.qr)
-      );
-
-      addReportLine(
-        div,
-        "Расходы",
-        money(expenses)
-      );
-
-      addReportLine(
-        div,
-        "Остаток на начало",
-        money(report.opening_balance)
-      );
+        div.appendChild(
+          head
+        );
 
 
-      if (report.comment) {
+        const sales =
+          Number(report.cash || 0) +
+          Number(report.card || 0) +
+          Number(report.qr || 0);
 
-        const comment =
-          document.createElement("div");
 
-        comment.style.marginTop = "8px";
-        comment.style.color = "#666";
+        const expenses =
+          Number(
+            report.expense_barista || 0
+          ) +
+          Number(
+            report.expense_supplier || 0
+          ) +
+          Number(
+            report.expense_withdrawal || 0
+          );
 
-        comment.textContent =
-          "Комментарий: " +
-          report.comment;
 
-        div.appendChild(comment);
+        addReportLine(
+          div,
+          "Продажи",
+          money(sales)
+        );
+
+
+        addReportLine(
+          div,
+          "Наличные",
+          money(report.cash)
+        );
+
+
+        addReportLine(
+          div,
+          "Карта",
+          money(report.card)
+        );
+
+
+        addReportLine(
+          div,
+          "QR",
+          money(report.qr)
+        );
+
+
+        addReportLine(
+          div,
+          "Расходы",
+          money(expenses)
+        );
+
+
+        addReportLine(
+          div,
+          "Остаток на начало",
+          money(
+            report.opening_balance
+          )
+        );
+
+
+        if (
+          report.comment
+        ) {
+
+          const comment =
+            document.createElement(
+              "div"
+            );
+
+
+          comment.style.marginTop =
+            "8px";
+
+
+          comment.style.color =
+            "#666";
+
+
+          comment.textContent =
+            "Комментарий: " +
+            report.comment;
+
+
+          div.appendChild(
+            comment
+          );
+
+        }
+
+
+        list.appendChild(
+          div
+        );
 
       }
+    );
 
 
-      list.appendChild(div);
-
-    });
-
-  } catch (error) {
+  } catch(error) {
 
     list.innerHTML =
-      '<div class="message error" style="display:block">' +
-      escapeHtml(error.message) +
+      '<div class="message error" ' +
+      'style="display:block">' +
+      escapeHtml(
+        error.message
+      ) +
       '</div>';
 
   }
@@ -1454,9 +2097,14 @@ function addReportLine(
 ) {
 
   const row =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
-  row.className = "report-line";
+
+  row.className =
+    "report-line";
+
 
   row.innerHTML =
     "<span>" +
@@ -1466,22 +2114,25 @@ function addReportLine(
     escapeHtml(value) +
     "</strong>";
 
-  parent.appendChild(row);
+
+  parent.appendChild(
+    row
+  );
 
 }
 
 
-// --------------------------------------------------
-// SETTINGS
-// --------------------------------------------------
+/* ==================================================
+   SETTINGS
+================================================== */
 
 function loadSettings() {
 
-  if (!currentUser ||
-      currentUser.role !== "admin") {
-
+  if (
+    !currentUser ||
+    currentUser.role !== "admin"
+  ) {
     return;
-
   }
 
 
@@ -1490,131 +2141,196 @@ function loadSettings() {
       "settingsUsers"
     );
 
-  container.innerHTML = "";
+
+  container.innerHTML =
+    "";
 
 
   const baristas =
     loginUsers.filter(
-      user => user.role === "barista"
+      user =>
+        user.role === "barista"
     );
 
 
-  if (baristas.length === 0) {
+  if (
+    baristas.length === 0
+  ) {
 
     container.innerHTML =
-      '<div class="loading">Баристы не найдены</div>';
+      '<div class="loading">' +
+      'Баристы не найдены' +
+      '</div>';
 
     return;
 
   }
 
 
-  baristas.forEach(user => {
+  baristas.forEach(
+    user => {
 
-    const box =
-      document.createElement("div");
-
-    box.className =
-      "settings-user";
-
-
-    const title =
-      document.createElement("h3");
-
-    title.textContent =
-      user.name;
-
-    box.appendChild(title);
+      const box =
+        document.createElement(
+          "div"
+        );
 
 
-    const nameLabel =
-      document.createElement("label");
-
-    nameLabel.textContent =
-      "Имя бариста";
-
-    box.appendChild(nameLabel);
+      box.className =
+        "settings-user";
 
 
-    const nameInput =
-      document.createElement("input");
-
-    nameInput.type = "text";
-
-    nameInput.value =
-      user.name;
-
-    nameInput.id =
-      "name_" + user.id;
-
-    box.appendChild(nameInput);
+      const title =
+        document.createElement(
+          "h3"
+        );
 
 
-    const pinLabel =
-      document.createElement("label");
-
-    pinLabel.textContent =
-      "Новый PIN";
-
-    box.appendChild(pinLabel);
+      title.textContent =
+        user.name;
 
 
-    const pinInput =
-      document.createElement("input");
-
-    pinInput.type = "tel";
-
-    pinInput.inputMode = "numeric";
-
-    pinInput.maxLength = 4;
-
-    pinInput.value = "";
-
-    pinInput.placeholder =
-      "Оставьте пустым, чтобы не менять";
-
-    pinInput.id =
-      "pin_" + user.id;
-
-    box.appendChild(pinInput);
+      box.appendChild(
+        title
+      );
 
 
-    const saveButton =
-      document.createElement("button");
-
-    saveButton.className =
-      "settings-save";
-
-    saveButton.textContent =
-      "Сохранить изменения";
+      const nameLabel =
+        document.createElement(
+          "label"
+        );
 
 
-    saveButton.addEventListener(
-      "click",
-      () => saveUserSettings(user)
-    );
+      nameLabel.textContent =
+        "Имя бариста";
 
 
-    box.appendChild(saveButton);
+      box.appendChild(
+        nameLabel
+      );
 
 
-    container.appendChild(box);
+      const nameInput =
+        document.createElement(
+          "input"
+        );
 
-  });
+
+      nameInput.type =
+        "text";
+
+
+      nameInput.value =
+        user.name;
+
+
+      nameInput.id =
+        "name_" +
+        user.id;
+
+
+      box.appendChild(
+        nameInput
+      );
+
+
+      const pinLabel =
+        document.createElement(
+          "label"
+        );
+
+
+      pinLabel.textContent =
+        "Новый PIN";
+
+
+      box.appendChild(
+        pinLabel
+      );
+
+
+      const pinInput =
+        document.createElement(
+          "input"
+        );
+
+
+      pinInput.type =
+        "tel";
+
+
+      pinInput.inputMode =
+        "numeric";
+
+
+      pinInput.maxLength =
+        4;
+
+
+      pinInput.placeholder =
+        "Введите новый PIN";
+
+
+      pinInput.id =
+        "pin_" +
+        user.id;
+
+
+      box.appendChild(
+        pinInput
+      );
+
+
+      const saveButton =
+        document.createElement(
+          "button"
+        );
+
+
+      saveButton.className =
+        "settings-save";
+
+
+      saveButton.textContent =
+        "Сохранить изменения";
+
+
+      saveButton.addEventListener(
+        "click",
+        function() {
+          saveUserSettings(user);
+        }
+      );
+
+
+      box.appendChild(
+        saveButton
+      );
+
+
+      container.appendChild(
+        box
+      );
+
+    }
+  );
 
 }
 
 
-// --------------------------------------------------
-// SAVE USER SETTINGS
-// --------------------------------------------------
+/* ==================================================
+   SAVE SETTINGS
+================================================== */
 
-async function saveUserSettings(user) {
+async function saveUserSettings(
+  user
+) {
 
   const message =
     document.getElementById(
       "settingsMessage"
     );
+
 
   message.className =
     "message";
@@ -1622,12 +2338,15 @@ async function saveUserSettings(user) {
 
   const nameInput =
     document.getElementById(
-      "name_" + user.id
+      "name_" +
+      user.id
     );
+
 
   const pinInput =
     document.getElementById(
-      "pin_" + user.id
+      "pin_" +
+      user.id
     );
 
 
@@ -1635,7 +2354,7 @@ async function saveUserSettings(user) {
     nameInput.value.trim();
 
 
-  let newPin =
+  const newPin =
     pinInput.value.trim();
 
 
@@ -1644,48 +2363,29 @@ async function saveUserSettings(user) {
     message.textContent =
       "Имя не может быть пустым";
 
+
     message.className =
       "message error";
+
 
     return;
 
   }
 
 
-  // Если PIN не введён,
-  // оставляем старый PIN.
-
-  if (!newPin) {
-
-    /*
-      Важно:
-      функция update_user_account
-      требует новый PIN.
-
-      Поэтому если пользователь хочет
-      поменять только имя, сначала
-      получаем текущий PIN через
-      временное значение из интерфейса.
-    */
-
-    message.textContent =
-      "Введите новый 4-значный PIN";
-
-    message.className =
-      "message error";
-
-    return;
-
-  }
-
-
-  if (!/^[0-9]{4}$/.test(newPin)) {
+  if (
+    !/^[0-9]{4}$/.test(
+      newPin
+    )
+  ) {
 
     message.textContent =
       "PIN должен состоять из 4 цифр";
 
+
     message.className =
       "message error";
+
 
     return;
 
@@ -1697,10 +2397,17 @@ async function saveUserSettings(user) {
     await callRPC(
       "update_user_account",
       {
-        p_admin_pin: currentPin,
-        p_user_id: user.id,
-        p_name: newName,
-        p_new_pin: newPin
+        p_admin_pin:
+          currentPin,
+
+        p_user_id:
+          user.id,
+
+        p_name:
+          newName,
+
+        p_new_pin:
+          newPin
       }
     );
 
@@ -1708,19 +2415,22 @@ async function saveUserSettings(user) {
     message.textContent =
       "Изменения сохранены";
 
+
     message.className =
       "message success";
 
 
     await loadLoginUsers();
 
+
     loadSettings();
 
 
-  } catch (error) {
+  } catch(error) {
 
     message.textContent =
       error.message;
+
 
     message.className =
       "message error";
@@ -1730,33 +2440,54 @@ async function saveUserSettings(user) {
 }
 
 
-// --------------------------------------------------
-// ESCAPE HTML
-// --------------------------------------------------
+/* ==================================================
+   ESCAPE
+================================================== */
 
-function escapeHtml(value) {
+function escapeHtml(
+  value
+) {
 
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+  return String(
+    value ?? ""
+  )
+  .replaceAll(
+    "&",
+    "&amp;"
+  )
+  .replaceAll(
+    "<",
+    "&lt;"
+  )
+  .replaceAll(
+    ">",
+    "&gt;"
+  )
+  .replaceAll(
+    '"',
+    "&quot;"
+  )
+  .replaceAll(
+    "'",
+    "&#039;"
+  );
 
 }
 
 
-// --------------------------------------------------
-// INPUT LISTENERS
-// --------------------------------------------------
+/* ==================================================
+   START
+================================================== */
 
 document.addEventListener(
   "DOMContentLoaded",
-  () => {
+  function() {
 
     loadLoginUsers();
 
-    [
+
+    const fields = [
+
       "openingBalance",
       "cash",
       "card",
@@ -1764,15 +2495,23 @@ document.addEventListener(
       "expenseBarista",
       "expenseSupplier",
       "expenseWithdrawal"
-    ].forEach(id => {
 
-      document.getElementById(id)
-        .addEventListener(
-          "input",
-          updateTotals
-        );
+    ];
 
-    });
+
+    fields.forEach(
+      id => {
+
+        document
+          .getElementById(id)
+          .addEventListener(
+            "input",
+            updateTotals
+          );
+
+      }
+    );
+
 
     setToday();
 
