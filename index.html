@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>A5 Barista Report</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+  --bg:#101010;
+  --card:#1a1a1a;
+  --card2:#202020;
+  --line:#303030;
+  --text:#f5f5f5;
+  --muted:#9b9b9b;
+  --accent:#d7a84a;
+  --danger:#c95b5b;
+  --success:#61bd7b;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+}
+
+button,input,textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.app{
+  max-width:600px;
+  margin:auto;
+  min-height:100vh;
+  padding:20px 16px 40px;
+}
+
+.logo{
+  text-align:center;
+  font-size:34px;
+  font-weight:800;
+  letter-spacing:4px;
+  margin:20px 0 5px;
+}
+
+.subtitle{
+  text-align:center;
+  color:var(--muted);
+  margin-bottom:30px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:16px;
+}
+
+h2{
+  margin:0 0 18px;
+}
+
+label{
+  display:block;
+  color:var(--muted);
+  font-size:14px;
+  margin:14px 0 7px;
+}
+
+input,textarea{
+  width:100%;
+  background:#111;
+  border:1px solid #383838;
+  border-radius:12px;
+  color:white;
+  padding:14px;
+  outline:none;
+}
+
+input:focus,textarea:focus{
+  border-color:var(--accent);
+}
+
+textarea{
+  min-height:80px;
+  resize:vertical;
+}
+
+.pin{
+  text-align:center;
+  font-size:28px;
+  letter-spacing:8px;
+}
+
+.btn{
+  width:100%;
+  border:0;
+  border-radius:13px;
+  padding:15px;
+  margin-top:12px;
+  font-weight:700;
+}
+
+.btn-primary{
+  background:var(--accent);
+  color:#111;
+}
+
+.btn-secondary{
+  background:#292929;
+  color:white;
+  border:1px solid #3a3a3a;
+}
+
+.btn-danger{
+  background:#402323;
+  color:#ffb0b0;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.user{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.user-name{
+  font-size:21px;
+  font-weight:700;
+}
+
+.role{
+  color:var(--accent);
+  font-size:13px;
+  margin-top:4px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.stat{
+  background:#111;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:15px;
+}
+
+.stat-title{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.stat-value{
+  font-size:22px;
+  font-weight:700;
+  margin-top:5px;
+}
+
+.report{
+  border-top:1px solid var(--line);
+  padding:16px 0;
+}
+
+.report:first-child{
+  border-top:0;
+}
+
+.report-head{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.report-name{
+  font-weight:700;
+}
+
+.report-date{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.amount{
+  font-weight:700;
+}
+
+.message{
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:15px;
+  display:none;
+}
+
+.message.error{
+  display:block;
+  background:#3a2020;
+  color:#ffb0b0;
+}
+
+.message.success{
+  display:block;
+  background:#193522;
+  color:#9be0ad;
+}
+
+.empty{
+  text-align:center;
+  color:var(--muted);
+  padding:25px 10px;
+}
+
+.small{
+  font-size:13px;
+  color:var(--muted);
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+
+.back{
+  color:var(--muted);
+  background:none;
+  border:0;
+  padding:0;
+  margin-bottom:18px;
+}
+
+.total{
+  font-size:28px;
+  font-weight:800;
+}
+
+.nav{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.nav button{
+  padding:13px 8px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:#191919;
+  color:white;
+}
+
+.nav button.active{
+  background:var(--accent);
+  color:#111;
+}
+
+@media(max-width:400px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- LOGIN -->
+  <section id="loginScreen">
+
+    <div class="logo">A5</div>
+    <div class="subtitle">BARISTA REPORT</div>
+
+    <div class="card">
+
+      <h2>Вход</h2>
+
+      <div id="loginMessage" class="message"></div>
+
+      <label>PIN-код</label>
+      <input
+        id="pin"
+        class="pin"
+        type="password"
+        inputmode="numeric"
+        maxlength="4"
+        placeholder="••••"
+      >
+
+      <button class="btn btn-primary" onclick="login()">
+        Войти
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- MAIN -->
+  <section id="mainScreen" class="hidden">
+
+    <div class="row" style="margin-bottom:20px">
+      <div>
+        <div class="user-name" id="currentUser"></div>
+        <div class="role" id="currentRole"></div>
+      </div>
+
+      <button class="btn btn-danger"
+              style="width:auto;margin:0;padding:9px 13px"
+              onclick="logout()">
+        Выйти
+      </button>
+    </div>
+
+    <div class="nav">
+      <button id="tabReport" class="active" onclick="showTab('report')">
+        Смена
+      </button>
+      <button id="tabHistory" onclick="showTab('history')">
+        История
+      </button>
+    </div>
+
+
+    <!-- REPORT -->
+    <div id="reportTab">
+
+      <div class="card">
+
+        <h2>Отчёт смены</h2>
+
+        <div id="reportMessage" class="message"></div>
+
+        <label>Остаток на начало смены</label>
+        <input id="openingCash" type="number" step="0.01">
+
+        <button class="btn btn-secondary"
+                onclick="loadPreviousBalance()">
+          Получить остаток предыдущей смены
+        </button>
+
+        <label>Наличные</label>
+        <input id="cash" type="number" step="0.01" value="0">
+
+        <label>Банковская карта</label>
+        <input id="card" type="number" step="0.01" value="0">
+
+        <label>QR</label>
+        <input id="qr" type="number" step="0.01" value="0">
+
+        <h3 style="margin-top:25px">Расходы</h3>
+
+        <label>Расход бариста</label>
+        <input id="expenseBarista" type="number" step="0.01" value="0">
+
+        <label>Расход поставщику</label>
+        <input id="expenseSupplier" type="number" step="0.01" value="0">
+
+        <label>Снятие / прочие расходы</label>
+        <input id="expenseWithdrawal" type="number" step="0.01" value="0">
+
+        <label>Комментарий</label>
+        <textarea id="comment" placeholder="Комментарий к смене"></textarea>
+
+      </div>
+
+
+      <div class="card">
+
+        <h2>Итог</h2>
+
+        <div class="grid">
+
+          <div class="stat">
+            <div class="stat-title">Продажи</div>
+            <div class="stat-value" id="salesTotal">0 ₽</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-title">Расходы</div>
+            <div class="stat-value" id="expensesTotal">0 ₽</div>
+          </div>
+
+        </div>
+
+        <div style="margin-top:20px">
+          <div class="small">Ожидаемая наличность</div>
+          <div class="total" id="expectedCash">0 ₽</div>
+        </div>
+
+        <button class="btn btn-primary"
+                onclick="saveReport()">
+          Сохранить отчёт
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- HISTORY -->
+    <div id="historyTab" class="hidden">
+
+      <div class="card">
+
+        <div class="row">
+          <h2 style="margin:0">История смен</h2>
+
+          <button class="btn btn-secondary"
+                  style="width:auto;margin:0;padding:9px 12px"
+                  onclick="loadHistory()">
+            Обновить
+          </button>
+        </div>
+
+        <div id="history"></div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+  "https://hsfxdmjmvgbepurkhfxl.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_sVGHTCnvYzWZ65_ltVMkNA_WMNyYUx0";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+let currentUser = null;
+
+
+// -------------------------
+// LOGIN
+// -------------------------
+
+async function login(){
+
+  const pin =
+    document.getElementById("pin").value.trim();
+
+  if(!pin){
+    showMessage(
+      "loginMessage",
+      "Введите PIN-код",
+      "error"
+    );
+    return;
+  }
+
+  const {data,error} =
+    await supabaseClient
+      .from("users")
+      .select("*")
+      .eq("pin",pin)
+      .eq("active",true)
+      .maybeSingle();
+
+  if(error){
+
+    showMessage(
+      "loginMessage",
+      "Ошибка подключения к базе: " + error.message,
+      "error"
+    );
+
+    return;
+  }
+
+  if(!data){
+
+    showMessage(
+      "loginMessage",
+      "Неверный PIN-код",
+      "error"
+    );
+
+    return;
+  }
+
+  currentUser = data;
+
+  document.getElementById("loginScreen")
+    .classList.add("hidden");
+
+  document.getElementById("mainScreen")
+    .classList.remove("hidden");
+
+  document.getElementById("currentUser")
+    .textContent = data.name;
+
+  document.getElementById("currentRole")
+    .textContent =
+      data.role === "admin"
+      ? "Администратор"
+      : "Бариста";
+
+  await loadPreviousBalance();
+  await loadHistory();
+}
+
+
+// -------------------------
+// LOGOUT
+// -------------------------
+
+function logout(){
+
+  currentUser = null;
+
+  document.getElementById("mainScreen")
+    .classList.add("hidden");
+
+  document.getElementById("loginScreen")
+    .classList.remove("hidden");
+
+  document.getElementById("pin").value = "";
+
+}
+
+
+// -------------------------
+// TABS
+// -------------------------
+
+function showTab(tab){
+
+  const report =
+    document.getElementById("reportTab");
+
+  const history =
+    document.getElementById("historyTab");
+
+  const reportBtn =
+    document.getElementById("tabReport");
+
+  const historyBtn =
+    document.getElementById("tabHistory");
+
+  if(tab === "report"){
+
+    report.classList.remove("hidden");
+    history.classList.add("hidden");
+
+    reportBtn.classList.add("active");
+    historyBtn.classList.remove("active");
+
+  }else{
+
+    report.classList.add("hidden");
+    history.classList.remove("hidden");
+
+    reportBtn.classList.remove("active");
+    historyBtn.classList.add("active");
+
+    loadHistory();
+  }
+}
+
+
+// -------------------------
+// PREVIOUS BALANCE
+// -------------------------
+
+async function loadPreviousBalance(){
+
+  const {data,error} =
+    await supabaseClient
+      .from("shift_reports")
+      .select("actual_cash")
+      .not("actual_cash","is",null)
+      .order("created_at",{ascending:false})
+      .limit(1)
+      .maybeSingle();
+
+  if(error){
+    console.log(error);
+    return;
+  }
+
+  if(data){
+
+    document.getElementById("openingCash")
+      .value = Number(data.actual_cash || 0);
+
+  }else{
+
+    document.getElementById("openingCash")
+      .value = 0;
+
+  }
+
+  calculate();
+}
+
+
+// -------------------------
+// CALCULATE
+// -------------------------
+
+function money(value){
+
+  return Number(value || 0)
+    .toLocaleString("ru-RU",{
+      maximumFractionDigits:2
+    }) + " ₽";
+
+}
+
+
+function num(id){
+
+  return Number(
+    document.getElementById(id).value || 0
+  );
+
+}
+
+
+function calculate(){
+
+  const opening = num("openingCash");
+
+  const cash = num("cash");
+  const card = num("card");
+  const qr = num("qr");
+
+  const expenseBarista =
+    num("expenseBarista");
+
+  const expenseSupplier =
+    num("expenseSupplier");
+
+  const expenseWithdrawal =
+    num("expenseWithdrawal");
+
+  const sales =
+    cash + card + qr;
+
+  const expenses =
+    expenseBarista +
+    expenseSupplier +
+    expenseWithdrawal;
+
+  const expected =
+    opening +
+    cash -
+    expenses;
+
+  document.getElementById("salesTotal")
+    .textContent = money(sales);
+
+  document.getElementById("expensesTotal")
+    .textContent = money(expenses);
+
+  document.getElementById("expectedCash")
+    .textContent = money(expected);
+
+}
+
+
+[
+ "openingCash",
+ "cash",
+ "card",
+ "qr",
+ "expenseBarista",
+ "expenseSupplier",
+ "expenseWithdrawal"
+].forEach(id => {
+
+  document.getElementById(id)
+    .addEventListener("input",calculate);
+
+});
+
+
+// -------------------------
+// SAVE REPORT
+// -------------------------
+
+async function saveReport(){
+
+  if(!currentUser) return;
+
+  calculate();
+
+  const opening =
+    num("openingCash");
+
+  const cash =
+    num("cash");
+
+  const card =
+    num("card");
+
+  const qr =
+    num("qr");
+
+  const expenseBarista =
+    num("expenseBarista");
+
+  const expenseSupplier =
+    num("expenseSupplier");
+
+  const expenseWithdrawal =
+    num("expenseWithdrawal");
+
+  const sales =
+    cash + card + qr;
+
+  const expenses =
+    expenseBarista +
+    expenseSupplier +
+    expenseWithdrawal;
+
+  const expected =
+    opening +
+    cash -
+    expenses;
+
+  const comment =
+    document.getElementById("comment")
+      .value.trim();
+
+  const {error} =
+    await supabaseClient
+      .from("shift_reports")
+      .insert({
+
+        user_id: currentUser.id,
+
+        report_date:
+          new Date().toISOString().slice(0,10),
+
+        opening_time:
+          new Date().toISOString(),
+
+        opening_cash:
+          opening,
+
+        cash:
+          cash,
+
+        card:
+          card,
+
+        qr:
+          qr,
+
+        expense_barista:
+          expenseBarista,
+
+        expense_supplier:
+          expenseSupplier,
+
+        expense_withdrawal:
+          expenseWithdrawal,
+
+        comment_barista:
+          comment,
+
+        expected_cash:
+          expected,
+
+        closing_time:
+          new Date().toISOString(),
+
+        actual_cash:
+          expected
+
+      });
+
+  if(error){
+
+    showMessage(
+      "reportMessage",
+      "Не удалось сохранить отчёт: " +
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+  showMessage(
+    "reportMessage",
+    "Отчёт успешно сохранён",
+    "success"
+  );
+
+  document.getElementById("cash").value = 0;
+  document.getElementById("card").value = 0;
+  document.getElementById("qr").value = 0;
+
+  document.getElementById("expenseBarista").value = 0;
+  document.getElementById("expenseSupplier").value = 0;
+  document.getElementById("expenseWithdrawal").value = 0;
+
+  document.getElementById("comment").value = "";
+
+  await loadPreviousBalance();
+  await loadHistory();
+
+}
+
+
+// -------------------------
+// HISTORY
+// -------------------------
+
+async function loadHistory(){
+
+  const container =
+    document.getElementById("history");
+
+  container.innerHTML =
+    '<div class="empty">Загрузка...</div>';
+
+  const {data,error} =
+    await supabaseClient
+      .from("shift_reports_full")
+      .select("*")
+      .order("created_at",{ascending:false})
+      .limit(100);
+
+  if(error){
+
+    container.innerHTML =
+      '<div class="empty">Ошибка загрузки: ' +
+      escapeHtml(error.message) +
+      '</div>';
+
+    return;
+  }
+
+  if(!data || data.length === 0){
+
+    container.innerHTML =
+      '<div class="empty">Отчётов пока нет</div>';
+
+    return;
+  }
+
+  container.innerHTML =
+    data.map(report => {
+
+      const date =
+        report.report_date
+        ? new Date(report.report_date)
+            .toLocaleDateString("ru-RU")
+        : "—";
+
+      return `
+        <div class="report">
+
+          <div class="report-head">
+
+            <div>
+              <div class="report-name">
+                ${escapeHtml(report.barista_name || "Неизвестно")}
+              </div>
+
+              <div class="report-date">
+                ${date}
+              </div>
+            </div>
+
+            <div class="amount">
+              ${money(report.actual_cash)}
+            </div>
+
+          </div>
+
+          <div class="small" style="margin-top:8px">
+            Наличные: ${money(report.cash)}
+            · Карта: ${money(report.card)}
+            · QR: ${money(report.qr)}
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+
+}
+
+
+// -------------------------
+// MESSAGES
+// -------------------------
+
+function showMessage(id,text,type){
+
+  const el =
+    document.getElementById(id);
+
+  el.className =
+    "message " + type;
+
+  el.textContent = text;
+
+}
+
+
+// -------------------------
+// HTML SAFETY
+// -------------------------
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+// Initial calculation
+calculate();
+
+</script>
+
+</body>
+</html>
