@@ -18,6 +18,10 @@
 
 <style>
 
+/* =====================================================
+   ОСНОВНЫЕ НАСТРОЙКИ
+   ===================================================== */
+
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
@@ -64,7 +68,7 @@ button {
 
 
 /* =====================================================
-   LOGIN
+   ЭКРАН ВХОДА
    ===================================================== */
 
 #loginScreen {
@@ -94,66 +98,128 @@ button {
 
 .login-user-button {
   display: block;
+
   width: 100%;
   max-width: 100%;
+
   margin-top: 12px;
+
   padding: 15px;
+
   border: none;
   border-radius: 6px;
+
   background: #fff;
   color: #000;
+
   font-size: 17px;
   font-weight: 600;
+
+  cursor: pointer;
+}
+
+.login-user-button:active {
+  transform: scale(.98);
 }
 
 .login-role {
   display: block;
+
   margin-top: 4px;
+
   font-size: 12px;
   font-weight: 400;
+
   opacity: .55;
 }
 
+
+/* Администратор отдельно внизу */
+
+.admin-login-space {
+  margin-top: 70px;
+
+  padding-top: 15px;
+
+  border-top: 1px solid #333;
+}
+
+.admin-login-button {
+  background: #333 !important;
+  color: #fff !important;
+}
+
+.admin-login-button .login-role {
+  opacity: .55;
+}
+
+
+/* =====================================================
+   PIN
+   ===================================================== */
+
 .pin-title {
   text-align: center;
+
   font-size: 19px;
+
   margin-top: 25px;
   margin-bottom: 12px;
 }
 
 .pin-display {
   width: 100%;
+
   height: 48px;
+
   margin-bottom: 10px;
+
   border: 1px solid #555;
   border-radius: 5px;
+
   background: #222;
   color: #fff;
+
   display: flex;
+
   align-items: center;
   justify-content: center;
+
   font-size: 25px;
+
   letter-spacing: 8px;
+
   user-select: none;
   -webkit-user-select: none;
 }
 
 .pin-keyboard {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
   gap: 7px;
 }
 
 .pin-keyboard button {
   height: 50px;
+
   margin: 0;
+
   padding: 5px;
+
   border: none;
   border-radius: 5px;
+
   background: #222;
   color: #fff;
+
   font-size: 21px;
   font-weight: 500;
+
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .pin-keyboard button:active {
@@ -171,19 +237,25 @@ button {
 
 .back-button {
   display: block;
+
   width: 100%;
+
   margin-top: 10px;
+
   padding: 11px;
+
   border: none;
   border-radius: 5px;
+
   background: #222;
   color: #fff;
+
   font-size: 14px;
 }
 
 
 /* =====================================================
-   ОСНОВНЫЕ НАСТРОЙКИ
+   СКРЫТИЕ
    ===================================================== */
 
 .hidden {
@@ -197,9 +269,12 @@ button {
 
 .app-top {
   display: flex;
+
   align-items: center;
   justify-content: space-between;
+
   gap: 8px;
+
   margin-bottom: 6px;
 }
 
@@ -210,14 +285,19 @@ button {
 
 .app-actions {
   display: flex;
+
   gap: 5px;
 }
 
 .app-actions button {
   width: auto;
+
   margin: 0;
+
   padding: 7px 9px;
+
   font-size: 12px;
+
   border-radius: 5px;
 }
 
@@ -233,7 +313,9 @@ button {
 
 h1 {
   text-align: center;
+
   font-size: 21px;
+
   margin: 7px 0 14px;
 }
 
@@ -244,8 +326,11 @@ h1 {
 
 label {
   display: block;
+
   margin: 7px 0 4px;
+
   font-size: 15px;
+
   line-height: 1.1;
 }
 
@@ -263,9 +348,11 @@ textarea {
   padding: 5px 7px;
 
   border: 1px solid #555;
+
   border-radius: 5px;
 
   background: #222;
+
   color: #fff;
 
   font-size: 15px;
@@ -275,6 +362,7 @@ input:focus,
 select:focus,
 textarea:focus {
   outline: none;
+
   border-color: #888;
 }
 
@@ -304,6 +392,7 @@ textarea:focus {
 
 input[type="number"] {
   font-size: 17px;
+
   font-weight: 400;
 }
 
@@ -325,6 +414,7 @@ input[type="number"] {
   color: #fff;
 
   font-size: 17px;
+
   font-weight: 600;
 
   line-height: 1.1;
@@ -332,7 +422,7 @@ input[type="number"] {
 
 
 /* =====================================================
-   ТАБЛИЦЫ ФОРМЫ
+   ТАБЛИЦЫ
    ===================================================== */
 
 .form-table {
@@ -341,6 +431,7 @@ input[type="number"] {
   min-width: 0 !important;
 
   table-layout: fixed !important;
+
   border-collapse: collapse;
 }
 
@@ -358,9 +449,9 @@ input[type="number"] {
   overflow: hidden;
 
   word-break: break-word;
+
   overflow-wrap: anywhere;
 }
-
 
 .form-table th:nth-child(1),
 .form-table td:nth-child(1) {
@@ -377,18 +468,17 @@ input[type="number"] {
   width: 41% !important;
 }
 
-
 .form-table th {
   background: #222;
 
   font-size: 14px;
+
   font-weight: 600;
 
   line-height: 1.05;
 
   text-align: center;
 }
-
 
 .form-table td:first-child {
   white-space: normal !important;
@@ -401,7 +491,6 @@ input[type="number"] {
 
   line-height: 1.1;
 }
-
 
 .form-table input,
 .form-table textarea {
@@ -443,6 +532,7 @@ input[type="number"] {
   text-align: right;
 
   font-size: 16px;
+
   font-weight: 600;
 }
 
@@ -464,6 +554,7 @@ input[type="number"] {
   border: 1px solid #555;
 
   font-size: 15px;
+
   font-weight: 500;
 
   text-align: right;
@@ -473,6 +564,7 @@ input[type="number"] {
 
 .expected span {
   font-size: 15px;
+
   font-weight: 500;
 }
 
@@ -492,17 +584,21 @@ input[type="number"] {
   padding: 13px;
 
   border: none;
+
   border-radius: 6px;
 
   background: #fff;
+
   color: #000;
 
   font-size: 16px;
+
   font-weight: 600;
 }
 
 .dark-button {
   background: #333;
+
   color: #fff;
 }
 
@@ -525,13 +621,17 @@ input[type="number"] {
 
 .message.error {
   display: block;
+
   background: #401919;
+
   color: #ffb5b5;
 }
 
 .message.success {
   display: block;
+
   background: #193d21;
+
   color: #b8ffca;
 }
 
@@ -542,21 +642,29 @@ input[type="number"] {
 
 .settings-title {
   font-size: 19px;
+
   font-weight: 600;
+
   margin: 12px 0 8px;
 }
 
 .settings-user {
   border: 1px solid #444;
+
   background: #222;
+
   padding: 10px;
+
   margin-bottom: 10px;
+
   border-radius: 5px;
 }
 
 .settings-user-title {
   font-size: 16px;
+
   font-weight: 600;
+
   margin-bottom: 8px;
 }
 
@@ -570,8 +678,11 @@ input[type="number"] {
 
 .settings-save {
   margin-top: 10px;
+
   padding: 10px;
+
   background: #fff;
+
   color: #000;
 }
 
@@ -582,31 +693,45 @@ input[type="number"] {
 
 .history-title {
   font-size: 19px;
+
   font-weight: 600;
+
   margin: 12px 0;
 }
 
 .history-item {
   background: #222;
+
   border: 1px solid #444;
+
   border-radius: 5px;
+
   margin-bottom: 8px;
+
   padding: 9px;
+
   font-size: 13px;
 }
 
 .history-head {
   display: flex;
+
   justify-content: space-between;
+
   gap: 8px;
+
   font-weight: 600;
+
   margin-bottom: 5px;
 }
 
 .history-row {
   display: flex;
+
   justify-content: space-between;
+
   padding: 2px 0;
+
   color: #ddd;
 }
 
@@ -626,14 +751,15 @@ input[type="number"] {
   padding: 38px;
 
   background: #fff;
+
   color: #000;
 
   font-family: Arial, sans-serif;
 }
 
-
 .report-logo {
   font-size: 68px;
+
   font-weight: 700;
 
   line-height: 1;
@@ -641,9 +767,9 @@ input[type="number"] {
   margin-bottom: 8px;
 }
 
-
 .report-title {
   font-size: 44px;
+
   font-weight: 500;
 
   line-height: 1.1;
@@ -651,13 +777,11 @@ input[type="number"] {
   margin-bottom: 17px;
 }
 
-
 .report-date {
   font-size: 34px;
 
   margin-bottom: 22px;
 }
-
 
 .report-section {
   margin-top: 20px;
@@ -665,12 +789,13 @@ input[type="number"] {
   padding: 13px 15px;
 
   background: #222;
+
   color: #fff;
 
   font-size: 31px;
+
   font-weight: 500;
 }
-
 
 .report-table {
   width: 100%;
@@ -703,7 +828,6 @@ input[type="number"] {
   text-align: center;
 }
 
-
 .report-opening td:first-child {
   width: 35%;
 
@@ -715,7 +839,6 @@ input[type="number"] {
 
   text-align: left;
 }
-
 
 .report-payments th:nth-child(1),
 .report-payments td:nth-child(1) {
@@ -734,7 +857,6 @@ input[type="number"] {
   width: 40%;
 }
 
-
 .report-expenses th:nth-child(1),
 .report-expenses td:nth-child(1) {
   width: 38%;
@@ -752,7 +874,6 @@ input[type="number"] {
   width: 40%;
 }
 
-
 .report-total {
   padding: 14px 15px;
 
@@ -767,7 +888,6 @@ input[type="number"] {
   font-weight: 500;
 }
 
-
 .report-closing td:first-child {
   width: 35%;
 
@@ -779,7 +899,6 @@ input[type="number"] {
 
   text-align: left;
 }
-
 
 .report-closing td {
   font-size: 30px;
@@ -834,6 +953,7 @@ input[type="number"] {
 
   .section {
     font-size: 16px;
+
     padding: 7px 8px;
   }
 
@@ -853,16 +973,19 @@ input[type="number"] {
   .form-table input,
   .form-table textarea {
     height: 36px !important;
+
     font-size: 16px !important;
   }
 
   .total {
     font-size: 15px;
+
     padding: 7px;
   }
 
   .expected {
     font-size: 14px;
+
     padding: 8px;
   }
 
@@ -873,6 +996,7 @@ input[type="number"] {
 }
 
 </style>
+
 </head>
 
 
@@ -893,10 +1017,12 @@ input[type="number"] {
     ОТЧЁТ СМЕНЫ БАРИСТА
   </div>
 
+
   <div id="usersLoading"
        style="text-align:center;color:#aaa;">
     Загрузка пользователей...
   </div>
+
 
   <div id="usersList"
        class="login-card">
@@ -912,6 +1038,7 @@ input[type="number"] {
          id="pinUserName">
     </div>
 
+
     <div class="pin-display"
          id="pinDisplay">
       ••••
@@ -920,17 +1047,41 @@ input[type="number"] {
 
     <div class="pin-keyboard">
 
-      <button onclick="pinPress('1')">1</button>
-      <button onclick="pinPress('2')">2</button>
-      <button onclick="pinPress('3')">3</button>
+      <button onclick="pinPress('1')">
+        1
+      </button>
 
-      <button onclick="pinPress('4')">4</button>
-      <button onclick="pinPress('5')">5</button>
-      <button onclick="pinPress('6')">6</button>
+      <button onclick="pinPress('2')">
+        2
+      </button>
 
-      <button onclick="pinPress('7')">7</button>
-      <button onclick="pinPress('8')">8</button>
-      <button onclick="pinPress('9')">9</button>
+      <button onclick="pinPress('3')">
+        3
+      </button>
+
+      <button onclick="pinPress('4')">
+        4
+      </button>
+
+      <button onclick="pinPress('5')">
+        5
+      </button>
+
+      <button onclick="pinPress('6')">
+        6
+      </button>
+
+      <button onclick="pinPress('7')">
+        7
+      </button>
+
+      <button onclick="pinPress('8')">
+        8
+      </button>
+
+      <button onclick="pinPress('9')">
+        9
+      </button>
 
       <button class="clear"
               onclick="pinClear()">
@@ -980,26 +1131,35 @@ input[type="number"] {
     <span id="currentUserName"></span>
   </div>
 
+
   <div class="app-actions">
 
     <button
       id="historyButton"
       class="secondary"
       onclick="toggleHistory()">
+
       История
+
     </button>
+
 
     <button
       id="settingsButton"
       class="secondary hidden"
       onclick="toggleSettings()">
+
       Настройки
+
     </button>
+
 
     <button
       class="secondary"
       onclick="logout()">
+
       Выйти
+
     </button>
 
   </div>
@@ -1084,12 +1244,23 @@ input[type="number"] {
 <thead>
 
 <tr>
-  <th>Оплата</th>
-  <th>Сумма</th>
-  <th>Комментарий</th>
+
+<th>
+  Оплата
+</th>
+
+<th>
+  Сумма
+</th>
+
+<th>
+  Комментарий
+</th>
+
 </tr>
 
 </thead>
+
 
 <tbody>
 
@@ -1158,9 +1329,11 @@ input[type="number"] {
 <div class="total">
 
   ИТОГО:
+
   <span id="paymentTotal">
     0
   </span>
+
   ₽
 
 </div>
@@ -1178,12 +1351,23 @@ input[type="number"] {
 <thead>
 
 <tr>
-  <th>Расход</th>
-  <th>Сумма</th>
-  <th>Комментарий</th>
+
+<th>
+  Расход
+</th>
+
+<th>
+  Сумма
+</th>
+
+<th>
+  Комментарий
+</th>
+
 </tr>
 
 </thead>
+
 
 <tbody>
 
@@ -1428,9 +1612,11 @@ input[type="number"] {
 <div class="total">
 
   ИТОГО РАСХОДОВ:
+
   <span id="expenseTotal">
     0
   </span>
+
   ₽
 
 </div>
@@ -1439,9 +1625,11 @@ input[type="number"] {
 <div class="expected">
 
   ОЖИДАЕМЫЙ ОСТАТОК В КАССЕ:
+
   <span id="expectedCash">
     0
   </span>
+
   ₽
 
 </div>
@@ -1505,6 +1693,7 @@ input[type="number"] {
     ИСТОРИЯ СМЕН
   </div>
 
+
   <button
     class="main-button"
     onclick="loadHistory()">
@@ -1513,9 +1702,9 @@ input[type="number"] {
 
   </button>
 
+
   <div id="historyList"
        style="margin-top:10px;">
-
   </div>
 
 </div>
@@ -1532,15 +1721,22 @@ input[type="number"] {
     НАСТРОЙКИ БАРИСТА
   </div>
 
-  <div style="font-size:13px;color:#aaa;margin-bottom:12px;">
+
+  <div style="
+       font-size:13px;
+       color:#aaa;
+       margin-bottom:12px;
+       ">
 
     Здесь администратор может изменить
     имя и PIN бариста.
 
   </div>
 
+
   <div id="settingsUsers">
   </div>
+
 
   <div id="settingsMessage"
        class="message">
@@ -1555,7 +1751,7 @@ input[type="number"] {
 
 
 <!-- =====================================================
-     ГОТОВЫЙ JPEG
+     ГОТОВЫЙ ОТЧЁТ JPEG
      ===================================================== -->
 
 <div id="report">
@@ -1564,13 +1760,17 @@ input[type="number"] {
   A5
 </div>
 
+
 <div class="report-title">
   ОТЧЁТ СМЕНЫ БАРИСТА
 </div>
 
+
 <div class="report-date">
+
   Дата:
   <span id="rDate"></span>
+
 </div>
 
 
@@ -1578,23 +1778,44 @@ input[type="number"] {
   ОТКРЫТИЕ СМЕНЫ
 </div>
 
+
 <table class="report-table report-opening">
 
 <tbody>
 
 <tr>
-  <td>Бариста</td>
-  <td id="rBarista"></td>
+
+<td>
+  Бариста
+</td>
+
+<td id="rBarista">
+</td>
+
 </tr>
 
-<tr>
-  <td>Время открытия</td>
-  <td id="rOpenTime"></td>
-</tr>
 
 <tr>
-  <td>Остаток наличных в кассе</td>
-  <td id="rOpenCash"></td>
+
+<td>
+  Время открытия
+</td>
+
+<td id="rOpenTime">
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+  Остаток наличных в кассе
+</td>
+
+<td id="rOpenCash">
+</td>
+
 </tr>
 
 </tbody>
@@ -1606,30 +1827,59 @@ input[type="number"] {
   ОПЛАТЫ ЗА СМЕНУ
 </div>
 
+
 <table class="report-table report-payments">
 
 <thead>
 
 <tr>
-  <th>Оплата</th>
-  <th>Сумма</th>
-  <th>Комментарий</th>
+
+<th>
+  Оплата
+</th>
+
+<th>
+  Сумма
+</th>
+
+<th>
+  Комментарий
+</th>
+
 </tr>
 
 </thead>
 
+
 <tbody>
 
 <tr id="rCashRow">
-  <td>Наличные</td>
-  <td id="rCash"></td>
-  <td id="rCashComment"></td>
+
+<td>
+  Наличные
+</td>
+
+<td id="rCash">
+</td>
+
+<td id="rCashComment">
+</td>
+
 </tr>
 
+
 <tr id="rCardRow">
-  <td>Безнал (карта / QR)</td>
-  <td id="rCard"></td>
-  <td id="rCardComment"></td>
+
+<td>
+  Безнал (карта / QR)
+</td>
+
+<td id="rCard">
+</td>
+
+<td id="rCardComment">
+</td>
+
 </tr>
 
 </tbody>
@@ -1642,7 +1892,10 @@ input[type="number"] {
   id="rPaymentTotalBlock">
 
   ИТОГО:
-  <span id="rPaymentTotal"></span>
+
+  <span id="rPaymentTotal">
+  </span>
+
   ₽
 
 </div>
@@ -1652,66 +1905,149 @@ input[type="number"] {
   РАСХОДЫ И ИЗЪЯТИЯ
 </div>
 
+
 <table class="report-table report-expenses">
 
 <thead>
 
 <tr>
-  <th>Расход</th>
-  <th>Сумма</th>
-  <th>Комментарий</th>
+
+<th>
+  Расход
+</th>
+
+<th>
+  Сумма
+</th>
+
+<th>
+  Комментарий
+</th>
+
 </tr>
 
 </thead>
 
+
 <tbody>
 
 <tr id="rBaristaExpense1Row">
-  <td>Бариста</td>
-  <td id="rBaristaExpense1"></td>
-  <td id="rBaristaComment1"></td>
+
+<td>
+  Бариста
+</td>
+
+<td id="rBaristaExpense1">
+</td>
+
+<td id="rBaristaComment1">
+</td>
+
 </tr>
+
 
 <tr id="rBaristaExpense2Row">
-  <td>Бариста</td>
-  <td id="rBaristaExpense2"></td>
-  <td id="rBaristaComment2"></td>
+
+<td>
+  Бариста
+</td>
+
+<td id="rBaristaExpense2">
+</td>
+
+<td id="rBaristaComment2">
+</td>
+
 </tr>
+
 
 <tr id="rBaristaExpense3Row">
-  <td>Бариста</td>
-  <td id="rBaristaExpense3"></td>
-  <td id="rBaristaComment3"></td>
+
+<td>
+  Бариста
+</td>
+
+<td id="rBaristaExpense3">
+</td>
+
+<td id="rBaristaComment3">
+</td>
+
 </tr>
+
 
 <tr id="rSupplier1Row">
-  <td>Поставщик</td>
-  <td id="rSupplier1"></td>
-  <td id="rSupplierComment1"></td>
+
+<td>
+  Поставщик
+</td>
+
+<td id="rSupplier1">
+</td>
+
+<td id="rSupplierComment1">
+</td>
+
 </tr>
+
 
 <tr id="rSupplier2Row">
-  <td>Поставщик</td>
-  <td id="rSupplier2"></td>
-  <td id="rSupplierComment2"></td>
+
+<td>
+  Поставщик
+</td>
+
+<td id="rSupplier2">
+</td>
+
+<td id="rSupplierComment2">
+</td>
+
 </tr>
+
 
 <tr id="rSupplier3Row">
-  <td>Поставщик</td>
-  <td id="rSupplier3"></td>
-  <td id="rSupplierComment3"></td>
+
+<td>
+  Поставщик
+</td>
+
+<td id="rSupplier3">
+</td>
+
+<td id="rSupplierComment3">
+</td>
+
 </tr>
+
 
 <tr id="rSupplier4Row">
-  <td>Поставщик</td>
-  <td id="rSupplier4"></td>
-  <td id="rSupplierComment4"></td>
+
+<td>
+  Поставщик
+</td>
+
+<td id="rSupplier4">
+</td>
+
+<td id="rSupplierComment4">
+</td>
+
 </tr>
 
+
 <tr id="rWithdrawRow">
-  <td>Изъятие</td>
-  <td id="rWithdraw"></td>
-  <td id="rWithdrawComment"></td>
+
+<td>
+  Изъятие
+</td>
+
+<td id="rWithdraw">
+</td>
+
+<td id="rWithdrawComment">
+</td>
+
 </tr>
 
 </tbody>
@@ -1724,7 +2060,10 @@ input[type="number"] {
   id="rExpenseTotalBlock">
 
   ИТОГО РАСХОДОВ:
-  <span id="rExpenseTotal"></span>
+
+  <span id="rExpenseTotal">
+  </span>
+
   ₽
 
 </div>
@@ -1734,18 +2073,32 @@ input[type="number"] {
   ЗАКРЫТИЕ СМЕНЫ
 </div>
 
+
 <table class="report-table report-closing">
 
 <tbody>
 
 <tr>
-  <td>Время закрытия</td>
-  <td id="rCloseTime"></td>
+
+<td>
+  Время закрытия
+</td>
+
+<td id="rCloseTime">
+</td>
+
 </tr>
 
+
 <tr>
-  <td>Фактический остаток наличных в кассе</td>
-  <td id="rCloseCash"></td>
+
+<td>
+  Фактический остаток наличных в кассе
+</td>
+
+<td id="rCloseCash">
+</td>
+
 </tr>
 
 </tbody>
@@ -1769,7 +2122,7 @@ const SUPABASE_KEY =
 
 
 /* =====================================================
-   СОСТОЯНИЕ
+   ПЕРЕМЕННЫЕ
    ===================================================== */
 
 let loginUsers = [];
@@ -1801,15 +2154,22 @@ async function callRPC(
         method: "POST",
 
         headers: {
-          "apikey": SUPABASE_KEY,
+
+          "apikey":
+            SUPABASE_KEY,
+
           "Authorization":
-            "Bearer " + SUPABASE_KEY,
+            "Bearer " +
+            SUPABASE_KEY,
+
           "Content-Type":
             "application/json"
+
         },
 
         body:
           JSON.stringify(params)
+
       }
     );
 
@@ -1828,9 +2188,12 @@ async function callRPC(
       ? JSON.parse(text)
       : null;
 
-  } catch {
+  }
 
-    data = text;
+  catch {
+
+    data =
+      text;
 
   }
 
@@ -1845,8 +2208,10 @@ async function callRPC(
       data &&
       data.message
     ) {
+
       message =
         data.message;
+
     }
 
 
@@ -1854,12 +2219,16 @@ async function callRPC(
       data &&
       data.error
     ) {
+
       message =
         data.error;
+
     }
 
 
-    throw new Error(message);
+    throw new Error(
+      message
+    );
 
   }
 
@@ -1870,7 +2239,7 @@ async function callRPC(
 
 
 /* =====================================================
-   ПОЛЬЗОВАТЕЛИ
+   ЗАГРУЗКА ПОЛЬЗОВАТЕЛЕЙ
    ===================================================== */
 
 async function loadLoginUsers() {
@@ -1880,6 +2249,7 @@ async function loadLoginUsers() {
       "usersLoading"
     );
 
+
   const list =
     document.getElementById(
       "usersList"
@@ -1888,6 +2258,7 @@ async function loadLoginUsers() {
 
   loading.style.display =
     "block";
+
 
   list.innerHTML =
     "";
@@ -1905,7 +2276,18 @@ async function loadLoginUsers() {
       "none";
 
 
-    loginUsers.forEach(
+    /*
+       СНАЧАЛА БАРИСТЫ
+    */
+
+    const baristas =
+      loginUsers.filter(
+        user =>
+          user.role === "barista"
+      );
+
+
+    baristas.forEach(
       user => {
 
         const button =
@@ -1925,9 +2307,7 @@ async function loadLoginUsers() {
 
 
         name.textContent =
-          user.role === "admin"
-          ? "Администратор"
-          : user.name;
+          user.name;
 
 
         const role =
@@ -1941,40 +2321,145 @@ async function loadLoginUsers() {
 
 
         role.textContent =
-          user.role === "admin"
-          ? "Администратор"
-          : "Бариста";
+          "Бариста";
 
 
-        button.appendChild(name);
-        button.appendChild(role);
+        button.appendChild(
+          name
+        );
+
+
+        button.appendChild(
+          role
+        );
 
 
         button.addEventListener(
           "click",
           function() {
 
-            selectUser(user);
+            selectUser(
+              user
+            );
 
           }
         );
 
 
-        list.appendChild(button);
+        list.appendChild(
+          button
+        );
 
       }
     );
 
 
-  } catch(error) {
+    /*
+       ПОТОМ АДМИНИСТРАТОР
+    */
+
+    const admin =
+      loginUsers.find(
+        user =>
+          user.role === "admin"
+      );
+
+
+    if (admin) {
+
+      const space =
+        document.createElement(
+          "div"
+        );
+
+
+      space.className =
+        "admin-login-space";
+
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.className =
+        "login-user-button " +
+        "admin-login-button";
+
+
+      const name =
+        document.createElement(
+          "div"
+        );
+
+
+      name.textContent =
+        "Администратор";
+
+
+      const role =
+        document.createElement(
+          "span"
+        );
+
+
+      role.className =
+        "login-role";
+
+
+      role.textContent =
+        "Вход администратора";
+
+
+      button.appendChild(
+        name
+      );
+
+
+      button.appendChild(
+        role
+      );
+
+
+      button.addEventListener(
+        "click",
+        function() {
+
+          selectUser(
+            admin
+          );
+
+        }
+      );
+
+
+      space.appendChild(
+        button
+      );
+
+
+      list.appendChild(
+        space
+      );
+
+    }
+
+
+  }
+
+  catch(error) {
 
     loading.style.display =
       "none";
 
 
     list.innerHTML =
-      '<div class="message error" style="display:block">' +
-      escapeHtml(error.message) +
+      '<div class="message error" ' +
+      'style="display:block">' +
+      escapeHtml(
+        error.message
+      ) +
       '</div>';
 
   }
@@ -1986,13 +2471,17 @@ async function loadLoginUsers() {
    ВЫБОР ПОЛЬЗОВАТЕЛЯ
    ===================================================== */
 
-function selectUser(user) {
+function selectUser(
+  user
+) {
 
   selectedUser =
     user;
 
+
   pinValue =
     "";
+
 
   updatePinDisplay();
 
@@ -2039,16 +2528,21 @@ function selectUser(user) {
    PIN
    ===================================================== */
 
-function pinPress(number) {
+function pinPress(
+  number
+) {
 
   if (
     pinValue.length >= 4
   ) {
+
     return;
+
   }
 
 
-  pinValue += number;
+  pinValue +=
+    number;
 
 
   updatePinDisplay();
@@ -2080,7 +2574,9 @@ function updatePinDisplay() {
 
   display.textContent =
     pinValue.length
-    ? "●".repeat(pinValue.length)
+    ? "●".repeat(
+        pinValue.length
+      )
     : "••••";
 
 }
@@ -2103,7 +2599,9 @@ async function login() {
 
 
   if (!selectedUser) {
+
     return;
+
   }
 
 
@@ -2114,8 +2612,10 @@ async function login() {
     message.textContent =
       "Введите 4 цифры PIN";
 
+
     message.className =
       "message error";
+
 
     return;
 
@@ -2165,6 +2665,7 @@ async function login() {
     currentUser =
       user;
 
+
     currentPin =
       pinValue;
 
@@ -2191,9 +2692,19 @@ async function login() {
       : user.name;
 
 
-    document.getElementById(
-      "barista"
-    ).innerHTML =
+    /*
+       В поле «Бариста»
+       автоматически ставим
+       вошедшего пользователя.
+    */
+
+    const barista =
+      document.getElementById(
+        "barista"
+      );
+
+
+    barista.innerHTML =
       "";
 
 
@@ -2206,19 +2717,23 @@ async function login() {
     option.value =
       user.name;
 
+
     option.textContent =
       user.name;
+
 
     option.selected =
       true;
 
 
-    document.getElementById(
-      "barista"
-    ).appendChild(
+    barista.appendChild(
       option
     );
 
+
+    /*
+       Настройки только Admin.
+    */
 
     if (
       user.role === "admin"
@@ -2230,7 +2745,9 @@ async function login() {
         "hidden"
       );
 
-    } else {
+    }
+
+    else {
 
       document.getElementById(
         "settingsButton"
@@ -2243,12 +2760,17 @@ async function login() {
 
     setToday();
 
+
     loadOpeningBalance();
 
-  } catch(error) {
+  }
+
+
+  catch(error) {
 
     message.textContent =
       error.message;
+
 
     message.className =
       "message error";
@@ -2267,8 +2789,10 @@ function backToUsers() {
   selectedUser =
     null;
 
+
   pinValue =
     "";
+
 
   updatePinDisplay();
 
@@ -2291,11 +2815,14 @@ function logout() {
   currentUser =
     null;
 
+
   currentPin =
     "";
 
+
   selectedUser =
     null;
+
 
   pinValue =
     "";
@@ -2356,7 +2883,8 @@ function setToday() {
 
   document.getElementById(
     "date"
-  ).value = "";
+  ).value =
+    "";
 
 }
 
@@ -2365,10 +2893,14 @@ function setToday() {
    ЗНАЧЕНИЯ
    ===================================================== */
 
-function val(id) {
+function val(
+  id
+) {
 
   const element =
-    document.getElementById(id);
+    document.getElementById(
+      id
+    );
 
 
   return element
@@ -2378,7 +2910,9 @@ function val(id) {
 }
 
 
-function num(id) {
+function num(
+  id
+) {
 
   const value =
     parseFloat(
@@ -2393,7 +2927,9 @@ function num(id) {
 }
 
 
-function money(value) {
+function money(
+  value
+) {
 
   return Number(
     value || 0
@@ -2413,12 +2949,14 @@ function calculate() {
   const cash =
     num("cash");
 
+
   const card =
     num("card");
 
 
   const paymentTotal =
-    cash + card;
+    cash +
+    card;
 
 
   const expenseTotal =
@@ -2443,25 +2981,31 @@ function calculate() {
   document.getElementById(
     "paymentTotal"
   ).textContent =
-    money(paymentTotal);
+    money(
+      paymentTotal
+    );
 
 
   document.getElementById(
     "expenseTotal"
   ).textContent =
-    money(expenseTotal);
+    money(
+      expenseTotal
+    );
 
 
   document.getElementById(
     "expectedCash"
   ).textContent =
-    money(expectedCash);
+    money(
+      expectedCash
+    );
 
 }
 
 
 /* =====================================================
-   ОСТАТОК ИЗ SUPABASE
+   ОСТАТОК
    ===================================================== */
 
 async function loadOpeningBalance() {
@@ -2513,14 +3057,18 @@ async function loadOpeningBalance() {
       document.getElementById(
         "openCash"
       ).value =
-        Number(value || 0);
+        Number(
+          value || 0
+        );
 
     }
 
 
     calculate();
 
-  } catch(error) {
+  }
+
+  catch(error) {
 
     console.log(
       "Ошибка остатка:",
@@ -2533,7 +3081,7 @@ async function loadOpeningBalance() {
 
 
 /* =====================================================
-   СОХРАНЕНИЕ ОТЧЁТА В SUPABASE
+   СОХРАНЕНИЕ В SUPABASE
    ===================================================== */
 
 async function saveToSupabase() {
@@ -2582,25 +3130,55 @@ async function saveToSupabase() {
 
   const commentFields = [
 
-    ["Наличные", "cashComment"],
+    [
+      "Наличные",
+      "cashComment"
+    ],
 
-    ["Безнал", "cardComment"],
+    [
+      "Безнал",
+      "cardComment"
+    ],
 
-    ["Бариста", "baristaComment1"],
+    [
+      "Бариста",
+      "baristaComment1"
+    ],
 
-    ["Бариста", "baristaComment2"],
+    [
+      "Бариста",
+      "baristaComment2"
+    ],
 
-    ["Бариста", "baristaComment3"],
+    [
+      "Бариста",
+      "baristaComment3"
+    ],
 
-    ["Поставщик", "supplierComment1"],
+    [
+      "Поставщик",
+      "supplierComment1"
+    ],
 
-    ["Поставщик", "supplierComment2"],
+    [
+      "Поставщик",
+      "supplierComment2"
+    ],
 
-    ["Поставщик", "supplierComment3"],
+    [
+      "Поставщик",
+      "supplierComment3"
+    ],
 
-    ["Поставщик", "supplierComment4"],
+    [
+      "Поставщик",
+      "supplierComment4"
+    ],
 
-    ["Изъятие", "withdrawComment"]
+    [
+      "Изъятие",
+      "withdrawComment"
+    ]
 
   ];
 
@@ -2609,7 +3187,9 @@ async function saveToSupabase() {
     item => {
 
       const text =
-        val(item[1]).trim();
+        val(
+          item[1]
+        ).trim();
 
 
       if (text) {
@@ -2635,6 +3215,7 @@ async function saveToSupabase() {
   await callRPC(
     "save_shift_report",
     {
+
       p_pin:
         currentPin,
 
@@ -2664,6 +3245,7 @@ async function saveToSupabase() {
 
       p_comment:
         comment
+
     }
   );
 
@@ -2680,11 +3262,15 @@ function setText(
 ) {
 
   const element =
-    document.getElementById(id);
+    document.getElementById(
+      id
+    );
 
 
   if (!element) {
+
     return;
+
   }
 
 
@@ -2696,10 +3282,14 @@ function setText(
 }
 
 
-function formatDate(date) {
+function formatDate(
+  date
+) {
 
   if (!date) {
+
     return "—";
+
   }
 
 
@@ -2710,7 +3300,9 @@ function formatDate(date) {
   if (
     parts.length !== 3
   ) {
+
     return date;
+
   }
 
 
@@ -2734,7 +3326,9 @@ function prepareExpenseRow(
 ) {
 
   const amount =
-    val(amountId).trim();
+    val(
+      amountId
+    ).trim();
 
 
   const row =
@@ -2744,7 +3338,9 @@ function prepareExpenseRow(
 
 
   if (!row) {
+
     return false;
+
   }
 
 
@@ -2766,7 +3362,8 @@ function prepareExpenseRow(
     amountReportId,
     money(
       num(amountId)
-    ) + " ₽"
+    ) +
+    " ₽"
   );
 
 
@@ -2810,7 +3407,8 @@ function createReport() {
     "rOpenCash",
     money(
       num("openCash")
-    ) + " ₽"
+    ) +
+    " ₽"
   );
 
 
@@ -2833,20 +3431,28 @@ function createReport() {
     cashRow.style.display =
       "none";
 
-  } else {
+  }
+
+  else {
 
     cashRow.style.display =
       "";
 
+
     setText(
       "rCash",
-      money(num("cash")) +
+      money(
+        num("cash")
+      ) +
       " ₽"
     );
 
+
     setText(
       "rCashComment",
-      val("cashComment")
+      val(
+        "cashComment"
+      )
     );
 
   }
@@ -2863,20 +3469,28 @@ function createReport() {
     cardRow.style.display =
       "none";
 
-  } else {
+  }
+
+  else {
 
     cardRow.style.display =
       "";
 
+
     setText(
       "rCard",
-      money(num("card")) +
+      money(
+        num("card")
+      ) +
       " ₽"
     );
 
+
     setText(
       "rCardComment",
-      val("cardComment")
+      val(
+        "cardComment"
+      )
     );
 
   }
@@ -2901,14 +3515,19 @@ function createReport() {
     paymentBlock.style.display =
       "none";
 
-  } else {
+  }
+
+  else {
 
     paymentBlock.style.display =
       "";
 
+
     setText(
       "rPaymentTotal",
-      money(paymentTotal)
+      money(
+        paymentTotal
+      )
     );
 
   }
@@ -2926,7 +3545,9 @@ function createReport() {
       "rBaristaComment1"
     )
   ) {
+
     expenseRows++;
+
   }
 
 
@@ -2939,7 +3560,9 @@ function createReport() {
       "rBaristaComment2"
     )
   ) {
+
     expenseRows++;
+
   }
 
 
@@ -2952,7 +3575,9 @@ function createReport() {
       "rBaristaComment3"
     )
   ) {
+
     expenseRows++;
+
   }
 
 
@@ -2965,7 +3590,9 @@ function createReport() {
       "rSupplierComment1"
     )
   ) {
+
     expenseRows++;
+
   }
 
 
@@ -2978,7 +3605,9 @@ function createReport() {
       "rSupplierComment2"
     )
   ) {
+
     expenseRows++;
+
   }
 
 
@@ -2991,7 +3620,9 @@ function createReport() {
       "rSupplierComment3"
     )
   ) {
+
     expenseRows++;
+
   }
 
 
@@ -3004,7 +3635,9 @@ function createReport() {
       "rSupplierComment4"
     )
   ) {
+
     expenseRows++;
+
   }
 
 
@@ -3017,7 +3650,9 @@ function createReport() {
       "rWithdrawComment"
     )
   ) {
+
     expenseRows++;
+
   }
 
 
@@ -3034,10 +3669,13 @@ function createReport() {
     expenseBlock.style.display =
       "none";
 
-  } else {
+  }
+
+  else {
 
     expenseBlock.style.display =
       "";
+
 
     const expenseTotal =
       num("baristaExpense1") +
@@ -3054,7 +3692,9 @@ function createReport() {
 
     setText(
       "rExpenseTotal",
-      money(expenseTotal)
+      money(
+        expenseTotal
+      )
     );
 
   }
@@ -3070,7 +3710,8 @@ function createReport() {
     "rCloseCash",
     money(
       num("closeCash")
-    ) + " ₽"
+    ) +
+    " ₽"
   );
 
 }
@@ -3091,6 +3732,7 @@ async function makeJPEG() {
     await html2canvas(
       report,
       {
+
         scale: 2,
 
         backgroundColor:
@@ -3099,6 +3741,7 @@ async function makeJPEG() {
         useCORS: true,
 
         logging: false
+
       }
     );
 
@@ -3108,10 +3751,17 @@ async function makeJPEG() {
 
       canvas.toBlob(
         blob => {
-          resolve(blob);
+
+          resolve(
+            blob
+          );
+
         },
+
         "image/jpeg",
+
         0.95
+
       );
 
     }
@@ -3121,7 +3771,7 @@ async function makeJPEG() {
 
 
 /* =====================================================
-   СОХРАНИТЬ + JPEG
+   СОХРАНЕНИЕ + JPEG
    ===================================================== */
 
 async function saveReportAndJPEG() {
@@ -3138,16 +3788,8 @@ async function saveReportAndJPEG() {
 
   try {
 
-    /*
-      Сначала сохраняем в Supabase.
-    */
-
     await saveToSupabase();
 
-
-    /*
-      Затем создаём JPEG.
-    */
 
     const blob =
       await makeJPEG();
@@ -3160,12 +3802,12 @@ async function saveReportAndJPEG() {
 
     const file =
       new File(
-        [
-          blob
-        ],
+        [blob],
+
         "A5_Отчёт_" +
         date +
         ".jpg",
+
         {
           type:
             "image/jpeg"
@@ -3180,11 +3822,6 @@ async function saveReportAndJPEG() {
     message.className =
       "message success";
 
-
-    /*
-      На iPhone открываем меню
-      «Поделиться».
-    */
 
     if (
       navigator.share &&
@@ -3203,7 +3840,9 @@ async function saveReportAndJPEG() {
 
       });
 
-    } else {
+    }
+
+    else {
 
       const url =
         URL.createObjectURL(
@@ -3252,7 +3891,9 @@ async function saveReportAndJPEG() {
     }
 
 
-  } catch(error) {
+  }
+
+  catch(error) {
 
     message.textContent =
       error.message;
@@ -3382,10 +4023,15 @@ async function loadHistory() {
 
         head.innerHTML =
           "<span>" +
-          escapeHtml(name) +
+          escapeHtml(
+            name
+          ) +
           "</span>" +
+
           "<span>" +
-          escapeHtml(date) +
+          escapeHtml(
+            date
+          ) +
           "</span>";
 
 
@@ -3398,9 +4044,11 @@ async function loadHistory() {
           Number(
             report.cash || 0
           ) +
+
           Number(
             report.card || 0
           ) +
+
           Number(
             report.qr || 0
           );
@@ -3410,9 +4058,11 @@ async function loadHistory() {
           Number(
             report.expense_barista || 0
           ) +
+
           Number(
             report.expense_supplier || 0
           ) +
+
           Number(
             report.expense_withdrawal || 0
           );
@@ -3421,28 +4071,38 @@ async function loadHistory() {
         addHistoryRow(
           item,
           "Продажи",
-          money(sales) + " ₽"
+          money(sales) +
+          " ₽"
         );
 
 
         addHistoryRow(
           item,
           "Наличные",
-          money(report.cash) + " ₽"
+          money(
+            report.cash
+          ) +
+          " ₽"
         );
 
 
         addHistoryRow(
           item,
           "Карта",
-          money(report.card) + " ₽"
+          money(
+            report.card
+          ) +
+          " ₽"
         );
 
 
         addHistoryRow(
           item,
           "Расходы",
-          money(expenses) + " ₽"
+          money(
+            expenses
+          ) +
+          " ₽"
         );
 
 
@@ -3451,7 +4111,8 @@ async function loadHistory() {
           "Остаток на начало",
           money(
             report.opening_balance
-          ) + " ₽"
+          ) +
+          " ₽"
         );
 
 
@@ -3493,11 +4154,15 @@ async function loadHistory() {
     );
 
 
-  } catch(error) {
+  }
+
+  catch(error) {
 
     list.innerHTML =
       '<div class="message error" style="display:block">' +
-      escapeHtml(error.message) +
+      escapeHtml(
+        error.message
+      ) +
       '</div>';
 
   }
@@ -3523,10 +4188,15 @@ function addHistoryRow(
 
   row.innerHTML =
     "<span>" +
-    escapeHtml(label) +
+    escapeHtml(
+      label
+    ) +
     "</span>" +
+
     "<strong>" +
-    escapeHtml(value) +
+    escapeHtml(
+      value
+    ) +
     "</strong>";
 
 
@@ -3547,7 +4217,9 @@ function toggleSettings() {
     !currentUser ||
     currentUser.role !== "admin"
   ) {
+
     return;
+
   }
 
 
@@ -3583,7 +4255,9 @@ function loadSettings() {
     !currentUser ||
     currentUser.role !== "admin"
   ) {
+
     return;
+
   }
 
 
@@ -3807,7 +4481,9 @@ async function updateUser(
 
 
   if (
-    !/^[0-9]{4}$/.test(pin)
+    !/^[0-9]{4}$/.test(
+      pin
+    )
   ) {
 
     message.textContent =
@@ -3828,6 +4504,7 @@ async function updateUser(
     await callRPC(
       "update_user_account",
       {
+
         p_admin_pin:
           currentPin,
 
@@ -3839,6 +4516,7 @@ async function updateUser(
 
         p_new_pin:
           pin
+
       }
     );
 
@@ -3856,8 +4534,10 @@ async function updateUser(
 
     loadSettings();
 
+  }
 
-  } catch(error) {
+
+  catch(error) {
 
     message.textContent =
       error.message;
@@ -3882,22 +4562,27 @@ function escapeHtml(
   return String(
     value ?? ""
   )
+
   .replaceAll(
     "&",
     "&amp;"
   )
+
   .replaceAll(
     "<",
     "&lt;"
   )
+
   .replaceAll(
     ">",
     "&gt;"
   )
+
   .replaceAll(
     '"',
     "&quot;"
   )
+
   .replaceAll(
     "'",
     "&#039;"
@@ -3920,16 +4605,23 @@ document.addEventListener(
     const fields = [
 
       "openCash",
+
       "cash",
+
       "card",
 
       "baristaExpense1",
+
       "baristaExpense2",
+
       "baristaExpense3",
 
       "supplier1",
+
       "supplier2",
+
       "supplier3",
+
       "supplier4",
 
       "withdraw"
@@ -3955,9 +4647,11 @@ document.addEventListener(
       "date"
     ).value = "";
 
+
     document.getElementById(
       "openTime"
     ).value = "";
+
 
     document.getElementById(
       "closeTime"
@@ -3972,4 +4666,5 @@ document.addEventListener(
 </script>
 
 </body>
+
 </html>
