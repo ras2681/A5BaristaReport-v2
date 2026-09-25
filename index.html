@@ -2,7 +2,6 @@
 <html lang="ru">
 
 <head>
-
 <meta charset="UTF-8">
 
 <meta name="viewport"
@@ -17,10 +16,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
-
-/* =====================================================
-   ОСНОВНЫЕ НАСТРОЙКИ
-   ===================================================== */
 
 * {
   box-sizing: border-box;
@@ -66,10 +61,9 @@ button {
   overflow: hidden;
 }
 
-
-/* =====================================================
-   ЭКРАН ВХОДА
-   ===================================================== */
+/* =========================
+   LOGIN
+========================= */
 
 #loginScreen {
   width: 100%;
@@ -123,9 +117,6 @@ button {
   opacity: .55;
 }
 
-
-/* Администратор отдельно внизу */
-
 .admin-login-space {
   margin-top: 70px;
   padding-top: 15px;
@@ -141,10 +132,9 @@ button {
   opacity: .55;
 }
 
-
-/* =====================================================
+/* =========================
    PIN
-   ===================================================== */
+========================= */
 
 .pin-title {
   text-align: center;
@@ -215,19 +205,13 @@ button {
   font-size: 14px;
 }
 
-
-/* =====================================================
-   СКРЫТИЕ
-   ===================================================== */
+/* =========================
+   GENERAL
+========================= */
 
 .hidden {
   display: none !important;
 }
-
-
-/* =====================================================
-   ВЕРХНЯЯ ПАНЕЛЬ
-   ===================================================== */
 
 .app-top {
   display: flex;
@@ -260,21 +244,11 @@ button {
   color: #fff;
 }
 
-
-/* =====================================================
-   ЗАГОЛОВОК
-   ===================================================== */
-
 h1 {
   text-align: center;
   font-size: 21px;
   margin: 7px 0 14px;
 }
-
-
-/* =====================================================
-   ОБЫЧНЫЕ ПОЛЯ
-   ===================================================== */
 
 label {
   display: block;
@@ -306,11 +280,6 @@ textarea:focus {
   border-color: #888;
 }
 
-
-/* =====================================================
-   ДАТА И ВРЕМЯ
-   ===================================================== */
-
 #date,
 #openTime,
 #closeTime {
@@ -322,20 +291,14 @@ textarea:focus {
   padding: 4px 6px !important;
 }
 
-
-/* =====================================================
-   СУММЫ
-   ===================================================== */
-
 input[type="number"] {
   font-size: 17px;
   font-weight: 400;
 }
 
-
-/* =====================================================
-   РАЗДЕЛЫ
-   ===================================================== */
+/* =========================
+   SECTIONS
+========================= */
 
 .section {
   width: 100%;
@@ -349,10 +312,9 @@ input[type="number"] {
   line-height: 1.1;
 }
 
-
-/* =====================================================
-   ТАБЛИЦЫ
-   ===================================================== */
+/* =========================
+   TABLE
+========================= */
 
 .form-table {
   width: 100% !important;
@@ -419,11 +381,6 @@ input[type="number"] {
   font-weight: 400;
 }
 
-
-/* =====================================================
-   ИТОГО
-   ===================================================== */
-
 .total {
   width: 100%;
   margin-top: 6px;
@@ -434,11 +391,6 @@ input[type="number"] {
   font-size: 16px;
   font-weight: 600;
 }
-
-
-/* =====================================================
-   ОЖИДАЕМЫЙ ОСТАТОК
-   ===================================================== */
 
 .expected {
   width: 100%;
@@ -458,10 +410,9 @@ input[type="number"] {
   font-weight: 500;
 }
 
-
-/* =====================================================
-   КНОПКИ
-   ===================================================== */
+/* =========================
+   BUTTONS
+========================= */
 
 .main-button {
   display: block;
@@ -482,10 +433,9 @@ input[type="number"] {
   color: #fff;
 }
 
-
-/* =====================================================
-   СООБЩЕНИЯ
-   ===================================================== */
+/* =========================
+   MESSAGES
+========================= */
 
 .message {
   display: none;
@@ -507,10 +457,9 @@ input[type="number"] {
   color: #b8ffca;
 }
 
-
-/* =====================================================
-   НАСТРОЙКИ
-   ===================================================== */
+/* =========================
+   SETTINGS
+========================= */
 
 .settings-title {
   font-size: 19px;
@@ -547,10 +496,9 @@ input[type="number"] {
   color: #000;
 }
 
-
-/* =====================================================
-   ИСТОРИЯ
-   ===================================================== */
+/* =========================
+   HISTORY
+========================= */
 
 .history-title {
   font-size: 19px;
@@ -582,10 +530,9 @@ input[type="number"] {
   color: #ddd;
 }
 
-
-/* =====================================================
-   ГОТОВЫЙ ОТЧЁТ
-   ===================================================== */
+/* =========================
+   REPORT FOR JPEG
+========================= */
 
 #report {
   position: absolute;
@@ -648,43 +595,35 @@ input[type="number"] {
   text-align: center;
 }
 
-.report-opening td:first-child {
+.report-opening td:first-child,
+.report-closing td:first-child {
   width: 35%;
   text-align: left;
 }
 
-.report-opening td:nth-child(2) {
+.report-opening td:nth-child(2),
+.report-closing td:nth-child(2) {
   width: 65%;
   text-align: left;
 }
 
 .report-payments th:nth-child(1),
-.report-payments td:nth-child(1) {
-  width: 38%;
-}
-
-.report-payments th:nth-child(2),
-.report-payments td:nth-child(2) {
-  width: 22%;
-  text-align: right;
-}
-
-.report-payments th:nth-child(3),
-.report-payments td:nth-child(3) {
-  width: 40%;
-}
-
+.report-payments td:nth-child(1),
 .report-expenses th:nth-child(1),
 .report-expenses td:nth-child(1) {
   width: 38%;
 }
 
+.report-payments th:nth-child(2),
+.report-payments td:nth-child(2),
 .report-expenses th:nth-child(2),
 .report-expenses td:nth-child(2) {
   width: 22%;
   text-align: right;
 }
 
+.report-payments th:nth-child(3),
+.report-payments td:nth-child(3),
 .report-expenses th:nth-child(3),
 .report-expenses td:nth-child(3) {
   width: 40%;
@@ -699,25 +638,14 @@ input[type="number"] {
   font-weight: 500;
 }
 
-.report-closing td:first-child {
-  width: 35%;
-  text-align: left;
-}
-
-.report-closing td:nth-child(2) {
-  width: 65%;
-  text-align: left;
-}
-
 .report-closing td {
   font-size: 30px;
   padding: 14px;
 }
 
-
-/* =====================================================
-   УЗКИЙ ЭКРАН
-   ===================================================== */
+/* =========================
+   MOBILE
+========================= */
 
 @media screen and (max-width: 380px) {
 
@@ -792,20 +720,16 @@ input[type="number"] {
   .expected span {
     font-size: 14px;
   }
-
 }
 
 </style>
-
 </head>
-
 
 <body>
 
-
 <!-- =====================================================
-     ЭКРАН ВХОДА
-     ===================================================== -->
+     LOGIN
+===================================================== -->
 
 <div id="loginScreen">
 
@@ -826,8 +750,6 @@ input[type="number"] {
        class="login-card">
   </div>
 
-  <!-- PIN -->
-
   <div id="pinCard"
        class="hidden">
 
@@ -842,41 +764,17 @@ input[type="number"] {
 
     <div class="pin-keyboard">
 
-      <button onclick="pinPress('1')">
-        1
-      </button>
+      <button onclick="pinPress('1')">1</button>
+      <button onclick="pinPress('2')">2</button>
+      <button onclick="pinPress('3')">3</button>
 
-      <button onclick="pinPress('2')">
-        2
-      </button>
+      <button onclick="pinPress('4')">4</button>
+      <button onclick="pinPress('5')">5</button>
+      <button onclick="pinPress('6')">6</button>
 
-      <button onclick="pinPress('3')">
-        3
-      </button>
-
-      <button onclick="pinPress('4')">
-        4
-      </button>
-
-      <button onclick="pinPress('5')">
-        5
-      </button>
-
-      <button onclick="pinPress('6')">
-        6
-      </button>
-
-      <button onclick="pinPress('7')">
-        7
-      </button>
-
-      <button onclick="pinPress('8')">
-        8
-      </button>
-
-      <button onclick="pinPress('9')">
-        9
-      </button>
+      <button onclick="pinPress('7')">7</button>
+      <button onclick="pinPress('8')">8</button>
+      <button onclick="pinPress('9')">9</button>
 
       <button class="clear"
               onclick="pinClear()">
@@ -909,8 +807,8 @@ input[type="number"] {
 
 
 <!-- =====================================================
-     ОСНОВНОЕ ПРИЛОЖЕНИЕ
-     ===================================================== -->
+     APP
+===================================================== -->
 
 <div id="appScreen"
      class="hidden">
@@ -929,26 +827,20 @@ input[type="number"] {
       id="historyButton"
       class="secondary"
       onclick="toggleHistory()">
-
       История
-
     </button>
 
     <button
       id="settingsButton"
       class="secondary hidden"
       onclick="toggleSettings()">
-
       Настройки
-
     </button>
 
     <button
       class="secondary"
       onclick="logout()">
-
       Выйти
-
     </button>
 
   </div>
@@ -957,8 +849,8 @@ input[type="number"] {
 
 
 <!-- =====================================================
-     ФОРМА
-     ===================================================== -->
+     FORM
+===================================================== -->
 
 <div id="formScreen">
 
@@ -981,15 +873,11 @@ input[type="number"] {
 </label>
 
 <select id="barista">
-
-  <option value="" selected>
-    —
-  </option>
-
+  <option value="" selected>—</option>
 </select>
 
 
-<!-- ОТКРЫТИЕ -->
+<!-- OPENING -->
 
 <div class="section">
   ОТКРЫТИЕ СМЕНЫ
@@ -1017,7 +905,7 @@ input[type="number"] {
 >
 
 
-<!-- ОПЛАТЫ -->
+<!-- PAYMENTS -->
 
 <div class="section">
   ОПЛАТЫ ЗА СМЕНУ
@@ -1026,23 +914,11 @@ input[type="number"] {
 <table class="form-table">
 
 <thead>
-
 <tr>
-
-<th>
-  Оплата
-</th>
-
-<th>
-  Сумма
-</th>
-
-<th>
-  Комментарий
-</th>
-
+<th>Оплата</th>
+<th>Сумма</th>
+<th>Комментарий</th>
 </tr>
-
 </thead>
 
 <tbody>
@@ -1054,23 +930,19 @@ input[type="number"] {
 </td>
 
 <td>
-
 <input
   type="number"
   id="cash"
   value=""
   inputmode="decimal"
 >
-
 </td>
 
 <td>
-
 <input
   type="text"
   id="cashComment"
 >
-
 </td>
 
 </tr>
@@ -1083,23 +955,19 @@ input[type="number"] {
 </td>
 
 <td>
-
 <input
   type="number"
   id="card"
   value=""
   inputmode="decimal"
 >
-
 </td>
 
 <td>
-
 <input
   type="text"
   id="cardComment"
 >
-
 </td>
 
 </tr>
@@ -1108,21 +976,16 @@ input[type="number"] {
 
 </table>
 
-
 <div class="total">
-
   ИТОГО:
-
   <span id="paymentTotal">
     0
   </span>
-
   ₽
-
 </div>
 
 
-<!-- РАСХОДЫ -->
+<!-- EXPENSES -->
 
 <div class="section">
   РАСХОДЫ И ИЗЪЯТИЯ
@@ -1131,109 +994,77 @@ input[type="number"] {
 <table class="form-table">
 
 <thead>
-
 <tr>
-
-<th>
-  Расход
-</th>
-
-<th>
-  Сумма
-</th>
-
-<th>
-  Комментарий
-</th>
-
+<th>Расход</th>
+<th>Сумма</th>
+<th>Комментарий</th>
 </tr>
-
 </thead>
 
 <tbody>
 
 <tr>
 
-<td>
-  Бариста
-</td>
+<td>Бариста</td>
 
 <td>
-
 <input
   type="number"
   id="baristaExpense1"
   value=""
   inputmode="decimal"
 >
-
 </td>
 
 <td>
-
 <input
   type="text"
   id="baristaComment1"
 >
-
 </td>
 
 </tr>
 
-
 <tr>
 
-<td>
-  Бариста
-</td>
+<td>Бариста</td>
 
 <td>
-
 <input
   type="number"
   id="baristaExpense2"
   value=""
   inputmode="decimal"
 >
-
 </td>
 
 <td>
-
 <input
   type="text"
   id="baristaComment2"
 >
-
 </td>
 
 </tr>
 
-
 <tr>
 
-<td>
-  Бариста
-</td>
+<td>Бариста</td>
 
 <td>
-
 <input
   type="number"
   id="baristaExpense3"
   value=""
   inputmode="decimal"
 >
-
 </td>
 
 <td>
-
 <input
   type="text"
   id="baristaComment3"
 >
-
 </td>
 
 </tr>
@@ -1241,28 +1072,22 @@ input[type="number"] {
 
 <tr>
 
-<td>
-  Поставщик
-</td>
+<td>Поставщик</td>
 
 <td>
-
 <input
   type="number"
   id="supplier1"
   value=""
   inputmode="decimal"
 >
-
 </td>
 
 <td>
-
 <input
   type="text"
   id="supplierComment1"
 >
-
 </td>
 
 </tr>
@@ -1270,28 +1095,22 @@ input[type="number"] {
 
 <tr>
 
-<td>
-  Поставщик
-</td>
+<td>Поставщик</td>
 
 <td>
-
 <input
   type="number"
   id="supplier2"
   value=""
   inputmode="decimal"
 >
-
 </td>
 
 <td>
-
 <input
   type="text"
   id="supplierComment2"
 >
-
 </td>
 
 </tr>
@@ -1299,28 +1118,22 @@ input[type="number"] {
 
 <tr>
 
-<td>
-  Поставщик
-</td>
+<td>Поставщик</td>
 
 <td>
-
 <input
   type="number"
   id="supplier3"
   value=""
   inputmode="decimal"
 >
-
 </td>
 
 <td>
-
 <input
   type="text"
   id="supplierComment3"
 >
-
 </td>
 
 </tr>
@@ -1328,28 +1141,22 @@ input[type="number"] {
 
 <tr>
 
-<td>
-  Поставщик
-</td>
+<td>Поставщик</td>
 
 <td>
-
 <input
   type="number"
   id="supplier4"
   value=""
   inputmode="decimal"
 >
-
 </td>
 
 <td>
-
 <input
   type="text"
   id="supplierComment4"
 >
-
 </td>
 
 </tr>
@@ -1357,28 +1164,22 @@ input[type="number"] {
 
 <tr>
 
-<td>
-  Изъятие
-</td>
+<td>Изъятие</td>
 
 <td>
-
 <input
   type="number"
   id="withdraw"
   value=""
   inputmode="decimal"
 >
-
 </td>
 
 <td>
-
 <input
   type="text"
   id="withdrawComment"
 >
-
 </td>
 
 </tr>
@@ -1389,32 +1190,24 @@ input[type="number"] {
 
 
 <div class="total">
-
-  ИТОГО РАСХОДОВ:
-
+  ВСЕГО РАСХОДОВ:
   <span id="expenseTotal">
     0
   </span>
-
   ₽
-
 </div>
 
 
 <div class="expected">
-
-  ОЖИДАЕМЫЙ ОСТАТОК В КАССЕ:
-
+  ОЖИДАЕМЫЙ ОСТАТОК:
   <span id="expectedCash">
     0
   </span>
-
   ₽
-
 </div>
 
 
-<!-- ЗАКРЫТИЕ -->
+<!-- CLOSING -->
 
 <div class="section">
   ЗАКРЫТИЕ СМЕНЫ
@@ -1431,7 +1224,7 @@ input[type="number"] {
 >
 
 <label>
-  Фактический остаток наличных в кассе
+  Фактический остаток наличных
 </label>
 
 <input
@@ -1441,12 +1234,11 @@ input[type="number"] {
   inputmode="decimal"
 >
 
+
 <button
   class="main-button"
   onclick="saveReportAndJPEG()">
-
-  Сохранить / отправить JPEG
-
+  СОХРАНИТЬ И ОТПРАВИТЬ JPEG
 </button>
 
 <div id="saveMessage"
@@ -1457,8 +1249,8 @@ input[type="number"] {
 
 
 <!-- =====================================================
-     ИСТОРИЯ
-     ===================================================== -->
+     HISTORY
+===================================================== -->
 
 <div id="historyScreen"
      class="hidden">
@@ -1468,11 +1260,15 @@ input[type="number"] {
   </div>
 
   <button
+    class="main-button dark-button"
+    onclick="toggleHistory()">
+    ← Вернуться к отчёту
+  </button>
+
+  <button
     class="main-button"
     onclick="loadHistory()">
-
     Обновить
-
   </button>
 
   <div id="historyList"
@@ -1483,376 +1279,219 @@ input[type="number"] {
 
 
 <!-- =====================================================
-     НАСТРОЙКИ
-     ===================================================== -->
+     SETTINGS
+===================================================== -->
 
 <div id="settingsScreen"
      class="hidden">
 
   <div class="settings-title">
-    НАСТРОЙКИ БАРИСТА
-  </div>
-
-  <div style="
-       font-size:13px;
-       color:#aaa;
-       margin-bottom:12px;
-       ">
-
-    Здесь администратор может изменить
-    имя и PIN бариста.
-
+    НАСТРОЙКИ ПОЛЬЗОВАТЕЛЕЙ
   </div>
 
   <div id="settingsUsers">
   </div>
 
-  <div id="settingsMessage"
-       class="message">
-  </div>
+  <button
+    class="main-button dark-button"
+    onclick="toggleSettings()">
+    ← Вернуться
+  </button>
 
 </div>
 
-
 </div>
-
 </div>
 
 
 <!-- =====================================================
-     ГОТОВЫЙ ОТЧЁТ JPEG
-     ===================================================== -->
+     JPEG REPORT
+===================================================== -->
 
 <div id="report">
 
-<div class="report-logo">
-  A5
-</div>
+  <div class="report-logo">
+    A5
+  </div>
 
-<div class="report-title">
-  ОТЧЁТ СМЕНЫ БАРИСТА
-</div>
+  <div class="report-title">
+    ОТЧЁТ СМЕНЫ БАРИСТА
+  </div>
 
-<div class="report-date">
+  <div class="report-date">
+    Дата:
+    <span id="rDate"></span>
+  </div>
 
-  Дата:
-  <span id="rDate"></span>
 
-</div>
+  <div class="report-section">
+    ОТКРЫТИЕ СМЕНЫ
+  </div>
 
-<div class="report-section">
-  ОТКРЫТИЕ СМЕНЫ
-</div>
+  <table class="report-table report-opening">
 
-<table class="report-table report-opening">
+  <tbody>
 
-<tbody>
+  <tr>
+    <td>Бариста</td>
+    <td id="rBarista"></td>
+  </tr>
+
+  <tr>
+    <td>Время открытия</td>
+    <td id="rOpenTime"></td>
+  </tr>
+
+  <tr>
+    <td>Остаток наличных в кассе</td>
+    <td id="rOpenCash"></td>
+  </tr>
+
+  </tbody>
+
+  </table>
+
+
+  <div class="report-section">
+    ОПЛАТЫ ЗА СМЕНУ
+  </div>
+
+  <table class="report-table report-payments">
+
+  <thead>
+  <tr>
+    <th>Оплата</th>
+    <th>Сумма</th>
+    <th>Комментарий</th>
+  </tr>
+  </thead>
+
+  <tbody>
+
+  <tr id="rCashRow">
+    <td>Наличные</td>
+    <td id="rCash"></td>
+    <td id="rCashComment"></td>
+  </tr>
 
-<tr>
+  <tr id="rCardRow">
+    <td>Безнал (карта / QR)</td>
+    <td id="rCard"></td>
+    <td id="rCardComment"></td>
+  </tr>
 
-<td>
-  Бариста
-</td>
+  </tbody>
 
-<td id="rBarista">
-</td>
+  </table>
+
+  <div class="report-total">
+    ИТОГО:
+    <span id="rPaymentTotal"></span>
+    ₽
+  </div>
 
-</tr>
 
-<tr>
+  <div class="report-section">
+    РАСХОДЫ И ИЗЪЯТИЯ
+  </div>
 
-<td>
-  Время открытия
-</td>
+  <table class="report-table report-expenses">
 
-<td id="rOpenTime">
-</td>
+  <thead>
+  <tr>
+    <th>Расход</th>
+    <th>Сумма</th>
+    <th>Комментарий</th>
+  </tr>
+  </thead>
 
-</tr>
+  <tbody>
 
-<tr>
-
-<td>
-  Остаток наличных в кассе
-</td>
-
-<td id="rOpenCash">
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-
-<div class="report-section">
-  ОПЛАТЫ ЗА СМЕНУ
-</div>
-
-<table class="report-table report-payments">
-
-<thead>
-
-<tr>
-
-<th>
-  Оплата
-</th>
-
-<th>
-  Сумма
-</th>
-
-<th>
-  Комментарий
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr id="rCashRow">
-
-<td>
-  Наличные
-</td>
-
-<td id="rCash">
-</td>
-
-<td id="rCashComment">
-</td>
-
-</tr>
-
-<tr id="rCardRow">
-
-<td>
-  Безнал (карта / QR)
-</td>
-
-<td id="rCard">
-</td>
-
-<td id="rCardComment">
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-
-<div
-  class="report-total"
-  id="rPaymentTotalBlock">
-
-  ИТОГО:
-
-  <span id="rPaymentTotal">
-  </span>
-
-  ₽
-
-</div>
-
-
-<div class="report-section">
-  РАСХОДЫ И ИЗЪЯТИЯ
-</div>
-
-<table class="report-table report-expenses">
-
-<thead>
-
-<tr>
-
-<th>
-  Расход
-</th>
-
-<th>
-  Сумма
-</th>
-
-<th>
-  Комментарий
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr id="rBaristaExpense1Row">
-
-<td>
-  Бариста
-</td>
-
-<td id="rBaristaExpense1">
-</td>
-
-<td id="rBaristaComment1">
-</td>
-
-</tr>
-
-<tr id="rBaristaExpense2Row">
-
-<td>
-  Бариста
-</td>
-
-<td id="rBaristaExpense2">
-</td>
-
-<td id="rBaristaComment2">
-</td>
-
-</tr>
-
-<tr id="rBaristaExpense3Row">
-
-<td>
-  Бариста
-</td>
-
-<td id="rBaristaExpense3">
-</td>
-
-<td id="rBaristaComment3">
-</td>
-
-</tr>
-
-<tr id="rSupplier1Row">
-
-<td>
-  Поставщик
-</td>
-
-<td id="rSupplier1">
-</td>
-
-<td id="rSupplierComment1">
-</td>
-
-</tr>
-
-<tr id="rSupplier2Row">
-
-<td>
-  Поставщик
-</td>
-
-<td id="rSupplier2">
-</td>
-
-<td id="rSupplierComment2">
-</td>
-
-</tr>
-
-<tr id="rSupplier3Row">
-
-<td>
-  Поставщик
-</td>
-
-<td id="rSupplier3">
-</td>
-
-<td id="rSupplierComment3">
-</td>
-
-</tr>
-
-<tr id="rSupplier4Row">
-
-<td>
-  Поставщик
-</td>
-
-<td id="rSupplier4">
-</td>
-
-<td id="rSupplierComment4">
-</td>
-
-</tr>
-
-<tr id="rWithdrawRow">
-
-<td>
-  Изъятие
-</td>
-
-<td id="rWithdraw">
-</td>
-
-<td id="rWithdrawComment">
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-
-<div
-  class="report-total"
-  id="rExpenseTotalBlock">
-
-  ИТОГО РАСХОДОВ:
-
-  <span id="rExpenseTotal">
-  </span>
-
-  ₽
-
-</div>
-
-
-<div class="report-section">
-  ЗАКРЫТИЕ СМЕНЫ
-</div>
-
-<table class="report-table report-closing">
-
-<tbody>
-
-<tr>
-
-<td>
-  Время закрытия
-</td>
-
-<td id="rCloseTime">
-</td>
-
-</tr>
-
-<tr>
-
-<td>
-  Фактический остаток наличных в кассе
-</td>
-
-<td id="rCloseCash">
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
+  <tr id="rBaristaExpenseRow1">
+    <td>Бариста</td>
+    <td id="rBaristaExpense1"></td>
+    <td id="rBaristaComment1"></td>
+  </tr>
+
+  <tr id="rBaristaExpenseRow2">
+    <td>Бариста</td>
+    <td id="rBaristaExpense2"></td>
+    <td id="rBaristaComment2"></td>
+  </tr>
+
+  <tr id="rBaristaExpenseRow3">
+    <td>Бариста</td>
+    <td id="rBaristaExpense3"></td>
+    <td id="rBaristaComment3"></td>
+  </tr>
+
+  <tr id="rSupplierRow1">
+    <td>Поставщик</td>
+    <td id="rSupplier1"></td>
+    <td id="rSupplierComment1"></td>
+  </tr>
+
+  <tr id="rSupplierRow2">
+    <td>Поставщик</td>
+    <td id="rSupplier2"></td>
+    <td id="rSupplierComment2"></td>
+  </tr>
+
+  <tr id="rSupplierRow3">
+    <td>Поставщик</td>
+    <td id="rSupplier3"></td>
+    <td id="rSupplierComment3"></td>
+  </tr>
+
+  <tr id="rSupplierRow4">
+    <td>Поставщик</td>
+    <td id="rSupplier4"></td>
+    <td id="rSupplierComment4"></td>
+  </tr>
+
+  <tr id="rWithdrawRow">
+    <td>Изъятие</td>
+    <td id="rWithdraw"></td>
+    <td id="rWithdrawComment"></td>
+  </tr>
+
+  </tbody>
+
+  </table>
+
+  <div class="report-total">
+    ВСЕГО РАСХОДОВ:
+    <span id="rExpenseTotal"></span>
+    ₽
+  </div>
+
+
+  <div class="report-section">
+    ЗАКРЫТИЕ СМЕНЫ
+  </div>
+
+  <table class="report-table report-closing">
+
+  <tbody>
+
+  <tr>
+    <td>Ожидаемый остаток</td>
+    <td id="rExpectedCash"></td>
+  </tr>
+
+  <tr>
+    <td>Время закрытия</td>
+    <td id="rCloseTime"></td>
+  </tr>
+
+  <tr>
+    <td>Фактический остаток</td>
+    <td id="rCloseCash"></td>
+  </tr>
+
+  </tbody>
+
+  </table>
 
 </div>
 
@@ -1861,33 +1500,117 @@ input[type="number"] {
 
 /* =====================================================
    SUPABASE
-   ===================================================== */
+===================================================== */
 
 const SUPABASE_URL =
-"https://hsfxdmjmvgbepurkhfxl.supabase.co";
+  "https://hsfxdmjmvgbepurkhfxl.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_sVGHTCnvYzWZ65_ltVMkNA_WMNyYUx0";
+  "sb_publishable_sVGHTCnvYzWZ65_ltVMkNA_WMNyYUx0";
 
 
 /* =====================================================
-   ПЕРЕМЕННЫЕ
-   ===================================================== */
+   STATE
+===================================================== */
 
 let loginUsers = [];
-
 let selectedUser = null;
-
 let currentUser = null;
-
 let currentPin = "";
-
 let pinValue = "";
 
 
 /* =====================================================
+   HELPERS
+===================================================== */
+
+function val(id) {
+  const el = document.getElementById(id);
+
+  if (!el) {
+    return "";
+  }
+
+  return String(el.value || "");
+}
+
+
+function num(id) {
+  const value = val(id)
+    .replace(",", ".")
+    .trim();
+
+  if (!value) {
+    return 0;
+  }
+
+  const n = Number(value);
+
+  return Number.isFinite(n)
+    ? n
+    : 0;
+}
+
+
+function money(value) {
+  const n = Number(value || 0);
+
+  return n.toLocaleString(
+    "ru-RU",
+    {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2
+    }
+  );
+}
+
+
+function setText(id, value) {
+  const el = document.getElementById(id);
+
+  if (el) {
+    el.textContent = value;
+  }
+}
+
+
+function escapeHtml(value) {
+
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+function formatDate(value) {
+
+  if (!value) {
+    return "";
+  }
+
+  const parts =
+    value.split("-");
+
+  if (parts.length !== 3) {
+    return value;
+  }
+
+  return (
+    parts[2] +
+    "." +
+    parts[1] +
+    "." +
+    parts[0]
+  );
+}
+
+
+/* =====================================================
    RPC
-   ===================================================== */
+===================================================== */
 
 async function callRPC(
   functionName,
@@ -1903,22 +1626,15 @@ async function callRPC(
         method: "POST",
 
         headers: {
-
-          "apikey":
-            SUPABASE_KEY,
-
+          "apikey": SUPABASE_KEY,
           "Authorization":
-            "Bearer " +
-            SUPABASE_KEY,
-
+            "Bearer " + SUPABASE_KEY,
           "Content-Type":
             "application/json"
-
         },
 
         body:
           JSON.stringify(params)
-
       }
     );
 
@@ -1927,7 +1643,7 @@ async function callRPC(
     await response.text();
 
 
-  let data;
+  let data = null;
 
 
   try {
@@ -1938,11 +1654,9 @@ async function callRPC(
       : null;
 
   }
-
   catch {
 
-    data =
-      text;
+    data = text;
 
   }
 
@@ -1962,9 +1676,7 @@ async function callRPC(
         data.message;
 
     }
-
-
-    if (
+    else if (
       data &&
       data.error
     ) {
@@ -1973,11 +1685,17 @@ async function callRPC(
         data.error;
 
     }
+    else if (
+      typeof data === "string" &&
+      data
+    ) {
+
+      message = data;
+
+    }
 
 
-    throw new Error(
-      message
-    );
+    throw new Error(message);
 
   }
 
@@ -1988,8 +1706,8 @@ async function callRPC(
 
 
 /* =====================================================
-   ЗАГРУЗКА ПОЛЬЗОВАТЕЛЕЙ
-   ===================================================== */
+   LOAD LOGIN USERS
+===================================================== */
 
 async function loadLoginUsers() {
 
@@ -2004,31 +1722,39 @@ async function loadLoginUsers() {
     );
 
 
-  loading.style.display =
-    "block";
-
-  list.innerHTML =
-    "";
-
-
   try {
 
-    loginUsers =
+    const users =
       await callRPC(
         "get_login_users"
       );
+
+
+    loginUsers =
+      Array.isArray(users)
+      ? users
+      : [];
 
 
     loading.style.display =
       "none";
 
 
-    /* СНАЧАЛА БАРИСТЫ */
+    list.innerHTML =
+      "";
+
 
     const baristas =
       loginUsers.filter(
         user =>
           user.role === "barista"
+      );
+
+
+    const admins =
+      loginUsers.filter(
+        user =>
+          user.role === "admin"
       );
 
 
@@ -2040,56 +1766,17 @@ async function loadLoginUsers() {
             "button"
           );
 
-
         button.className =
           "login-user-button";
 
+        button.innerHTML =
+          escapeHtml(user.name) +
+          '<span class="login-role">Бариста</span>';
 
-        const name =
-          document.createElement(
-            "div"
-          );
-
-
-        name.textContent =
-          user.name;
-
-
-        const role =
-          document.createElement(
-            "span"
-          );
-
-
-        role.className =
-          "login-role";
-
-
-        role.textContent =
-          "Бариста";
-
-
-        button.appendChild(
-          name
-        );
-
-
-        button.appendChild(
-          role
-        );
-
-
-        button.addEventListener(
-          "click",
+        button.onclick =
           function() {
-
-            selectUser(
-              user
-            );
-
-          }
-        );
-
+            selectUser(user);
+          };
 
         list.appendChild(
           button
@@ -2099,98 +1786,52 @@ async function loadLoginUsers() {
     );
 
 
-    /* ПОТОМ АДМИНИСТРАТОР */
+    if (admins.length > 0) {
 
-    const admin =
-      loginUsers.find(
-        user =>
-          user.role === "admin"
-      );
-
-
-    if (admin) {
-
-      const space =
+      const adminSpace =
         document.createElement(
           "div"
         );
 
-
-      space.className =
+      adminSpace.className =
         "admin-login-space";
 
 
-      const button =
-        document.createElement(
-          "button"
-        );
+      admins.forEach(
+        user => {
 
+          const button =
+            document.createElement(
+              "button"
+            );
 
-      button.className =
-        "login-user-button " +
-        "admin-login-button";
+          button.className =
+            "login-user-button admin-login-button";
 
+          button.innerHTML =
+            "Администратор" +
+            '<span class="login-role">Администратор</span>';
 
-      const name =
-        document.createElement(
-          "div"
-        );
+          button.onclick =
+            function() {
+              selectUser(user);
+            };
 
-
-      name.textContent =
-        "Администратор";
-
-
-      const role =
-        document.createElement(
-          "span"
-        );
-
-
-      role.className =
-        "login-role";
-
-
-      role.textContent =
-        "Вход администратора";
-
-
-      button.appendChild(
-        name
-      );
-
-
-      button.appendChild(
-        role
-      );
-
-
-      button.addEventListener(
-        "click",
-        function() {
-
-          selectUser(
-            admin
+          adminSpace.appendChild(
+            button
           );
 
         }
       );
 
 
-      space.appendChild(
-        button
-      );
-
-
       list.appendChild(
-        space
+        adminSpace
       );
 
     }
 
-
   }
-
   catch(error) {
 
     loading.style.display =
@@ -2198,12 +1839,11 @@ async function loadLoginUsers() {
 
 
     list.innerHTML =
-      '<div class="message error" ' +
-      'style="display:block">' +
+      '<div class="message error" style="display:block">' +
       escapeHtml(
         error.message
       ) +
-      '</div>';
+      "</div>";
 
   }
 
@@ -2211,12 +1851,10 @@ async function loadLoginUsers() {
 
 
 /* =====================================================
-   ВЫБОР ПОЛЬЗОВАТЕЛЯ
-   ===================================================== */
+   SELECT USER
+===================================================== */
 
-function selectUser(
-  user
-) {
+function selectUser(user) {
 
   selectedUser =
     user;
@@ -2267,18 +1905,45 @@ function selectUser(
 
 /* =====================================================
    PIN
-   ===================================================== */
+===================================================== */
 
-function pinPress(
-  number
-) {
+function updatePinDisplay() {
+
+  const display =
+    document.getElementById(
+      "pinDisplay"
+    );
+
+
+  let result = "";
+
+
+  for (
+    let i = 0;
+    i < 4;
+    i++
+  ) {
+
+    result +=
+      i < pinValue.length
+      ? "●"
+      : "•";
+
+  }
+
+
+  display.textContent =
+    result;
+
+}
+
+
+function pinPress(number) {
 
   if (
     pinValue.length >= 4
   ) {
-
     return;
-
   }
 
 
@@ -2299,33 +1964,14 @@ function pinClear() {
       -1
     );
 
-
   updatePinDisplay();
 
 }
 
 
-function updatePinDisplay() {
-
-  const display =
-    document.getElementById(
-      "pinDisplay"
-    );
-
-
-  display.textContent =
-    pinValue.length
-    ? "●".repeat(
-        pinValue.length
-      )
-    : "••••";
-
-}
-
-
 /* =====================================================
-   ВХОД
-   ===================================================== */
+   LOGIN
+===================================================== */
 
 async function login() {
 
@@ -2335,14 +1981,8 @@ async function login() {
     );
 
 
-  message.className =
-    "message";
-
-
   if (!selectedUser) {
-
     return;
-
   }
 
 
@@ -2350,13 +1990,11 @@ async function login() {
     pinValue.length !== 4
   ) {
 
-    message.textContent =
-      "Введите 4 цифры PIN";
-
-
     message.className =
       "message error";
 
+    message.textContent =
+      "Введите PIN из 4 цифр";
 
     return;
 
@@ -2369,43 +2007,26 @@ async function login() {
       await callRPC(
         "login_by_pin",
         {
-          p_pin:
-            pinValue
+          p_pin: pinValue
         }
       );
 
 
-    if (
-      !Array.isArray(result) ||
-      result.length === 0
-    ) {
+    const user =
+      Array.isArray(result)
+      ? result[0]
+      : result;
 
+
+    if (!user) {
       throw new Error(
         "Неверный PIN"
       );
-
-    }
-
-
-    const user =
-      result[0];
-
-
-    if (
-      user.id !==
-      selectedUser.id
-    ) {
-
-      throw new Error(
-        "Этот PIN принадлежит другому пользователю"
-      );
-
     }
 
 
     currentUser =
       user;
-
 
     currentPin =
       pinValue;
@@ -2433,78 +2054,43 @@ async function login() {
       : user.name;
 
 
-    const barista =
+    const settingsButton =
       document.getElementById(
-        "barista"
+        "settingsButton"
       );
-
-
-    barista.innerHTML =
-      "";
-
-
-    const option =
-      document.createElement(
-        "option"
-      );
-
-
-    option.value =
-      user.name;
-
-
-    option.textContent =
-      user.name;
-
-
-    option.selected =
-      true;
-
-
-    barista.appendChild(
-      option
-    );
 
 
     if (
       user.role === "admin"
     ) {
 
-      document.getElementById(
-        "settingsButton"
-      ).classList.remove(
+      settingsButton.classList.remove(
         "hidden"
       );
 
     }
-
     else {
 
-      document.getElementById(
-        "settingsButton"
-      ).classList.add(
+      settingsButton.classList.add(
         "hidden"
       );
 
     }
 
 
-    setToday();
+    setBaristaSelect();
 
-
-    loadOpeningBalance();
+    calculate();
 
   }
-
-
   catch(error) {
-
-    message.textContent =
-      error.message;
-
 
     message.className =
       "message error";
+
+    message.textContent =
+      error.message ||
+      "Ошибка входа";
 
   }
 
@@ -2512,8 +2098,8 @@ async function login() {
 
 
 /* =====================================================
-   НАЗАД
-   ===================================================== */
+   BACK TO USERS
+===================================================== */
 
 function backToUsers() {
 
@@ -2536,8 +2122,64 @@ function backToUsers() {
 
 
 /* =====================================================
-   ВЫХОД
-   ===================================================== */
+   BARISTA SELECT
+===================================================== */
+
+function setBaristaSelect() {
+
+  const select =
+    document.getElementById(
+      "barista"
+    );
+
+
+  select.innerHTML =
+    '<option value="">—</option>';
+
+
+  loginUsers
+    .filter(
+      user =>
+        user.role === "barista"
+    )
+    .forEach(
+      user => {
+
+        const option =
+          document.createElement(
+            "option"
+          );
+
+        option.value =
+          user.name;
+
+        option.textContent =
+          user.name;
+
+        select.appendChild(
+          option
+        );
+
+      }
+    );
+
+
+  if (
+    currentUser &&
+    currentUser.role === "barista"
+  ) {
+
+    select.value =
+      currentUser.name;
+
+  }
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
 
 function logout() {
 
@@ -2602,213 +2244,92 @@ function logout() {
 
 
 /* =====================================================
-   ДАТА
-   ===================================================== */
-
-function setToday() {
-
-  document.getElementById(
-    "date"
-  ).value =
-    "";
-
-}
-
-
-/* =====================================================
-   ЗНАЧЕНИЯ
-   ===================================================== */
-
-function val(
-  id
-) {
-
-  const element =
-    document.getElementById(
-      id
-    );
-
-
-  return element
-    ? element.value
-    : "";
-
-}
-
-
-function num(
-  id
-) {
-
-  const value =
-    parseFloat(
-      val(id)
-    );
-
-
-  return isNaN(value)
-    ? 0
-    : value;
-
-}
-
-
-function money(
-  value
-) {
-
-  return Number(
-    value || 0
-  ).toLocaleString(
-    "ru-RU"
-  );
-
-}
-
-
-/* =====================================================
-   РАСЧЁТ
-   ===================================================== */
+   CALCULATIONS
+===================================================== */
 
 function calculate() {
 
   const cash =
     num("cash");
 
-
   const card =
     num("card");
 
 
   const paymentTotal =
-    cash +
-    card;
+    cash + card;
 
 
-  const expenseTotal =
+  setText(
+    "paymentTotal",
+    money(paymentTotal)
+  );
+
+
+  const baristaExpense =
     num("baristaExpense1") +
     num("baristaExpense2") +
-    num("baristaExpense3") +
+    num("baristaExpense3");
 
+
+  const supplierExpense =
     num("supplier1") +
     num("supplier2") +
     num("supplier3") +
-    num("supplier4") +
+    num("supplier4");
 
+
+  const withdrawal =
     num("withdraw");
 
 
-  const expectedCash =
+  const expenseTotal =
+    baristaExpense +
+    supplierExpense +
+    withdrawal;
+
+
+  setText(
+    "expenseTotal",
+    money(expenseTotal)
+  );
+
+
+  const expected =
     num("openCash") +
     cash -
     expenseTotal;
 
 
-  document.getElementById(
-    "paymentTotal"
-  ).textContent =
-    money(
-      paymentTotal
-    );
-
-
-  document.getElementById(
-    "expenseTotal"
-  ).textContent =
-    money(
-      expenseTotal
-    );
-
-
-  document.getElementById(
-    "expectedCash"
-  ).textContent =
-    money(
-      expectedCash
-    );
+  setText(
+    "expectedCash",
+    money(expected)
+  );
 
 }
 
 
-/* =====================================================
-   ОСТАТОК
-   ===================================================== */
-
-async function loadOpeningBalance() {
-
-  try {
-
-    const result =
-      await callRPC(
-        "get_last_cash_balance"
-      );
-
-
-    let value =
-      result;
-
+document.addEventListener(
+  "input",
+  function(event) {
 
     if (
-      Array.isArray(result) &&
-      result.length > 0
+      event.target.matches(
+        "input"
+      )
     ) {
 
-      value =
-        result[0].balance ??
-        result[0].cash_balance ??
-        result[0].last_cash_balance ??
-        result[0];
+      calculate();
 
     }
-
-
-    if (
-      typeof value === "object" &&
-      value !== null
-    ) {
-
-      value =
-        value.balance ??
-        value.cash_balance ??
-        0;
-
-    }
-
-
-    if (
-      value !== null &&
-      value !== undefined
-    ) {
-
-      document.getElementById(
-        "openCash"
-      ).value =
-        Number(
-          value || 0
-        );
-
-    }
-
-
-    calculate();
 
   }
-
-  catch(error) {
-
-    console.log(
-      "Ошибка остатка:",
-      error
-    );
-
-  }
-
-}
+);
 
 
 /* =====================================================
-   СОХРАНЕНИЕ В SUPABASE
-   ===================================================== */
+   SAVE TO SUPABASE
+===================================================== */
 
 async function saveToSupabase() {
 
@@ -2938,13 +2459,6 @@ async function saveToSupabase() {
     );
 
 
-  /*
-     ВАЖНО:
-     здесь используется p_opening_cash,
-     потому что именно такое имя
-     параметра есть в Supabase.
-  */
-
   await callRPC(
     "save_shift_report",
     {
@@ -2957,6 +2471,10 @@ async function saveToSupabase() {
 
       p_opening_cash:
         num("openCash"),
+
+      p_opening_time:
+        val("openTime") ||
+        null,
 
       p_cash:
         num("cash"),
@@ -2976,6 +2494,13 @@ async function saveToSupabase() {
       p_expense_withdrawal:
         withdrawal,
 
+      p_closing_time:
+        val("closeTime") ||
+        null,
+
+      p_actual_cash:
+        num("closeCash"),
+
       p_comment:
         comment
 
@@ -2986,83 +2511,16 @@ async function saveToSupabase() {
 
 
 /* =====================================================
-   JPEG
-   ===================================================== */
+   REPORT
+===================================================== */
 
-function setText(
-  id,
-  value
-) {
-
-  const element =
-    document.getElementById(
-      id
-    );
-
-
-  if (!element) {
-
-    return;
-
-  }
-
-
-  element.textContent =
-    value === ""
-    ? "—"
-    : value;
-
-}
-
-
-function formatDate(
-  date
-) {
-
-  if (!date) {
-
-    return "—";
-
-  }
-
-
-  const parts =
-    date.split("-");
-
-
-  if (
-    parts.length !== 3
-  ) {
-
-    return date;
-
-  }
-
-
-  return (
-    parts[2] +
-    "." +
-    parts[1] +
-    "." +
-    parts[0]
-  );
-
-}
-
-
-function prepareExpenseRow(
+function fillReportRow(
   rowId,
   amountId,
-  amountReportId,
   commentId,
-  commentReportId
+  reportAmountId,
+  reportCommentId
 ) {
-
-  const amount =
-    val(
-      amountId
-    ).trim();
-
 
   const row =
     document.getElementById(
@@ -3070,19 +2528,20 @@ function prepareExpenseRow(
     );
 
 
-  if (!row) {
-
-    return false;
-
-  }
+  const amount =
+    val(amountId).trim();
 
 
-  if (!amount) {
+  const comment =
+    val(commentId).trim();
+
+
+  if (!amount && !comment) {
 
     row.style.display =
       "none";
 
-    return false;
+    return;
 
   }
 
@@ -3092,7 +2551,7 @@ function prepareExpenseRow(
 
 
   setText(
-    amountReportId,
+    reportAmountId,
     money(
       num(amountId)
     ) +
@@ -3101,12 +2560,9 @@ function prepareExpenseRow(
 
 
   setText(
-    commentReportId,
-    val(commentId)
+    reportCommentId,
+    comment
   );
-
-
-  return true;
 
 }
 
@@ -3145,11 +2601,11 @@ function createReport() {
   );
 
 
-  const cashAmount =
+  const cash =
     val("cash").trim();
 
 
-  const cardAmount =
+  const card =
     val("card").trim();
 
 
@@ -3159,18 +2615,22 @@ function createReport() {
     );
 
 
-  if (!cashAmount) {
+  const cardRow =
+    document.getElementById(
+      "rCardRow"
+    );
+
+
+  if (!cash) {
 
     cashRow.style.display =
       "none";
 
   }
-
   else {
 
     cashRow.style.display =
       "";
-
 
     setText(
       "rCash",
@@ -3180,35 +2640,24 @@ function createReport() {
       " ₽"
     );
 
-
     setText(
       "rCashComment",
-      val(
-        "cashComment"
-      )
+      val("cashComment")
     );
 
   }
 
 
-  const cardRow =
-    document.getElementById(
-      "rCardRow"
-    );
-
-
-  if (!cardAmount) {
+  if (!card) {
 
     cardRow.style.display =
       "none";
 
   }
-
   else {
 
     cardRow.style.display =
       "";
-
 
     setText(
       "rCard",
@@ -3218,219 +2667,123 @@ function createReport() {
       " ₽"
     );
 
-
     setText(
       "rCardComment",
-      val(
-        "cardComment"
-      )
+      val("cardComment")
     );
 
   }
 
 
-  const paymentTotal =
-    num("cash") +
-    num("card");
-
-
-  const paymentBlock =
-    document.getElementById(
-      "rPaymentTotalBlock"
-    );
-
-
-  if (
-    !cashAmount &&
-    !cardAmount
-  ) {
-
-    paymentBlock.style.display =
-      "none";
-
-  }
-
-  else {
-
-    paymentBlock.style.display =
-      "";
-
-
-    setText(
-      "rPaymentTotal",
-      money(
-        paymentTotal
-      )
-    );
-
-  }
-
-
-  let expenseRows = 0;
-
-
-  if (
-    prepareExpenseRow(
-      "rBaristaExpense1Row",
-      "baristaExpense1",
-      "rBaristaExpense1",
-      "baristaComment1",
-      "rBaristaComment1"
+  setText(
+    "rPaymentTotal",
+    money(
+      num("cash") +
+      num("card")
     )
-  ) {
-
-    expenseRows++;
-
-  }
+  );
 
 
-  if (
-    prepareExpenseRow(
-      "rBaristaExpense2Row",
-      "baristaExpense2",
-      "rBaristaExpense2",
-      "baristaComment2",
-      "rBaristaComment2"
-    )
-  ) {
-
-    expenseRows++;
-
-  }
+  fillReportRow(
+    "rBaristaExpenseRow1",
+    "baristaExpense1",
+    "baristaComment1",
+    "rBaristaExpense1",
+    "rBaristaComment1"
+  );
 
 
-  if (
-    prepareExpenseRow(
-      "rBaristaExpense3Row",
-      "baristaExpense3",
-      "rBaristaExpense3",
-      "baristaComment3",
-      "rBaristaComment3"
-    )
-  ) {
-
-    expenseRows++;
-
-  }
+  fillReportRow(
+    "rBaristaExpenseRow2",
+    "baristaExpense2",
+    "baristaComment2",
+    "rBaristaExpense2",
+    "rBaristaComment2"
+  );
 
 
-  if (
-    prepareExpenseRow(
-      "rSupplier1Row",
-      "supplier1",
-      "rSupplier1",
-      "supplierComment1",
-      "rSupplierComment1"
-    )
-  ) {
-
-    expenseRows++;
-
-  }
+  fillReportRow(
+    "rBaristaExpenseRow3",
+    "baristaExpense3",
+    "baristaComment3",
+    "rBaristaExpense3",
+    "rBaristaComment3"
+  );
 
 
-  if (
-    prepareExpenseRow(
-      "rSupplier2Row",
-      "supplier2",
-      "rSupplier2",
-      "supplierComment2",
-      "rSupplierComment2"
-    )
-  ) {
-
-    expenseRows++;
-
-  }
+  fillReportRow(
+    "rSupplierRow1",
+    "supplier1",
+    "supplierComment1",
+    "rSupplier1",
+    "rSupplierComment1"
+  );
 
 
-  if (
-    prepareExpenseRow(
-      "rSupplier3Row",
-      "supplier3",
-      "rSupplier3",
-      "supplierComment3",
-      "rSupplierComment3"
-    )
-  ) {
-
-    expenseRows++;
-
-  }
+  fillReportRow(
+    "rSupplierRow2",
+    "supplier2",
+    "supplierComment2",
+    "rSupplier2",
+    "rSupplierComment2"
+  );
 
 
-  if (
-    prepareExpenseRow(
-      "rSupplier4Row",
-      "supplier4",
-      "rSupplier4",
-      "supplierComment4",
-      "rSupplierComment4"
-    )
-  ) {
-
-    expenseRows++;
-
-  }
+  fillReportRow(
+    "rSupplierRow3",
+    "supplier3",
+    "supplierComment3",
+    "rSupplier3",
+    "rSupplierComment3"
+  );
 
 
-  if (
-    prepareExpenseRow(
-      "rWithdrawRow",
-      "withdraw",
-      "rWithdraw",
-      "withdrawComment",
-      "rWithdrawComment"
-    )
-  ) {
-
-    expenseRows++;
-
-  }
+  fillReportRow(
+    "rSupplierRow4",
+    "supplier4",
+    "supplierComment4",
+    "rSupplier4",
+    "rSupplierComment4"
+  );
 
 
-  const expenseBlock =
-    document.getElementById(
-      "rExpenseTotalBlock"
-    );
+  fillReportRow(
+    "rWithdrawRow",
+    "withdraw",
+    "withdrawComment",
+    "rWithdraw",
+    "rWithdrawComment"
+  );
 
 
-  if (
-    expenseRows === 0
-  ) {
-
-    expenseBlock.style.display =
-      "none";
-
-  }
-
-  else {
-
-    expenseBlock.style.display =
-      "";
+  const expenses =
+    num("baristaExpense1") +
+    num("baristaExpense2") +
+    num("baristaExpense3") +
+    num("supplier1") +
+    num("supplier2") +
+    num("supplier3") +
+    num("supplier4") +
+    num("withdraw");
 
 
-    const expenseTotal =
-      num("baristaExpense1") +
-      num("baristaExpense2") +
-      num("baristaExpense3") +
-
-      num("supplier1") +
-      num("supplier2") +
-      num("supplier3") +
-      num("supplier4") +
-
-      num("withdraw");
+  setText(
+    "rExpenseTotal",
+    money(expenses)
+  );
 
 
-    setText(
-      "rExpenseTotal",
-      money(
-        expenseTotal
-      )
-    );
+  const expected =
+    num("openCash") +
+    num("cash") -
+    expenses;
 
-  }
+
+  setText(
+    "rExpectedCash",
+    money(expected) +
+    " ₽"
+  );
 
 
   setText(
@@ -3450,6 +2803,10 @@ function createReport() {
 }
 
 
+/* =====================================================
+   JPEG
+===================================================== */
+
 async function makeJPEG() {
 
   createReport();
@@ -3465,16 +2822,11 @@ async function makeJPEG() {
     await html2canvas(
       report,
       {
-
         scale: 2,
-
         backgroundColor:
           "#ffffff",
-
         useCORS: true,
-
         logging: false
-
       }
     );
 
@@ -3490,11 +2842,8 @@ async function makeJPEG() {
           );
 
         },
-
         "image/jpeg",
-
         0.95
-
       );
 
     }
@@ -3504,8 +2853,8 @@ async function makeJPEG() {
 
 
 /* =====================================================
-   СОХРАНЕНИЕ + JPEG
-   ===================================================== */
+   SAVE + JPEG
+===================================================== */
 
 async function saveReportAndJPEG() {
 
@@ -3528,32 +2877,40 @@ async function saveReportAndJPEG() {
       await makeJPEG();
 
 
+    if (!blob) {
+
+      throw new Error(
+        "Не удалось создать JPEG"
+      );
+
+    }
+
+
     const date =
       val("date") ||
-      "без_даты";
+      "отчёт";
+
+
+    const barista =
+      val("barista") ||
+      "бариста";
 
 
     const file =
       new File(
-        [blob],
-
-        "A5_Отчёт_" +
+        [
+          blob
+        ],
+        "A5_" +
         date +
+        "_" +
+        barista +
         ".jpg",
-
         {
           type:
             "image/jpeg"
         }
       );
-
-
-    message.textContent =
-      "Отчёт сохранён";
-
-
-    message.className =
-      "message success";
 
 
     if (
@@ -3565,16 +2922,24 @@ async function saveReportAndJPEG() {
     ) {
 
       await navigator.share({
-
         files: [file],
-
         title:
           "Отчёт смены A5"
-
       });
 
     }
+    else if (
+      navigator.share
+    ) {
 
+      await navigator.share({
+        title:
+          "Отчёт смены A5",
+        text:
+          "Отчёт смены бариста A5"
+      });
+
+    }
     else {
 
       const url =
@@ -3583,57 +2948,47 @@ async function saveReportAndJPEG() {
         );
 
 
-      const a =
+      const link =
         document.createElement(
           "a"
         );
 
-
-      a.href =
+      link.href =
         url;
 
-
-      a.download =
-        "A5_Отчёт_" +
-        date +
-        ".jpg";
-
+      link.download =
+        file.name;
 
       document.body.appendChild(
-        a
+        link
       );
 
+      link.click();
 
-      a.click();
+      link.remove();
 
-
-      a.remove();
-
-
-      setTimeout(
-        function() {
-
-          URL.revokeObjectURL(
-            url
-          );
-
-        },
-        1000
+      URL.revokeObjectURL(
+        url
       );
 
     }
 
 
-  }
-
-  catch(error) {
+    message.className =
+      "message success";
 
     message.textContent =
-      error.message;
+      "Отчёт сохранён";
 
+  }
+  catch(error) {
 
     message.className =
       "message error";
+
+    message.textContent =
+      error.message ||
+      "Ошибка сохранения";
 
   }
 
@@ -3641,43 +2996,95 @@ async function saveReportAndJPEG() {
 
 
 /* =====================================================
-   ИСТОРИЯ
-   ===================================================== */
+   HISTORY TOGGLE
+===================================================== */
 
 function toggleHistory() {
 
-  document.getElementById(
-    "formScreen"
-  ).classList.toggle(
-    "hidden"
-  );
+  const form =
+    document.getElementById(
+      "formScreen"
+    );
+
+  const history =
+    document.getElementById(
+      "historyScreen"
+    );
+
+  const settings =
+    document.getElementById(
+      "settingsScreen"
+    );
 
 
-  document.getElementById(
-    "historyScreen"
-  ).classList.toggle(
-    "hidden"
-  );
-
-
-  document.getElementById(
-    "settingsScreen"
-  ).classList.add(
+  settings.classList.add(
     "hidden"
   );
 
 
   if (
-    !document.getElementById(
-      "historyScreen"
-    ).classList.contains(
+    history.classList.contains(
       "hidden"
     )
   ) {
 
+    form.classList.add(
+      "hidden"
+    );
+
+    history.classList.remove(
+      "hidden"
+    );
+
     loadHistory();
 
   }
+  else {
+
+    history.classList.add(
+      "hidden"
+    );
+
+    form.classList.remove(
+      "hidden"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   HISTORY
+===================================================== */
+
+function addHistoryRow(
+  item,
+  title,
+  value
+) {
+
+  const row =
+    document.createElement(
+      "div"
+    );
+
+  row.className =
+    "history-row";
+
+
+  row.innerHTML =
+    "<span>" +
+    escapeHtml(title) +
+    "</span>" +
+    "<span>" +
+    escapeHtml(value) +
+    "</span>";
+
+
+  item.appendChild(
+    row
+  );
 
 }
 
@@ -3691,7 +3098,7 @@ async function loadHistory() {
 
 
   list.innerHTML =
-    '<div style="color:#aaa;text-align:center;padding:15px;">Загрузка...</div>';
+    '<div style="text-align:center;color:#aaa;">Загрузка...</div>';
 
 
   try {
@@ -3700,6 +3107,10 @@ async function loadHistory() {
       await callRPC(
         "get_shift_reports"
       );
+
+
+    list.innerHTML =
+      "";
 
 
     if (
@@ -3713,10 +3124,6 @@ async function loadHistory() {
       return;
 
     }
-
-
-    list.innerHTML =
-      "";
 
 
     reports.forEach(
@@ -3756,15 +3163,10 @@ async function loadHistory() {
 
         head.innerHTML =
           "<span>" +
-          escapeHtml(
-            name
-          ) +
+          escapeHtml(name) +
           "</span>" +
-
           "<span>" +
-          escapeHtml(
-            date
-          ) +
+          escapeHtml(date) +
           "</span>";
 
 
@@ -3777,33 +3179,17 @@ async function loadHistory() {
           Number(
             report.cash || 0
           ) +
-
           Number(
             report.card || 0
           ) +
-
           Number(
             report.qr || 0
           );
 
 
-        const expenses =
-          Number(
-            report.expense_barista || 0
-          ) +
-
-          Number(
-            report.expense_supplier || 0
-          ) +
-
-          Number(
-            report.expense_withdrawal || 0
-          );
-
-
         addHistoryRow(
           item,
-          "Продажи",
+          "Выручка",
           money(sales) +
           " ₽"
         );
@@ -3813,7 +3199,7 @@ async function loadHistory() {
           item,
           "Наличные",
           money(
-            report.cash
+            report.cash || 0
           ) +
           " ₽"
         );
@@ -3821,20 +3207,30 @@ async function loadHistory() {
 
         addHistoryRow(
           item,
-          "Карта",
+          "Безнал",
           money(
-            report.card
+            report.card || 0
           ) +
           " ₽"
         );
+
+
+        const expenses =
+          Number(
+            report.expense_barista || 0
+          ) +
+          Number(
+            report.expense_supplier || 0
+          ) +
+          Number(
+            report.expense_withdrawal || 0
+          );
 
 
         addHistoryRow(
           item,
           "Расходы",
-          money(
-            expenses
-          ) +
+          money(expenses) +
           " ₽"
         );
 
@@ -3843,37 +3239,66 @@ async function loadHistory() {
           item,
           "Остаток на начало",
           money(
-            report.opening_balance
+            report.opening_cash || 0
+          ) +
+          " ₽"
+        );
+
+
+        addHistoryRow(
+          item,
+          "Остаток ожидаемый",
+          money(
+            report.expected_cash || 0
+          ) +
+          " ₽"
+        );
+
+
+        addHistoryRow(
+          item,
+          "Остаток на конец",
+          money(
+            report.actual_cash || 0
           ) +
           " ₽"
         );
 
 
         if (
-          report.comment
+          report.opening_time
         ) {
 
-          const comment =
-            document.createElement(
-              "div"
-            );
+          addHistoryRow(
+            item,
+            "Время открытия",
+            report.opening_time
+          );
+
+        }
 
 
-          comment.style.marginTop =
-            "6px";
+        if (
+          report.closing_time
+        ) {
+
+          addHistoryRow(
+            item,
+            "Время закрытия",
+            report.closing_time
+          );
+
+        }
 
 
-          comment.style.color =
-            "#aaa";
+        if (
+          report.comment_barista
+        ) {
 
-
-          comment.textContent =
-            "Комментарий: " +
-            report.comment;
-
-
-          item.appendChild(
-            comment
+          addHistoryRow(
+            item,
+            "Комментарий",
+            report.comment_barista
           );
 
         }
@@ -3886,9 +3311,7 @@ async function loadHistory() {
       }
     );
 
-
   }
-
   catch(error) {
 
     list.innerHTML =
@@ -3896,53 +3319,16 @@ async function loadHistory() {
       escapeHtml(
         error.message
       ) +
-      '</div>';
+      "</div>";
 
   }
 
 }
 
 
-function addHistoryRow(
-  parent,
-  label,
-  value
-) {
-
-  const row =
-    document.createElement(
-      "div"
-    );
-
-
-  row.className =
-    "history-row";
-
-
-  row.innerHTML =
-    "<span>" +
-    escapeHtml(
-      label
-    ) +
-    "</span>" +
-
-    "<strong>" +
-    escapeHtml(
-      value
-    ) +
-    "</strong>";
-
-
-  parent.appendChild(
-    row
-  );
-
-}
-
-
 /* =====================================================
-   НАСТРОЙКИ
-   ===================================================== */
+   SETTINGS
+===================================================== */
 
 function toggleSettings() {
 
@@ -3956,31 +3342,62 @@ function toggleSettings() {
   }
 
 
-  document.getElementById(
-    "formScreen"
-  ).classList.add(
+  const form =
+    document.getElementById(
+      "formScreen"
+    );
+
+  const history =
+    document.getElementById(
+      "historyScreen"
+    );
+
+  const settings =
+    document.getElementById(
+      "settingsScreen"
+    );
+
+
+  history.classList.add(
     "hidden"
   );
 
 
-  document.getElementById(
-    "historyScreen"
-  ).classList.add(
-    "hidden"
-  );
+  if (
+    settings.classList.contains(
+      "hidden"
+    )
+  ) {
 
+    form.classList.add(
+      "hidden"
+    );
 
-  document.getElementById(
-    "settingsScreen"
-  ).classList.remove(
-    "hidden"
-  );
+    settings.classList.remove(
+      "hidden"
+    );
 
+    loadSettings();
 
-  loadSettings();
+  }
+  else {
+
+    settings.classList.add(
+      "hidden"
+    );
+
+    form.classList.remove(
+      "hidden"
+    );
+
+  }
 
 }
 
+
+/* =====================================================
+   SETTINGS LIST
+===================================================== */
 
 function loadSettings() {
 
@@ -4104,20 +3521,16 @@ function loadSettings() {
 
 
       pinInput.type =
-        "tel";
-
+        "text";
 
       pinInput.inputMode =
         "numeric";
 
-
       pinInput.maxLength =
         4;
 
-
       pinInput.placeholder =
         "4 цифры";
-
 
       pinInput.id =
         "settingsPin_" +
@@ -4129,34 +3542,52 @@ function loadSettings() {
       );
 
 
-      const save =
+      const saveButton =
         document.createElement(
           "button"
         );
 
 
-      save.className =
-        "settings-save";
+      saveButton.className =
+        "main-button settings-save";
 
 
-      save.textContent =
+      saveButton.textContent =
         "Сохранить";
 
 
-      save.addEventListener(
-        "click",
+      saveButton.onclick =
         function() {
 
-          updateUser(
-            user
+          updateUserAccount(
+            user.id
           );
 
-        }
-      );
+        };
 
 
       box.appendChild(
-        save
+        saveButton
+      );
+
+
+      const message =
+        document.createElement(
+          "div"
+        );
+
+
+      message.id =
+        "settingsMessage_" +
+        user.id;
+
+
+      message.className =
+        "message";
+
+
+      box.appendChild(
+        message
       );
 
 
@@ -4170,43 +3601,42 @@ function loadSettings() {
 }
 
 
-async function updateUser(
-  user
+/* =====================================================
+   UPDATE USER
+===================================================== */
+
+async function updateUserAccount(
+  userId
 ) {
+
+  const name =
+    val(
+      "settingsName_" +
+      userId
+    ).trim();
+
+
+  const newPin =
+    val(
+      "settingsPin_" +
+      userId
+    ).trim();
+
 
   const message =
     document.getElementById(
-      "settingsMessage"
+      "settingsMessage_" +
+      userId
     );
-
-
-  message.className =
-    "message";
-
-
-  const name =
-    document.getElementById(
-      "settingsName_" +
-      user.id
-    ).value.trim();
-
-
-  const pin =
-    document.getElementById(
-      "settingsPin_" +
-      user.id
-    ).value.trim();
 
 
   if (!name) {
 
-    message.textContent =
-      "Имя не может быть пустым";
-
-
     message.className =
       "message error";
 
+    message.textContent =
+      "Введите имя";
 
     return;
 
@@ -4215,17 +3645,15 @@ async function updateUser(
 
   if (
     !/^[0-9]{4}$/.test(
-      pin
+      newPin
     )
   ) {
-
-    message.textContent =
-      "Введите новый PIN из 4 цифр";
-
 
     message.className =
       "message error";
 
+    message.textContent =
+      "PIN должен состоять из 4 цифр";
 
     return;
 
@@ -4242,24 +3670,23 @@ async function updateUser(
           currentPin,
 
         p_user_id:
-          user.id,
+          userId,
 
         p_name:
           name,
 
         p_new_pin:
-          pin
+          newPin
 
       }
     );
 
 
-    message.textContent =
-      "Изменения сохранены";
-
-
     message.className =
       "message success";
+
+    message.textContent =
+      "Сохранено";
 
 
     await loadLoginUsers();
@@ -4268,16 +3695,14 @@ async function updateUser(
     loadSettings();
 
   }
-
-
   catch(error) {
-
-    message.textContent =
-      error.message;
-
 
     message.className =
       "message error";
+
+    message.textContent =
+      error.message ||
+      "Ошибка сохранения";
 
   }
 
@@ -4285,111 +3710,14 @@ async function updateUser(
 
 
 /* =====================================================
-   ESCAPE
-   ===================================================== */
-
-function escapeHtml(
-  value
-) {
-
-  return String(
-    value ?? ""
-  )
-
-  .replaceAll(
-    "&",
-    "&amp;"
-  )
-
-  .replaceAll(
-    "<",
-    "&lt;"
-  )
-
-  .replaceAll(
-    ">",
-    "&gt;"
-  )
-
-  .replaceAll(
-    '"',
-    "&quot;"
-  )
-
-  .replaceAll(
-    "'",
-    "&#039;"
-  );
-
-}
-
-
-/* =====================================================
-   ЗАПУСК
-   ===================================================== */
+   START
+===================================================== */
 
 document.addEventListener(
   "DOMContentLoaded",
   function() {
 
     loadLoginUsers();
-
-
-    const fields = [
-
-      "openCash",
-
-      "cash",
-
-      "card",
-
-      "baristaExpense1",
-
-      "baristaExpense2",
-
-      "baristaExpense3",
-
-      "supplier1",
-
-      "supplier2",
-
-      "supplier3",
-
-      "supplier4",
-
-      "withdraw"
-
-    ];
-
-
-    fields.forEach(
-      id => {
-
-        document
-          .getElementById(id)
-          .addEventListener(
-            "input",
-            calculate
-          );
-
-      }
-    );
-
-
-    document.getElementById(
-      "date"
-    ).value = "";
-
-
-    document.getElementById(
-      "openTime"
-    ).value = "";
-
-
-    document.getElementById(
-      "closeTime"
-    ).value = "";
-
 
     calculate();
 
@@ -4399,5 +3727,4 @@ document.addEventListener(
 </script>
 
 </body>
-
 </html>
