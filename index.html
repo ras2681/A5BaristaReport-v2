@@ -208,14 +208,9 @@ button {
 .app-top {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 8px;
   margin-bottom: 6px;
-}
-
-.app-user {
-  font-size: 13px;
-  color: #bbb;
 }
 
 .app-actions {
@@ -490,12 +485,6 @@ input[type="number"] {
   white-space: nowrap;
 }
 
-/* Диана — отдельный цвет */
-
-.history-barista-diana {
-  background: #176b78;
-}
-
 .history-barista-blue {
   background: #24527a;
 }
@@ -518,6 +507,12 @@ input[type="number"] {
 
 .history-barista-gray {
   background: #4a4a4a;
+}
+
+/* ---------- DIANA ---------- */
+
+.history-barista-diana {
+  background: #176b78;
 }
 
 
@@ -946,11 +941,6 @@ input[type="number"] {
 
 
 <div class="app-top">
-
-  <div class="app-user">
-    <span id="currentUserName"></span>
-  </div>
-
 
   <div class="app-actions">
 
@@ -1405,9 +1395,8 @@ onclick="saveReportAndJPEG()">
     A5
   </div>
 
-  <div class="report-title"
-       id="rTitle">
-    ОТЧЁТ
+  <div class="report-title">
+    ОТЧЁТ СМЕНЫ БАРИСТА
   </div>
 
   <div class="report-date">
@@ -1757,39 +1746,6 @@ function clearMessage(id) {
 
   element.textContent =
     "";
-
-}
-
-
-/* =====================================================
-   UPDATE REPORT TITLE
-===================================================== */
-
-function updateReportTitle() {
-
-  const name =
-    currentUser &&
-    currentUser.name
-      ? currentUser.name
-      : "";
-
-
-  const title =
-    name
-      ? "ОТЧЁТ — " + name
-      : "ОТЧЁТ";
-
-
-  setText(
-    "formTitle",
-    title
-  );
-
-
-  setText(
-    "rTitle",
-    title
-  );
 
 }
 
@@ -2415,13 +2371,15 @@ async function login() {
     );
 
 
+    /* ==========================================
+       ЗАГОЛОВОК С ИМЕНЕМ ТЕКУЩЕГО БАРИСТА
+    ========================================== */
+
     setText(
-      "currentUserName",
+      "formTitle",
+      "ОТЧЁТ — " +
       user.name
     );
-
-
-    updateReportTitle();
 
 
     if (
@@ -3074,9 +3032,6 @@ function createReport() {
   calculate();
 
 
-  updateReportTitle();
-
-
   setText(
     "rDate",
     formatDate(
@@ -3085,16 +3040,15 @@ function createReport() {
   );
 
 
-  const baristaName =
-    currentUser &&
-    currentUser.name
-      ? currentUser.name
-      : "";
-
+  /* ==========================================
+     ИМЯ БАРИСТА БЕРЁМ ИЗ АВТОРИЗАЦИИ
+  ========================================== */
 
   setText(
     "rBarista",
-    baristaName
+    currentUser
+      ? currentUser.name
+      : ""
   );
 
 
@@ -3389,6 +3343,10 @@ async function saveReportAndJPEG() {
 
   try {
 
+    /* ---------------------------------
+       1. SAVE REPORT
+    --------------------------------- */
+
     const reportId =
       await saveToSupabase();
 
@@ -3401,6 +3359,10 @@ async function saveReportAndJPEG() {
 
     }
 
+
+    /* ---------------------------------
+       2. CREATE JPEG
+    --------------------------------- */
 
     const blob =
       await makeJPEG();
@@ -3415,6 +3377,10 @@ async function saveReportAndJPEG() {
     }
 
 
+    /* ---------------------------------
+       3. UPLOAD JPEG
+    --------------------------------- */
+
     message.textContent =
       "Загрузка фото отчёта...";
 
@@ -3426,11 +3392,19 @@ async function saveReportAndJPEG() {
       );
 
 
+    /* ---------------------------------
+       4. SAVE IMAGE PATH
+    --------------------------------- */
+
     await saveReportImagePath(
       reportId,
       imagePath
     );
 
+
+    /* ---------------------------------
+       5. SHARE / DOWNLOAD
+    --------------------------------- */
 
     const file =
       new File(
@@ -3758,9 +3732,9 @@ function getBaristaColorClass(name) {
       .toLowerCase();
 
 
-  /* ---------------------------------
-     ДИАНА — ОТДЕЛЬНЫЙ ЦВЕТ
-  --------------------------------- */
+  /* ==========================================
+     ДЛЯ ДИАНЫ — ОТДЕЛЬНЫЙ ЦВЕТ
+  ========================================== */
 
   if (
     value === "диана"
