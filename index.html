@@ -1,5878 +1,1355 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width,
-               initial-scale=1.0,
-               maximum-scale=1.0,
-               user-scalable=no,
-               viewport-fit=cover">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
 <title>A5 — Отчёт смены</title>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
-
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-}
-
-html,
-body {
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  -webkit-text-size-adjust: 100%;
-  touch-action: manipulation;
-}
-
-body {
-  background: #111;
-  color: #fff;
-  font-family: Arial, sans-serif;
-  padding: 6px;
-  overscroll-behavior: none;
-}
-
-button,
-input,
-select,
-textarea {
-  font-family: Arial, sans-serif;
-  touch-action: manipulation;
-}
-
-button {
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.container {
-  width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
-  overflow: hidden;
-}
-
-.hidden {
-  display: none !important;
-}
-
-
-/* =====================================================
-   LOGIN
-===================================================== */
-
-#loginScreen {
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.login-logo {
-  text-align: center;
-  font-size: 64px;
-  font-weight: 700;
-  line-height: 1;
-  margin-top: 25px;
-  margin-bottom: 8px;
-}
-
-.login-title {
-  text-align: center;
-  font-size: 21px;
-  margin-bottom: 25px;
-}
-
-.login-card {
-  width: 100%;
-}
-
-.login-user-button {
-  display: block;
-  width: 100%;
-  margin-top: 12px;
-  padding: 15px;
-  border: none;
-  border-radius: 6px;
-  background: #fff;
-  color: #000;
-  font-size: 17px;
-  font-weight: 600;
-}
-
-.login-user-button:active {
-  transform: scale(.98);
-}
-
-.login-role {
-  display: block;
-  margin-top: 4px;
-  font-size: 12px;
-  font-weight: 400;
-  opacity: .55;
-}
-
-.admin-login-space {
-  margin-top: 70px;
-  padding-top: 15px;
-  border-top: 1px solid #333;
-}
-
-.admin-login-button {
-  background: #333 !important;
-  color: #fff !important;
-}
-
-
-/* =====================================================
-   PIN
-===================================================== */
-
-.pin-title {
-  text-align: center;
-  font-size: 19px;
-  margin-top: 25px;
-  margin-bottom: 12px;
-}
-
-.pin-display {
-  width: 100%;
-  height: 48px;
-  margin-bottom: 10px;
-  border: 1px solid #555;
-  border-radius: 5px;
-  background: #222;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 25px;
-  letter-spacing: 8px;
-}
-
-.pin-keyboard {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 7px;
-}
-
-.pin-keyboard button {
-  height: 50px;
-  margin: 0;
-  padding: 5px;
-  border: none;
-  border-radius: 5px;
-  background: #222;
-  color: #fff;
-  font-size: 21px;
-}
-
-.pin-keyboard button:active {
-  background: #444;
-}
-
-.pin-keyboard .clear {
-  background: #333;
-}
-
-.back-button {
-  display: block;
-  width: 100%;
-  margin-top: 10px;
-  padding: 11px;
-  border: none;
-  border-radius: 5px;
-  background: #222;
-  color: #fff;
-  font-size: 14px;
-}
-
-
-/* =====================================================
-   GENERAL
-===================================================== */
-
-.app-top {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-bottom: 6px;
-}
-
-.app-actions {
-  display: flex;
-  gap: 5px;
-}
-
-.app-actions button {
-  width: auto;
-  margin: 0;
-  padding: 7px 9px;
-  font-size: 12px;
-  border-radius: 5px;
-}
-
-.app-actions .secondary {
-  background: #333;
-  color: #fff;
-}
-
-h1 {
-  text-align: center;
-  font-size: 21px;
-  margin: 7px 0 14px;
-}
-
-label {
-  display: block;
-  margin: 7px 0 4px;
-  font-size: 15px;
-}
-
-input,
-select,
-textarea {
-  display: block;
-  width: 100%;
-  height: 38px;
-  padding: 5px 7px;
-  border: 1px solid #555;
-  border-radius: 5px;
-  background: #222;
-  color: #fff;
-  font-size: 15px;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-  outline: none;
-  border-color: #888;
-}
-
-#date,
-#openTime,
-#closeTime {
-  width: 145px !important;
-  max-width: 145px !important;
-  height: 36px !important;
-  font-size: 14px !important;
-}
-
-input[type="number"] {
-  font-size: 17px;
-}
-
-
-/* =====================================================
-   SECTIONS
-===================================================== */
-
-.section {
-  width: 100%;
-  margin-top: 14px;
-  margin-bottom: 6px;
-  padding: 8px 9px;
-  background: #333;
-  color: #fff;
-  font-size: 17px;
-  font-weight: 600;
-}
-
-
-/* =====================================================
-   FORM TABLE
-===================================================== */
-
-.form-table {
-  width: 100%;
-  table-layout: fixed;
-  border-collapse: collapse;
-}
-
-.form-table th,
-.form-table td {
-  padding: 3px;
-  border: 1px solid #444;
-  vertical-align: middle;
-  overflow: hidden;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-}
-
-.form-table th:nth-child(1),
-.form-table td:nth-child(1) {
-  width: 32%;
-}
-
-.form-table th:nth-child(2),
-.form-table td:nth-child(2) {
-  width: 27%;
-}
-
-.form-table th:nth-child(3),
-.form-table td:nth-child(3) {
-  width: 41%;
-}
-
-.form-table th {
-  background: #222;
-  font-size: 14px;
-  font-weight: 600;
-  text-align: center;
-}
-
-.form-table td:first-child {
-  font-size: 17px;
-}
-
-.form-table input,
-.form-table textarea {
-  width: 100% !important;
-  height: 38px !important;
-  padding: 4px !important;
-  font-size: 17px !important;
-}
-
-.total {
-  width: 100%;
-  margin-top: 6px;
-  padding: 8px;
-  background: #222;
-  border: 1px solid #555;
-  text-align: right;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.expected {
-  width: 100%;
-  margin-top: 7px;
-  padding: 9px;
-  background: #292929;
-  border: 1px solid #555;
-  font-size: 15px;
-  text-align: right;
-}
-
-
-/* =====================================================
-   BUTTONS
-===================================================== */
-
-.main-button {
-  display: block;
-  width: 100%;
-  margin-top: 17px;
-  padding: 13px;
-  border: none;
-  border-radius: 6px;
-  background: #fff;
-  color: #000;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.dark-button {
-  background: #333;
-  color: #fff;
-}
-
-
-/* =====================================================
-   MESSAGES
-===================================================== */
-
-.message {
-  display: none;
-  margin-top: 10px;
-  padding: 9px;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-.message.error {
-  display: block;
-  background: #401919;
-  color: #ffb5b5;
-}
-
-.message.success {
-  display: block;
-  background: #193d21;
-  color: #b8ffca;
-}
-
-
-/* =====================================================
-   SETTINGS
-===================================================== */
-
-.settings-title {
-  font-size: 19px;
-  font-weight: 600;
-  margin: 12px 0 8px;
-}
-
-.settings-user {
-  border: 1px solid #444;
-  background: #222;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-}
-
-.settings-user-title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-
-.settings-user input {
-  height: 36px;
-}
-
-.settings-user select {
-  height: 36px;
-}
-
-.settings-role {
-  opacity: .65;
-  font-size: 13px;
-  margin-bottom: 8px;
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;max-width:100%;margin:0;padding:0;overflow-x:hidden;-webkit-text-size-adjust:100%;touch-action:manipulation}
+body{background:#111;color:#fff;font-family:Arial,sans-serif;padding:6px;overscroll-behavior:none}
+button,input,select,textarea{font-family:Arial,sans-serif;touch-action:manipulation}
+button{-webkit-appearance:none;appearance:none}
+.container{width:100%;max-width:700px;margin:0 auto;overflow:hidden}
+.hidden{display:none!important}
+
+#loginScreen{width:100%;max-width:500px;margin:0 auto}
+.login-logo{text-align:center;font-size:64px;font-weight:700;line-height:1;margin-top:25px;margin-bottom:8px}
+.login-title{text-align:center;font-size:21px;margin-bottom:25px}
+.login-card{width:100%}
+.login-user-button{display:block;width:100%;margin-top:12px;padding:15px;border:none;border-radius:6px;background:#fff;color:#000;font-size:17px;font-weight:600}
+.login-user-button:active{transform:scale(.98)}
+.login-role{display:block;margin-top:4px;font-size:12px;font-weight:400;opacity:.55}
+.admin-login-space{margin-top:70px;padding-top:15px;border-top:1px solid #333}
+.admin-login-button{background:#333!important;color:#fff!important}
+
+.pin-title{text-align:center;font-size:19px;margin-top:25px;margin-bottom:12px}
+.pin-display{width:100%;height:48px;margin-bottom:10px;border:1px solid #555;border-radius:5px;background:#222;color:#fff;display:flex;align-items:center;justify-content:center;font-size:25px;letter-spacing:8px}
+.pin-keyboard{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.pin-keyboard button{height:50px;margin:0;padding:5px;border:none;border-radius:5px;background:#222;color:#fff;font-size:21px}
+.pin-keyboard button:active{background:#444}
+.pin-keyboard .clear{background:#333}
+.back-button{display:block;width:100%;margin-top:10px;padding:11px;border:none;border-radius:5px;background:#222;color:#fff;font-size:14px}
+
+.app-top{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-bottom:6px}
+.app-actions{display:flex;gap:5px}
+.app-actions button{width:auto;margin:0;padding:7px 9px;font-size:12px;border-radius:5px}
+.app-actions .secondary{background:#333;color:#fff}
+
+h1{text-align:center;font-size:21px;margin:7px 0 14px}
+label{display:block;margin:7px 0 4px;font-size:15px}
+input,select,textarea{display:block;width:100%;height:38px;padding:5px 7px;border:1px solid #555;border-radius:5px;background:#222;color:#fff;font-size:15px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#888}
+#date,#openTime,#closeTime{width:145px!important;max-width:145px!important;height:36px!important;font-size:14px!important}
+input[type=number]{font-size:17px}
+
+.section{width:100%;margin-top:14px;margin-bottom:6px;padding:8px 9px;background:#333;color:#fff;font-size:17px;font-weight:600}
+.form-table{width:100%;table-layout:fixed;border-collapse:collapse}
+.form-table th,.form-table td{padding:3px;border:1px solid #444;vertical-align:middle;overflow:hidden;word-break:break-word;overflow-wrap:anywhere}
+.form-table th:nth-child(1),.form-table td:nth-child(1){width:32%}
+.form-table th:nth-child(2),.form-table td:nth-child(2){width:27%}
+.form-table th:nth-child(3),.form-table td:nth-child(3){width:41%}
+.form-table th{background:#222;font-size:14px;font-weight:600;text-align:center}
+.form-table td:first-child{font-size:17px}
+.form-table input,.form-table textarea{width:100%!important;height:38px!important;padding:4px!important;font-size:17px!important}
+.total{width:100%;margin-top:6px;padding:8px;background:#222;border:1px solid #555;text-align:right;font-size:16px;font-weight:600}
+.expected{width:100%;margin-top:7px;padding:9px;background:#292929;border:1px solid #555;font-size:15px;text-align:right}
+
+.main-button{display:block;width:100%;margin-top:17px;padding:13px;border:none;border-radius:6px;background:#fff;color:#000;font-size:16px;font-weight:600}
+.dark-button{background:#333;color:#fff}
+
+.message{display:none;margin-top:10px;padding:9px;border-radius:5px;font-size:14px}
+.message.error{display:block;background:#401919;color:#ffb5b5}
+.message.success{display:block;background:#193d21;color:#b8ffca}
+
+.settings-title{font-size:19px;font-weight:600;margin:12px 0 8px}
+.settings-user{border:1px solid #444;background:#222;padding:10px;margin-bottom:10px;border-radius:5px}
+.settings-user-title{font-size:16px;font-weight:600;margin-bottom:5px}
+.settings-user input,.settings-user select{height:36px}
+.settings-role{opacity:.65;font-size:13px;margin-bottom:8px}
+.settings-save{margin-top:10px}
+.settings-delete{margin-top:8px;background:#401919!important;color:#ffb5b5!important}
+
+.history-title{font-size:19px;font-weight:600;margin:12px 0}
+.history-item{background:#222;border:1px solid #444;border-radius:5px;margin-bottom:8px;padding:13px;font-size:14px;overflow:hidden}
+.history-barista-header{width:calc(100% + 26px);margin:-13px -13px 10px;padding:8px 13px;border-radius:5px 5px 0 0;color:#fff;font-size:14px;font-weight:700;white-space:nowrap}
+.history-barista-blue{background:#24527a}.history-barista-green{background:#286044}.history-barista-purple{background:#55417a}.history-barista-orange{background:#795126}.history-barista-red{background:#713838}.history-barista-gray{background:#4a4a4a}.history-barista-diana{background:#176b78}
+.history-photo-link{display:block;margin-top:12px;padding-top:9px;border-top:1px solid #444;color:#bbb;text-decoration:none;font-size:13px;cursor:pointer}
+.history-date-row{display:flex;justify-content:space-between;align-items:center;width:100%;margin-bottom:5px;white-space:nowrap}
+.history-date-title{font-size:14px;font-weight:400;white-space:nowrap}
+.history-date-value{font-size:14px;font-weight:700;white-space:nowrap;text-align:right}
+.history-time-row{display:flex;flex-direction:column;align-items:stretch;width:100%;margin-bottom:10px;white-space:nowrap}
+.history-opening-time,.history-closing-time{display:flex;justify-content:space-between;align-items:center;width:100%;font-size:13px;font-weight:400;white-space:nowrap;line-height:1.2}
+.history-closing-time{margin-top:2px}
+.history-special-block{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;margin:8px 0;white-space:nowrap}
+.history-special-title{font-size:14px;font-weight:700;line-height:1.15;white-space:nowrap}
+.history-special-value{flex-shrink:0;font-size:14px;font-weight:400;white-space:nowrap}
+.history-inline-row{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;margin:8px 0;white-space:nowrap}
+.history-inline-title{font-size:14px;font-weight:700;line-height:1.15;white-space:nowrap}
+.history-inline-value{flex-shrink:0;font-size:14px;font-weight:400;text-align:right;white-space:nowrap}
+.history-money-row{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;margin:5px 0;white-space:nowrap;font-size:14px;color:#ddd}
+.history-money-row span{white-space:nowrap}.history-money-row span:last-child{flex-shrink:0}
+.history-closing-row{margin-top:10px;margin-bottom:2px}
+.history-comment{margin-top:12px;padding-top:8px;border-top:1px solid #444;color:#aaa;font-size:13px}
+
+#report{position:absolute;left:-10000px;top:0;width:1000px;padding:38px;background:#fff;color:#000;font-family:Arial,sans-serif}
+.report-logo{font-size:68px;font-weight:700;margin-bottom:8px}
+.report-title{font-size:44px;font-weight:500;margin-bottom:17px}
+.report-date{font-size:34px;margin-bottom:22px}
+.report-section{margin-top:20px;padding:13px 15px;background:#222;color:#fff;font-size:31px}
+.report-table{width:100%;border-collapse:collapse;table-layout:fixed}
+.report-table th,.report-table td{border:2px solid #222;padding:13px 15px;font-size:30px;line-height:1.15}
+.report-table th{background:#f2f2f2;font-weight:500}
+.report-opening td:first-child,.report-closing td:first-child{width:35%}
+.report-opening td:nth-child(2),.report-closing td:nth-child(2){width:65%}
+.report-payments th:nth-child(1),.report-payments td:nth-child(1),.report-expenses th:nth-child(1),.report-expenses td:nth-child(1){width:38%}
+.report-payments th:nth-child(2),.report-payments td:nth-child(2),.report-expenses th:nth-child(2),.report-expenses td:nth-child(2){width:22%;text-align:right}
+.report-payments th:nth-child(3),.report-payments td:nth-child(3),.report-expenses th:nth-child(3),.report-expenses td:nth-child(3){width:40%}
+.report-total{padding:14px 15px;border:2px solid #222;border-top:none;text-align:right;font-size:30px}
+
+@media screen and (max-width:500px){
+.history-item{padding:12px}
+.history-date-title,.history-date-value{font-size:14px}
+.history-opening-time,.history-closing-time{font-size:13px}
+.history-inline-title,.history-inline-value,.history-special-title,.history-special-value,.history-money-row{font-size:14px}
+}
+@media screen and (max-width:380px){
+body{padding:5px}.history-item{padding:10px}
+.history-date-title,.history-date-value{font-size:13px}
+.history-opening-time,.history-closing-time{font-size:12px}
+.history-inline-title,.history-inline-value,.history-special-title,.history-special-value,.history-money-row{font-size:13px}
 }
-
-.settings-save {
-  margin-top: 10px;
-}
-
-.settings-delete {
-  margin-top: 8px;
-  background: #401919 !important;
-  color: #ffb5b5 !important;
-}
-
-
-/* =====================================================
-   HISTORY
-===================================================== */
-
-.history-title {
-  font-size: 19px;
-  font-weight: 600;
-  margin: 12px 0;
-}
-
-.history-item {
-  background: #222;
-  border: 1px solid #444;
-  border-radius: 5px;
-  margin-bottom: 8px;
-  padding: 13px;
-  font-size: 14px;
-  overflow: hidden;
-}
-
-
-/* BARISTA HEADER */
-
-.history-barista-header {
-  width: calc(100% + 26px);
-  margin: -13px -13px 10px;
-  padding: 8px 13px;
-  border-radius: 5px 5px 0 0;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.history-barista-blue {
-  background: #24527a;
-}
-
-.history-barista-green {
-  background: #286044;
-}
-
-.history-barista-purple {
-  background: #55417a;
-}
-
-.history-barista-orange {
-  background: #795126;
-}
-
-.history-barista-red {
-  background: #713838;
-}
-
-.history-barista-gray {
-  background: #4a4a4a;
-}
-
-.history-barista-diana {
-  background: #176b78;
-}
-
-
-/* PHOTO */
-
-.history-photo-link {
-  display: block;
-  margin-top: 12px;
-  padding-top: 9px;
-  border-top: 1px solid #444;
-  color: #bbb;
-  text-decoration: none;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-
-/* DATE */
-
-.history-date-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 5px;
-  white-space: nowrap;
-}
-
-.history-date-title {
-  font-size: 14px;
-  font-weight: 400;
-  white-space: nowrap;
-}
-
-.history-date-value {
-  font-size: 14px;
-  font-weight: 700;
-  white-space: nowrap;
-  text-align: right;
-}
-
-
-/* TIME */
-
-.history-time-row {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  width: 100%;
-  margin-bottom: 10px;
-  white-space: nowrap;
-}
-
-.history-opening-time,
-.history-closing-time {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  font-size: 13px;
-  font-weight: 400;
-  white-space: nowrap;
-  line-height: 1.2;
-}
-
-.history-closing-time {
-  margin-top: 2px;
-}
-
-
-/* SPECIAL */
-
-.history-special-block {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  margin: 8px 0;
-  white-space: nowrap;
-}
-
-.history-special-title {
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.15;
-  white-space: nowrap;
-}
-
-.history-special-value {
-  flex-shrink: 0;
-  font-size: 14px;
-  font-weight: 400;
-  white-space: nowrap;
-}
-
-
-/* INLINE */
-
-.history-inline-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  margin: 8px 0;
-  white-space: nowrap;
-}
-
-.history-inline-title {
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.15;
-  white-space: nowrap;
-}
-
-.history-inline-value {
-  flex-shrink: 0;
-  font-size: 14px;
-  font-weight: 400;
-  text-align: right;
-  white-space: nowrap;
-}
-
-
-/* MONEY */
-
-.history-money-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  margin: 5px 0;
-  white-space: nowrap;
-  font-size: 14px;
-  color: #ddd;
-}
-
-.history-money-row span {
-  white-space: nowrap;
-}
-
-.history-money-row span:last-child {
-  flex-shrink: 0;
-}
-
-.history-closing-row {
-  margin-top: 10px;
-  margin-bottom: 2px;
-}
-
-.history-comment {
-  margin-top: 12px;
-  padding-top: 8px;
-  border-top: 1px solid #444;
-  color: #aaa;
-  font-size: 13px;
-}
-
-
-/* =====================================================
-   JPEG REPORT
-===================================================== */
-
-#report {
-  position: absolute;
-  left: -10000px;
-  top: 0;
-  width: 1000px;
-  padding: 38px;
-  background: #fff;
-  color: #000;
-  font-family: Arial, sans-serif;
-}
-
-.report-logo {
-  font-size: 68px;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-.report-title {
-  font-size: 44px;
-  font-weight: 500;
-  margin-bottom: 17px;
-}
-
-.report-date {
-  font-size: 34px;
-  margin-bottom: 22px;
-}
-
-.report-section {
-  margin-top: 20px;
-  padding: 13px 15px;
-  background: #222;
-  color: #fff;
-  font-size: 31px;
-}
-
-.report-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-}
-
-.report-table th,
-.report-table td {
-  border: 2px solid #222;
-  padding: 13px 15px;
-  font-size: 30px;
-  line-height: 1.15;
-}
-
-.report-table th {
-  background: #f2f2f2;
-  font-weight: 500;
-}
-
-.report-opening td:first-child,
-.report-closing td:first-child {
-  width: 35%;
-}
-
-.report-opening td:nth-child(2),
-.report-closing td:nth-child(2) {
-  width: 65%;
-}
-
-.report-payments th:nth-child(1),
-.report-payments td:nth-child(1),
-.report-expenses th:nth-child(1),
-.report-expenses td:nth-child(1) {
-  width: 38%;
-}
-
-.report-payments th:nth-child(2),
-.report-payments td:nth-child(2),
-.report-expenses th:nth-child(2),
-.report-expenses td:nth-child(2) {
-  width: 22%;
-  text-align: right;
-}
-
-.report-payments th:nth-child(3),
-.report-payments td:nth-child(3),
-.report-expenses th:nth-child(3),
-.report-expenses td:nth-child(3) {
-  width: 40%;
-}
-
-.report-total {
-  padding: 14px 15px;
-  border: 2px solid #222;
-  border-top: none;
-  text-align: right;
-  font-size: 30px;
-}
-
-
-/* =====================================================
-   SMALL SCREEN
-===================================================== */
-
-@media screen and (max-width: 500px) {
-
-  .history-item {
-    padding: 12px;
-  }
-
-  .history-date-title,
-  .history-date-value {
-    font-size: 14px;
-  }
-
-  .history-opening-time,
-  .history-closing-time {
-    font-size: 13px;
-  }
-
-  .history-inline-title,
-  .history-inline-value,
-  .history-special-title,
-  .history-special-value,
-  .history-money-row {
-    font-size: 14px;
-  }
-
-}
-
-
-/* =====================================================
-   VERY SMALL SCREEN
-===================================================== */
-
-@media screen and (max-width: 380px) {
-
-  body {
-    padding: 5px;
-  }
-
-  .history-item {
-    padding: 10px;
-  }
-
-  .history-date-title,
-  .history-date-value {
-    font-size: 13px;
-  }
-
-  .history-opening-time,
-  .history-closing-time {
-    font-size: 12px;
-  }
-
-  .history-inline-title,
-  .history-inline-value,
-  .history-special-title,
-  .history-special-value,
-  .history-money-row {
-    font-size: 13px;
-  }
-
-}
-
 </style>
 </head>
 
-
 <body>
 
-
-<!-- =====================================================
-     LOGIN
-===================================================== -->
-
 <div id="loginScreen">
+  <div class="login-logo">A5</div>
+  <div class="login-title">ОТЧЁТ СМЕНЫ БАРИСТА</div>
+  <div id="usersLoading" style="text-align:center;color:#aaa">Загрузка пользователей...</div>
+  <div id="usersList" class="login-card"></div>
 
-  <div class="login-logo">
-    A5
-  </div>
-
-  <div class="login-title">
-    ОТЧЁТ СМЕНЫ БАРИСТА
-  </div>
-
-  <div id="usersLoading"
-       style="text-align:center;color:#aaa;">
-    Загрузка пользователей...
-  </div>
-
-  <div id="usersList"
-       class="login-card">
-  </div>
-
-
-  <div id="pinCard"
-       class="hidden">
-
-    <div class="pin-title"
-         id="pinUserName">
-    </div>
-
-    <div class="pin-display"
-         id="pinDisplay">
-      ••••
-    </div>
-
+  <div id="pinCard" class="hidden">
+    <div class="pin-title" id="pinUserName"></div>
+    <div class="pin-display" id="pinDisplay">••••</div>
 
     <div class="pin-keyboard">
-
       <button onclick="pinPress('1')">1</button>
       <button onclick="pinPress('2')">2</button>
       <button onclick="pinPress('3')">3</button>
-
       <button onclick="pinPress('4')">4</button>
       <button onclick="pinPress('5')">5</button>
       <button onclick="pinPress('6')">6</button>
-
       <button onclick="pinPress('7')">7</button>
       <button onclick="pinPress('8')">8</button>
       <button onclick="pinPress('9')">9</button>
-
-      <button class="clear"
-              onclick="pinClear()">⌫</button>
-
+      <button class="clear" onclick="pinClear()">⌫</button>
       <button onclick="pinPress('0')">0</button>
-
     </div>
 
-
-    <button class="back-button"
-            onclick="backToUsers()">
-      ← Назад
-    </button>
-
-
-    <div id="loginMessage"
-         class="message">
-    </div>
-
+    <button class="back-button" onclick="backToUsers()">← Назад</button>
+    <div id="loginMessage" class="message"></div>
   </div>
-
 </div>
 
-
-<!-- =====================================================
-     APP
-===================================================== -->
-
-<div id="appScreen"
-     class="hidden">
-
+<div id="appScreen" class="hidden">
 <div class="container">
 
-
 <div class="app-top">
-
   <div class="app-actions">
-
-    <button
-      id="historyButton"
-      class="secondary"
-      onclick="toggleHistory()">
-      История
-    </button>
-
-
-    <button
-      id="settingsButton"
-      class="secondary hidden"
-      onclick="toggleSettings()">
-      Настройки
-    </button>
-
-
-    <button
-      class="secondary"
-      onclick="logout()">
-      Выйти
-    </button>
-
+    <button id="historyButton" class="secondary" onclick="toggleHistory()">История</button>
+    <button id="settingsButton" class="secondary hidden" onclick="toggleSettings()">Настройки</button>
+    <button class="secondary" onclick="logout()">Выйти</button>
   </div>
-
 </div>
-
-
-<!-- =====================================================
-     FORM
-===================================================== -->
 
 <div id="formScreen">
+<h1 id="formTitle">ОТЧЁТ</h1>
 
-<h1 id="formTitle">
-ОТЧЁТ
-</h1>
+<label>Дата</label>
+<input type="date" id="date" value="">
 
+<div class="section">ОТКРЫТИЕ СМЕНЫ</div>
+<label>Время открытия</label>
+<input type="time" id="openTime" value="">
+<label>Остаток наличных в кассе</label>
+<input type="number" id="openCash" value="" inputmode="decimal">
 
-<label>
-Дата
-</label>
-
-<input
-type="date"
-id="date"
-value=""
->
-
-
-<div class="section">
-ОТКРЫТИЕ СМЕНЫ
-</div>
-
-
-<label>
-Время открытия
-</label>
-
-<input
-type="time"
-id="openTime"
-value=""
->
-
-
-<label>
-Остаток наличных в кассе
-</label>
-
-<input
-type="number"
-id="openCash"
-value=""
-inputmode="decimal"
->
-
-
-<div class="section">
-ОПЛАТЫ ЗА СМЕНУ
-</div>
-
-
+<div class="section">ОПЛАТЫ ЗА СМЕНУ</div>
 <table class="form-table">
-
-<thead>
-
-<tr>
-<th>Оплата</th>
-<th>Сумма</th>
-<th>Комментарий</th>
-</tr>
-
-</thead>
-
+<thead><tr><th>Оплата</th><th>Сумма</th><th>Комментарий</th></tr></thead>
 <tbody>
-
-<tr>
-
-<td>
-Наличные
-</td>
-
-<td>
-<input
-type="number"
-id="cash"
-value=""
-inputmode="decimal"
->
-</td>
-
-<td>
-<input
-type="text"
-id="cashComment"
->
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Безнал (карта / QR)
-</td>
-
-<td>
-<input
-type="number"
-id="card"
-value=""
-inputmode="decimal"
->
-</td>
-
-<td>
-<input
-type="text"
-id="cardComment"
->
-</td>
-
-</tr>
-
+<tr><td>Наличные</td><td><input type="number" id="cash" value="" inputmode="decimal"></td><td><input type="text" id="cashComment"></td></tr>
+<tr><td>Безнал (карта / QR)</td><td><input type="number" id="card" value="" inputmode="decimal"></td><td><input type="text" id="cardComment"></td></tr>
 </tbody>
-
 </table>
 
+<div class="total">ИТОГО: <span id="paymentTotal">0</span> ₽</div>
 
-<div class="total">
-ИТОГО:
-<span id="paymentTotal">0</span> ₽
-</div>
-
-
-<div class="section">
-РАСХОДЫ И ИЗЪЯТИЯ
-</div>
-
-
+<div class="section">РАСХОДЫ И ИЗЪЯТИЯ</div>
 <table class="form-table">
-
-<thead>
-
-<tr>
-<th>Расход</th>
-<th>Сумма</th>
-<th>Комментарий</th>
-</tr>
-
-</thead>
-
+<thead><tr><th>Расход</th><th>Сумма</th><th>Комментарий</th></tr></thead>
 <tbody>
-
-
-<tr>
-<td>Бариста</td>
-<td>
-<input
-type="number"
-id="baristaExpense1"
-value=""
-inputmode="decimal">
-</td>
-<td>
-<input
-type="text"
-id="baristaComment1">
-</td>
-</tr>
-
-
-<tr>
-<td>Бариста</td>
-<td>
-<input
-type="number"
-id="baristaExpense2"
-value=""
-inputmode="decimal">
-</td>
-<td>
-<input
-type="text"
-id="baristaComment2">
-</td>
-</tr>
-
-
-<tr>
-<td>Бариста</td>
-<td>
-<input
-type="number"
-id="baristaExpense3"
-value=""
-inputmode="decimal">
-</td>
-<td>
-<input
-type="text"
-id="baristaComment3">
-</td>
-</tr>
-
-
-<tr>
-<td>Поставщик</td>
-<td>
-<input
-type="number"
-id="supplier1"
-value=""
-inputmode="decimal">
-</td>
-<td>
-<input
-type="text"
-id="supplierComment1">
-</td>
-</tr>
-
-
-<tr>
-<td>Поставщик</td>
-<td>
-<input
-type="number"
-id="supplier2"
-value=""
-inputmode="decimal">
-</td>
-<td>
-<input
-type="text"
-id="supplierComment2">
-</td>
-</tr>
-
-
-<tr>
-<td>Поставщик</td>
-<td>
-<input
-type="number"
-id="supplier3"
-value=""
-inputmode="decimal">
-</td>
-<td>
-<input
-type="text"
-id="supplierComment3">
-</td>
-</tr>
-
-
-<tr>
-<td>Поставщик</td>
-<td>
-<input
-type="number"
-id="supplier4"
-value=""
-inputmode="decimal">
-</td>
-<td>
-<input
-type="text"
-id="supplierComment4">
-</td>
-</tr>
-
-
-<tr>
-<td>Изъятие</td>
-<td>
-<input
-type="number"
-id="withdraw"
-value=""
-inputmode="decimal">
-</td>
-<td>
-<input
-type="text"
-id="withdrawComment">
-</td>
-</tr>
-
-
+<tr><td>Бариста</td><td><input type="number" id="baristaExpense1" value="" inputmode="decimal"></td><td><input type="text" id="baristaComment1"></td></tr>
+<tr><td>Бариста</td><td><input type="number" id="baristaExpense2" value="" inputmode="decimal"></td><td><input type="text" id="baristaComment2"></td></tr>
+<tr><td>Бариста</td><td><input type="number" id="baristaExpense3" value="" inputmode="decimal"></td><td><input type="text" id="baristaComment3"></td></tr>
+<tr><td>Поставщик</td><td><input type="number" id="supplier1" value="" inputmode="decimal"></td><td><input type="text" id="supplierComment1"></td></tr>
+<tr><td>Поставщик</td><td><input type="number" id="supplier2" value="" inputmode="decimal"></td><td><input type="text" id="supplierComment2"></td></tr>
+<tr><td>Поставщик</td><td><input type="number" id="supplier3" value="" inputmode="decimal"></td><td><input type="text" id="supplierComment3"></td></tr>
+<tr><td>Поставщик</td><td><input type="number" id="supplier4" value="" inputmode="decimal"></td><td><input type="text" id="supplierComment4"></td></tr>
+<tr><td>Изъятие</td><td><input type="number" id="withdraw" value="" inputmode="decimal"></td><td><input type="text" id="withdrawComment"></td></tr>
 </tbody>
-
 </table>
 
+<div class="total">ИТОГО: <span id="expenseTotal">0</span> ₽</div>
+<div class="expected">ОЖИДАЕМЫЙ ОСТАТОК: <span id="expectedCash">0</span> ₽</div>
 
-<div class="total">
-ИТОГО:
-<span id="expenseTotal">0</span> ₽
+<div class="section">ЗАКРЫТИЕ СМЕНЫ</div>
+<label>Время закрытия</label>
+<input type="time" id="closeTime" value="">
+<label>Фактический остаток наличных</label>
+<input type="number" id="closeCash" value="" inputmode="decimal">
+
+<button class="main-button" onclick="saveReportAndJPEG()">СОХРАНИТЬ И ОТПРАВИТЬ JPEG</button>
+<div id="saveMessage" class="message"></div>
 </div>
 
-
-<div class="expected">
-ОЖИДАЕМЫЙ ОСТАТОК:
-<span id="expectedCash">0</span> ₽
+<div id="historyScreen" class="hidden">
+  <div class="history-title">ИСТОРИЯ СМЕН</div>
+  <button class="main-button dark-button" onclick="toggleHistory()">← Вернуться к отчёту</button>
+  <button class="main-button" onclick="loadHistory()">Обновить</button>
+  <div id="historyList" style="margin-top:10px"></div>
 </div>
 
+<div id="settingsScreen" class="hidden">
+  <div class="settings-title">НАСТРОЙКИ ПОЛЬЗОВАТЕЛЕЙ</div>
+  <div class="settings-title">СОТРУДНИКИ</div>
+  <div id="settingsUsers"></div>
 
-<div class="section">
-ЗАКРЫТИЕ СМЕНЫ
-</div>
-
-
-<label>
-Время закрытия
-</label>
-
-<input
-type="time"
-id="closeTime"
-value=""
->
-
-
-<label>
-Фактический остаток наличных
-</label>
-
-<input
-type="number"
-id="closeCash"
-value=""
-inputmode="decimal"
->
-
-
-<button
-class="main-button"
-onclick="saveReportAndJPEG()">
-СОХРАНИТЬ И ОТПРАВИТЬ JPEG
-</button>
-
-
-<div id="saveMessage"
-     class="message">
-</div>
-
-</div>
-
-
-<!-- =====================================================
-     HISTORY
-===================================================== -->
-
-<div id="historyScreen"
-     class="hidden">
-
-  <div class="history-title">
-    ИСТОРИЯ СМЕН
-  </div>
-
-
-  <button
-    class="main-button dark-button"
-    onclick="toggleHistory()">
-    ← Вернуться к отчёту
-  </button>
-
-
-  <button
-    class="main-button"
-    onclick="loadHistory()">
-    Обновить
-  </button>
-
-
-  <div id="historyList"
-       style="margin-top:10px;">
-  </div>
-
-</div>
-
-
-<!-- =====================================================
-     SETTINGS
-===================================================== -->
-
-<div id="settingsScreen"
-     class="hidden">
-
-  <div class="settings-title">
-    НАСТРОЙКИ ПОЛЬЗОВАТЕЛЕЙ
-  </div>
-
-
-  <div class="settings-title">
-    СОТРУДНИКИ
-  </div>
-
-
-  <div id="settingsUsers">
-  </div>
-
-
-  <div class="settings-title"
-       style="margin-top:20px;">
-    ДОБАВИТЬ СОТРУДНИКА
-  </div>
-
+  <div class="settings-title" style="margin-top:20px">ДОБАВИТЬ СОТРУДНИКА</div>
 
   <div class="settings-user">
+    <label>Имя</label>
+    <input type="text" id="newUserName" placeholder="Имя сотрудника">
 
-    <label>
-      Имя
-    </label>
-
-    <input
-      type="text"
-      id="newUserName"
-      placeholder="Имя сотрудника"
-    >
-
-
-    <label>
-      Роль
-    </label>
-
+    <label>Роль</label>
     <select id="newUserRole">
-
-      <option value="barista">
-        Бариста
-      </option>
-
-      <option value="admin">
-        Администратор
-      </option>
-
+      <option value="barista">Бариста</option>
+      <option value="admin">Администратор</option>
     </select>
 
+    <label>PIN</label>
+    <input type="text" id="newUserPin" inputmode="numeric" maxlength="4" placeholder="4 цифры">
 
-    <label>
-      PIN
-    </label>
-
-    <input
-      type="text"
-      id="newUserPin"
-      inputmode="numeric"
-      maxlength="4"
-      placeholder="4 цифры"
-    >
-
-
-    <button
-      class="main-button settings-save"
-      onclick="addUserAccount()">
-      ДОБАВИТЬ СОТРУДНИКА
-    </button>
-
-
-    <div
-      class="message"
-      id="newUserMessage">
-    </div>
-
+    <button class="main-button settings-save" onclick="addUserAccount()">ДОБАВИТЬ СОТРУДНИКА</button>
+    <div class="message" id="newUserMessage"></div>
   </div>
 
-
-  <button
-    class="main-button dark-button"
-    onclick="toggleSettings()">
-    ← Вернуться
-  </button>
-
+  <button class="main-button dark-button" onclick="toggleSettings()">← Вернуться</button>
 </div>
-
 
 </div>
 </div>
-
-
-<!-- =====================================================
-     JPEG REPORT
-===================================================== -->
 
 <div id="report">
+  <div class="report-logo">A5</div>
+  <div class="report-title">ОТЧЁТ СМЕНЫ БАРИСТА</div>
+  <div class="report-date">Дата: <span id="rDate"></span></div>
 
-  <div class="report-logo">
-    A5
-  </div>
+  <div class="report-section">ОТКРЫТИЕ СМЕНЫ</div>
+  <table class="report-table report-opening"><tbody>
+    <tr><td>Бариста</td><td id="rBarista"></td></tr>
+    <tr><td>Время открытия</td><td id="rOpenTime"></td></tr>
+    <tr><td>Остаток наличных в кассе</td><td id="rOpenCash"></td></tr>
+  </tbody></table>
 
-  <div class="report-title">
-    ОТЧЁТ СМЕНЫ БАРИСТА
-  </div>
-
-  <div class="report-date">
-    Дата:
-    <span id="rDate"></span>
-  </div>
-
-
-  <div class="report-section">
-    ОТКРЫТИЕ СМЕНЫ
-  </div>
-
-
-  <table class="report-table report-opening">
-
-  <tbody>
-
-  <tr>
-    <td>Бариста</td>
-    <td id="rBarista"></td>
-  </tr>
-
-  <tr>
-    <td>Время открытия</td>
-    <td id="rOpenTime"></td>
-  </tr>
-
-  <tr>
-    <td>Остаток наличных в кассе</td>
-    <td id="rOpenCash"></td>
-  </tr>
-
-  </tbody>
-
-  </table>
-
-
-  <div class="report-section">
-    ОПЛАТЫ ЗА СМЕНУ
-  </div>
-
-
+  <div class="report-section">ОПЛАТЫ ЗА СМЕНУ</div>
   <table class="report-table report-payments">
-
-  <thead>
-
-  <tr>
-    <th>Оплата</th>
-    <th>Сумма</th>
-    <th>Комментарий</th>
-  </tr>
-
-  </thead>
-
-  <tbody>
-
-  <tr id="rCashRow">
-    <td>Наличные</td>
-    <td id="rCash"></td>
-    <td id="rCashComment"></td>
-  </tr>
-
-  <tr id="rCardRow">
-    <td>Безнал (карта / QR)</td>
-    <td id="rCard"></td>
-    <td id="rCardComment"></td>
-  </tr>
-
-  </tbody>
-
+    <thead><tr><th>Оплата</th><th>Сумма</th><th>Комментарий</th></tr></thead>
+    <tbody>
+      <tr id="rCashRow"><td>Наличные</td><td id="rCash"></td><td id="rCashComment"></td></tr>
+      <tr id="rCardRow"><td>Безнал (карта / QR)</td><td id="rCard"></td><td id="rCardComment"></td></tr>
+    </tbody>
   </table>
+  <div class="report-total">ИТОГО: <span id="rPaymentTotal"></span> ₽</div>
 
-
-  <div class="report-total">
-    ИТОГО:
-    <span id="rPaymentTotal"></span> ₽
-  </div>
-
-
-  <div class="report-section">
-    РАСХОДЫ И ИЗЪЯТИЯ
-  </div>
-
-
+  <div class="report-section">РАСХОДЫ И ИЗЪЯТИЯ</div>
   <table class="report-table report-expenses">
-
-  <thead>
-
-  <tr>
-    <th>Расход</th>
-    <th>Сумма</th>
-    <th>Комментарий</th>
-  </tr>
-
-  </thead>
-
-  <tbody>
-
-  <tr id="rBaristaRow1">
-    <td>Бариста</td>
-    <td id="rBarista1"></td>
-    <td id="rBaristaComment1"></td>
-  </tr>
-
-  <tr id="rBaristaRow2">
-    <td>Бариста</td>
-    <td id="rBarista2"></td>
-    <td id="rBaristaComment2"></td>
-  </tr>
-
-  <tr id="rBaristaRow3">
-    <td>Бариста</td>
-    <td id="rBarista3"></td>
-    <td id="rBaristaComment3"></td>
-  </tr>
-
-  <tr id="rSupplierRow1">
-    <td>Поставщик</td>
-    <td id="rSupplier1"></td>
-    <td id="rSupplierComment1"></td>
-  </tr>
-
-  <tr id="rSupplierRow2">
-    <td>Поставщик</td>
-    <td id="rSupplier2"></td>
-    <td id="rSupplierComment2"></td>
-  </tr>
-
-  <tr id="rSupplierRow3">
-    <td>Поставщик</td>
-    <td id="rSupplier3"></td>
-    <td id="rSupplierComment3"></td>
-  </tr>
-
-  <tr id="rSupplierRow4">
-    <td>Поставщик</td>
-    <td id="rSupplier4"></td>
-    <td id="rSupplierComment4"></td>
-  </tr>
-
-  <tr id="rWithdrawRow">
-    <td>Изъятие</td>
-    <td id="rWithdraw"></td>
-    <td id="rWithdrawComment"></td>
-  </tr>
-
-  </tbody>
-
+    <thead><tr><th>Расход</th><th>Сумма</th><th>Комментарий</th></tr></thead>
+    <tbody>
+      <tr id="rBaristaRow1"><td>Бариста</td><td id="rBarista1"></td><td id="rBaristaComment1"></td></tr>
+      <tr id="rBaristaRow2"><td>Бариста</td><td id="rBarista2"></td><td id="rBaristaComment2"></td></tr>
+      <tr id="rBaristaRow3"><td>Бариста</td><td id="rBarista3"></td><td id="rBaristaComment3"></td></tr>
+      <tr id="rSupplierRow1"><td>Поставщик</td><td id="rSupplier1"></td><td id="rSupplierComment1"></td></tr>
+      <tr id="rSupplierRow2"><td>Поставщик</td><td id="rSupplier2"></td><td id="rSupplierComment2"></td></tr>
+      <tr id="rSupplierRow3"><td>Поставщик</td><td id="rSupplier3"></td><td id="rSupplierComment3"></td></tr>
+      <tr id="rSupplierRow4"><td>Поставщик</td><td id="rSupplier4"></td><td id="rSupplierComment4"></td></tr>
+      <tr id="rWithdrawRow"><td>Изъятие</td><td id="rWithdraw"></td><td id="rWithdrawComment"></td></tr>
+    </tbody>
   </table>
+  <div class="report-total">ИТОГО: <span id="rExpenseTotal"></span> ₽</div>
 
-
-  <div class="report-total">
-    ИТОГО:
-    <span id="rExpenseTotal"></span> ₽
-  </div>
-
-
-  <div class="report-section">
-    ОСТАТОК
-  </div>
-
-
-  <table class="report-table report-closing">
-
-  <tbody>
-
-  <tr>
-    <td>Время закрытия</td>
-    <td id="rCloseTime"></td>
-  </tr>
-
-  <tr>
-    <td>Фактический остаток наличных</td>
-    <td id="rCloseCash"></td>
-  </tr>
-
-  </tbody>
-
-  </table>
-
+  <div class="report-section">ОСТАТОК</div>
+  <table class="report-table report-closing"><tbody>
+    <tr><td>Время закрытия</td><td id="rCloseTime"></td></tr>
+    <tr><td>Фактический остаток наличных</td><td id="rCloseCash"></td></tr>
+  </tbody></table>
 </div>
 
-
 <script>
+const SUPABASE_URL="https://hsfxdmjmvgbepurkhfxl.supabase.co";
+const SUPABASE_KEY="sb_publishable_sVGHTCnvYzWZ65_ltVMkNA_WMNyYUx0";
+const STORAGE_BUCKET="shift-reports";
 
-/* =====================================================
-   SUPABASE
-===================================================== */
+let loginUsers=[],selectedUser=null,pinValue="",currentUser=null,currentPin="",loginInProgress=false,deviceCheckTimer=null;
 
-const SUPABASE_URL =
-"https://hsfxdmjmvgbepurkhfxl.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_sVGHTCnvYzWZ65_ltVMkNA_WMNyYUx0";
-
-const STORAGE_BUCKET =
-"shift-reports";
-
-
-/* =====================================================
-   STATE
-===================================================== */
-
-let loginUsers = [];
-
-let selectedUser = null;
-
-let pinValue = "";
-
-let currentUser = null;
-
-let currentPin = "";
-
-let loginInProgress = false;
-
-
-/* =====================================================
-   DEVICE AUTHORIZATION
-===================================================== */
-
-let deviceCheckTimer = null;
-
-
-function getDeviceToken() {
-
-  const storageKey =
-    "a5_device_token";
-
-  let token = "";
-
-  try {
-
-    token =
-      localStorage.getItem(
-        storageKey
-      ) || "";
-
-  }
-  catch(error) {
-
-    console.error(
-      "Ошибка чтения device token:",
-      error
-    );
-
-  }
-
-  if (token) {
-
-    return token;
-
-  }
-
-  try {
-
-    if (
-      window.crypto &&
-      typeof crypto.randomUUID ===
-      "function"
-    ) {
-
-      token =
-        crypto.randomUUID();
-
-    }
-
-  }
-  catch(error) {
-
-    console.error(
-      error
-    );
-
-  }
-
-  if (!token) {
-
-    token =
-      "a5-" +
-      Date.now().toString(36) +
-      "-" +
-      Math.random()
-        .toString(36)
-        .substring(2, 15) +
-      "-" +
-      Math.random()
-        .toString(36)
-        .substring(2, 15);
-
-  }
-
-  try {
-
-    localStorage.setItem(
-      storageKey,
-      token
-    );
-
-  }
-  catch(error) {
-
-    console.error(
-      "Ошибка сохранения device token:",
-      error
-    );
-
-  }
-
+function getDeviceToken(){
+  const key="a5_device_token";
+  let token="";
+  try{token=localStorage.getItem(key)||""}catch(e){}
+  if(token)return token;
+  try{if(window.crypto&&typeof crypto.randomUUID==="function")token=crypto.randomUUID()}catch(e){}
+  if(!token)token="a5-"+Date.now().toString(36)+"-"+Math.random().toString(36).substring(2,15)+"-"+Math.random().toString(36).substring(2,15);
+  try{localStorage.setItem(key,token)}catch(e){}
   return token;
-
 }
 
-
-function getDeviceName() {
-
-  const savedName =
-    localStorage.getItem(
-      "a5_device_name"
-    );
-
-  if (savedName) {
-
-    return savedName;
-
-  }
-
-  const ua =
-    navigator.userAgent ||
-    "";
-
-  if (
-    /iPhone/i.test(ua)
-  ) {
-
-    return "iPhone";
-
-  }
-
-  if (
-    /iPad/i.test(ua)
-  ) {
-
-    return "iPad";
-
-  }
-
-  if (
-    /Android/i.test(ua)
-  ) {
-
-    if (
-      /Mobile/i.test(ua)
-    ) {
-
-      return "Android";
-
-    }
-
-    return "Android планшет";
-
-  }
-
-  if (
-    /Windows/i.test(ua)
-  ) {
-
-    return "Windows";
-
-  }
-
-  if (
-    /Macintosh|Mac OS X/i.test(ua)
-  ) {
-
-    return "Mac";
-
-  }
-
-  if (
-    /Linux/i.test(ua)
-  ) {
-
-    return "Linux";
-
-  }
-
-  return "Другое устройство";
-
+function getDeviceName(){
+  const saved=localStorage.getItem("a5_device_name");
+  if(saved)return saved;
+  const ua=navigator.userAgent||"";
+  if(/iPhone/i.test(ua))return"iPhone";
+  if(/iPad/i.test(ua))return"iPad";
+  if(/Android/i.test(ua))return/Mobile/i.test(ua)?"Android":"Android планшет";
+  if(/Windows/i.test(ua))return"Windows";
+  if(/Macintosh|Mac OS X/i.test(ua))return"Mac";
+  if(/Linux/i.test(ua))return"Linux";
+  return"Другое устройство";
 }
 
-
-function askDeviceName() {
-
-  const defaultName =
-    getDeviceName();
-
-  const name =
-    window.prompt(
-      "Введите название этого устройства:",
-      defaultName
-    );
-
-  if (
-    name === null
-  ) {
-
-    return defaultName;
-
-  }
-
-  const cleanName =
-    name.trim();
-
-  if (!cleanName) {
-
-    return defaultName;
-
-  }
-
-  try {
-
-    localStorage.setItem(
-      "a5_device_name",
-      cleanName
-    );
-
-  }
-  catch(error) {
-
-    console.error(
-      "Не удалось сохранить название устройства:",
-      error
-    );
-
-  }
-
-  return cleanName;
-
+function askDeviceName(){
+  const def=getDeviceName();
+  const name=window.prompt("Введите название этого устройства:",def);
+  if(name===null)return def;
+  const clean=name.trim();
+  if(!clean)return def;
+  try{localStorage.setItem("a5_device_name",clean)}catch(e){}
+  return clean;
 }
 
-
-function stopDeviceGuard() {
-
-  if (
-    deviceCheckTimer
-  ) {
-
-    clearInterval(
-      deviceCheckTimer
-    );
-
-    deviceCheckTimer =
-      null;
-
-  }
-
+function stopDeviceGuard(){
+  if(deviceCheckTimer){clearInterval(deviceCheckTimer);deviceCheckTimer=null}
 }
 
-
-function startDeviceGuard() {
-
+function startDeviceGuard(){
   stopDeviceGuard();
-
-  if (
-    !currentUser
-  ) {
-
-    return;
-
-  }
-
-  if (
-    currentUser.role ===
-    "admin"
-  ) {
-
-    return;
-
-  }
-
-  deviceCheckTimer =
-    setInterval(
-      checkCurrentDevice,
-      30000
-    );
-
+  if(!currentUser||currentUser.role==="admin")return;
+  deviceCheckTimer=setInterval(checkCurrentDevice,30000);
 }
 
-
-/*
- * ВАЖНО:
- * Теперь передаём ID выбранного сотрудника.
- */
-
-async function checkCurrentDevice() {
-
-  if (
-    !currentUser ||
-    !currentPin
-  ) {
-
-    return;
-
-  }
-
-  if (
-    currentUser.role ===
-    "admin"
-  ) {
-
-    return;
-
-  }
-
-  try {
-
-    const result =
-      await callRPC(
-        "check_device_access",
-        {
-
-          p_user_id:
-            currentUser.id,
-
-          p_pin:
-            currentPin,
-
-          p_device_token:
-            getDeviceToken()
-
-        }
-      );
-
-    if (
-      !result ||
-      result.authorized !== true
-    ) {
-
-      deviceAccessDenied();
-
-    }
-
-  }
-  catch(error) {
-
-    console.error(
-      "Ошибка проверки устройства:",
-      error
-    );
-
-  }
-
+async function checkCurrentDevice(){
+  if(!currentUser||!currentPin||currentUser.role==="admin")return;
+  try{
+    const result=await callRPC("check_device_access",{
+      p_user_id:currentUser.id,
+      p_pin:currentPin,
+      p_device_token:getDeviceToken()
+    });
+    if(!result||result.authorized!==true)deviceAccessDenied();
+  }catch(error){console.error("Ошибка проверки устройства:",error)}
 }
 
-
-function deviceAccessDenied() {
-
+function deviceAccessDenied(){
   stopDeviceGuard();
-
-  currentUser =
-    null;
-
-  currentPin =
-    "";
-
-  selectedUser =
-    null;
-
-  pinValue =
-    "";
-
-  loginInProgress =
-    false;
-
-  document.getElementById(
-    "appScreen"
-  ).classList.add(
-    "hidden"
-  );
-
-  document.getElementById(
-    "loginScreen"
-  ).classList.remove(
-    "hidden"
-  );
-
-  document.getElementById(
-    "pinCard"
-  ).classList.add(
-    "hidden"
-  );
-
-  document.getElementById(
-    "usersList"
-  ).classList.remove(
-    "hidden"
-  );
-
-  const message =
-    document.getElementById(
-      "loginMessage"
-    );
-
-  message.className =
-    "message error";
-
-  message.textContent =
-    "Доступ с этого устройства заблокирован администратором.";
-
+  currentUser=null;currentPin="";selectedUser=null;pinValue="";loginInProgress=false;
+  document.getElementById("appScreen").classList.add("hidden");
+  document.getElementById("loginScreen").classList.remove("hidden");
+  document.getElementById("pinCard").classList.add("hidden");
+  document.getElementById("usersList").classList.remove("hidden");
+  document.getElementById("formScreen").classList.remove("hidden");
+  document.getElementById("historyScreen").classList.add("hidden");
+  document.getElementById("settingsScreen").classList.add("hidden");
+  const message=document.getElementById("loginMessage");
+  message.className="message error";
+  message.textContent="Доступ с этого устройства заблокирован администратором.";
   loadLoginUsers();
-
 }
 
-
-/* =====================================================
-   HELPERS
-===================================================== */
-
-function val(id) {
-
-  const el =
-    document.getElementById(id);
-
-  return el
-    ? el.value
-    : "";
-
+function val(id){const e=document.getElementById(id);return e?e.value:""}
+function num(id){const v=parseFloat(val(id));return Number.isFinite(v)?v:0}
+function setText(id,value){const e=document.getElementById(id);if(e)e.textContent=value}
+function money(value){return Number(value||0).toLocaleString("ru-RU",{maximumFractionDigits:2})}
+function escapeHtml(value){return String(value??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
+function formatDate(dateString){
+  if(!dateString)return"";
+  const p=String(dateString).split("-");
+  return p.length===3?p[2]+"."+p[1]+"."+p[0]:dateString;
+}
+function clearMessage(id){
+  const e=document.getElementById(id);
+  if(!e)return;
+  e.className="message";e.textContent="";
 }
 
-
-function num(id) {
-
-  const value =
-    parseFloat(
-      val(id)
-    );
-
-  return Number.isFinite(value)
-    ? value
-    : 0;
-
-}
-
-
-function setText(id, value) {
-
-  const el =
-    document.getElementById(id);
-
-  if (el) {
-
-    el.textContent =
-      value;
-
-  }
-
-}
-
-
-function money(value) {
-
-  return Number(
-    value || 0
-  ).toLocaleString(
-    "ru-RU",
-    {
-      maximumFractionDigits: 2
+async function callRPC(functionName,params={}){
+  const response=await fetch(SUPABASE_URL+"/rest/v1/rpc/"+functionName,{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "apikey":SUPABASE_KEY,
+      "Authorization":"Bearer "+SUPABASE_KEY
+    },
+    body:JSON.stringify(params)
+  });
+  const text=await response.text();
+  let data=null;
+  try{data=text?JSON.parse(text):null}catch(e){data=text}
+  if(!response.ok){
+    let message="Ошибка Supabase";
+    if(data){
+      if(typeof data==="string")message=data;
+      else if(data.message)message=data.message;
+      else if(data.error)message=data.error;
+      else if(data.hint)message=data.hint;
+      else message=JSON.stringify(data);
     }
-  );
-
-}
-
-
-function escapeHtml(value) {
-
-  return String(
-    value ?? ""
-  )
-  .replace(
-    /&/g,
-    "&amp;"
-  )
-  .replace(
-    /</g,
-    "&lt;"
-  )
-  .replace(
-    />/g,
-    "&gt;"
-  )
-  .replace(
-    /"/g,
-    "&quot;"
-  )
-  .replace(
-    /'/g,
-    "&#039;"
-  );
-
-}
-
-
-function formatDate(dateString) {
-
-  if (!dateString) {
-
-    return "";
-
+    throw new Error(message);
   }
-
-  const parts =
-    String(
-      dateString
-    ).split("-");
-
-  if (
-    parts.length !== 3
-  ) {
-
-    return dateString;
-
-  }
-
-  return (
-    parts[2] +
-    "." +
-    parts[1] +
-    "." +
-    parts[0]
-  );
-
-}
-
-
-function clearMessage(id) {
-
-  const element =
-    document.getElementById(id);
-
-  if (!element) {
-
-    return;
-
-  }
-
-  element.className =
-    "message";
-
-  element.textContent =
-    "";
-
-}
-
-
-/* =====================================================
-   RPC
-===================================================== */
-
-async function callRPC(
-  functionName,
-  params = {}
-) {
-
-  const response =
-    await fetch(
-      SUPABASE_URL +
-      "/rest/v1/rpc/" +
-      functionName,
-      {
-        method: "POST",
-
-        headers: {
-
-          "Content-Type":
-            "application/json",
-
-          "apikey":
-            SUPABASE_KEY,
-
-          "Authorization":
-            "Bearer " +
-            SUPABASE_KEY
-
-        },
-
-        body:
-          JSON.stringify(
-            params
-          )
-
-      }
-    );
-
-
-  const text =
-    await response.text();
-
-  let data = null;
-
-  try {
-
-    data =
-      text
-        ? JSON.parse(text)
-        : null;
-
-  }
-  catch(e) {
-
-    data =
-      text;
-
-  }
-
-  if (!response.ok) {
-
-    let message =
-      "Ошибка Supabase";
-
-    if (data) {
-
-      if (
-        typeof data ===
-        "string"
-      ) {
-
-        message =
-          data;
-
-      }
-      else if (
-        data.message
-      ) {
-
-        message =
-          data.message;
-
-      }
-      else if (
-        data.error
-      ) {
-
-        message =
-          data.error;
-
-      }
-      else if (
-        data.hint
-      ) {
-
-        message =
-          data.hint;
-
-      }
-      else {
-
-        message =
-          JSON.stringify(
-            data
-          );
-
-      }
-
-    }
-
-    throw new Error(
-      message
-    );
-
-  }
-
   return data;
-
 }
 
+async function loadLoginUsers(){
+  const loading=document.getElementById("usersLoading");
+  const list=document.getElementById("usersList");
+  try{
+    const users=await callRPC("get_login_users");
+    loginUsers=Array.isArray(users)?users:[];
+    loading.style.display="none";
+    list.innerHTML="";
+    const baristas=loginUsers.filter(u=>u.role==="barista");
+    const admins=loginUsers.filter(u=>u.role==="admin");
 
-/* =====================================================
-   LOAD USERS
-===================================================== */
+    baristas.forEach(user=>{
+      const button=document.createElement("button");
+      button.className="login-user-button";
+      button.innerHTML=escapeHtml(user.name)+'<span class="login-role">Бариста</span>';
+      button.onclick=()=>selectUser(user);
+      list.appendChild(button);
+    });
 
-async function loadLoginUsers() {
-
-  const loading =
-    document.getElementById(
-      "usersLoading"
-    );
-
-  const list =
-    document.getElementById(
-      "usersList"
-    );
-
-  try {
-
-    const users =
-      await callRPC(
-        "get_login_users"
-      );
-
-    loginUsers =
-      Array.isArray(users)
-        ? users
-        : [];
-
-    loading.style.display =
-      "none";
-
-    list.innerHTML =
-      "";
-
-    const baristas =
-      loginUsers.filter(
-        user =>
-          user.role ===
-          "barista"
-      );
-
-    const admins =
-      loginUsers.filter(
-        user =>
-          user.role ===
-          "admin"
-      );
-
-    baristas.forEach(
-      user => {
-
-        const button =
-          document.createElement(
-            "button"
-          );
-
-        button.className =
-          "login-user-button";
-
-        button.innerHTML =
-          escapeHtml(
-            user.name
-          ) +
-
-          '<span class="login-role">' +
-          "Бариста" +
-          "</span>";
-
-        button.onclick =
-          () =>
-            selectUser(
-              user
-            );
-
-        list.appendChild(
-          button
-        );
-
-      }
-    );
-
-
-    if (
-      admins.length
-    ) {
-
-      const adminSpace =
-        document.createElement(
-          "div"
-        );
-
-      adminSpace.className =
-        "admin-login-space";
-
-      admins.forEach(
-        user => {
-
-          const button =
-            document.createElement(
-              "button"
-            );
-
-          button.className =
-            "login-user-button admin-login-button";
-
-          button.innerHTML =
-            escapeHtml(
-              user.name
-            ) +
-
-            '<span class="login-role">' +
-            "Администратор" +
-            "</span>";
-
-          button.onclick =
-            () =>
-              selectUser(
-                user
-              );
-
-          adminSpace.appendChild(
-            button
-          );
-
-        }
-      );
-
-      list.appendChild(
-        adminSpace
-      );
-
+    if(admins.length){
+      const space=document.createElement("div");
+      space.className="admin-login-space";
+      admins.forEach(user=>{
+        const button=document.createElement("button");
+        button.className="login-user-button admin-login-button";
+        button.innerHTML=escapeHtml(user.name)+'<span class="login-role">Администратор</span>';
+        button.onclick=()=>selectUser(user);
+        space.appendChild(button);
+      });
+      list.appendChild(space);
     }
-
+  }catch(error){
+    loading.textContent="Ошибка загрузки пользователей";
+    loading.style.color="#ff8b8b";
+    console.error(error);
   }
-  catch(error) {
-
-    loading.textContent =
-      "Ошибка загрузки пользователей";
-
-    loading.style.color =
-      "#ff8b8b";
-
-    console.error(
-      error
-    );
-
-  }
-
 }
 
-
-/* =====================================================
-   SELECT USER
-===================================================== */
-
-function selectUser(user) {
-
-  selectedUser =
-    user;
-
-  pinValue =
-    "";
-
-  loginInProgress =
-    false;
-
-  document.getElementById(
-    "usersList"
-  ).classList.add(
-    "hidden"
-  );
-
-  document.getElementById(
-    "usersLoading"
-  ).classList.add(
-    "hidden"
-  );
-
-  document.getElementById(
-    "pinCard"
-  ).classList.remove(
-    "hidden"
-  );
-
-  document.getElementById(
-    "pinUserName"
-  ).textContent =
-    user.name;
-
+function selectUser(user){
+  selectedUser=user;
+  pinValue="";
+  loginInProgress=false;
+  document.getElementById("usersList").classList.add("hidden");
+  document.getElementById("usersLoading").classList.add("hidden");
+  document.getElementById("pinCard").classList.remove("hidden");
+  document.getElementById("pinUserName").textContent=user.name;
   updatePinDisplay();
-
-  clearMessage(
-    "loginMessage"
-  );
-
+  clearMessage("loginMessage");
 }
 
-
-/* =====================================================
-   PIN DISPLAY
-===================================================== */
-
-function updatePinDisplay() {
-
-  const display =
-    document.getElementById(
-      "pinDisplay"
-    );
-
-  if (!display) {
-
-    return;
-
-  }
-
-  if (!pinValue) {
-
-    display.textContent =
-      "••••";
-
-    return;
-
-  }
-
-  display.textContent =
-    "●".repeat(
-      pinValue.length
-    ) +
-
-    "○".repeat(
-      4 -
-      pinValue.length
-    );
-
+function updatePinDisplay(){
+  const display=document.getElementById("pinDisplay");
+  if(!display)return;
+  if(!pinValue){display.textContent="••••";return}
+  display.textContent="●".repeat(pinValue.length)+"○".repeat(4-pinValue.length);
 }
 
-
-/* =====================================================
-   PIN
-===================================================== */
-
-function pinPress(number) {
-
-  if (
-    loginInProgress
-  ) {
-
-    return;
-
-  }
-
-  if (
-    pinValue.length >= 4
-  ) {
-
-    return;
-
-  }
-
-  pinValue +=
-    number;
-
+function pinPress(number){
+  if(loginInProgress||pinValue.length>=4)return;
+  pinValue+=number;
   updatePinDisplay();
-
-  if (
-    pinValue.length === 4
-  ) {
-
-    setTimeout(
-      () => {
-
-        login();
-
-      },
-      80
-    );
-
-  }
-
+  if(pinValue.length===4)setTimeout(login,80);
 }
 
-
-function pinClear() {
-
-  if (
-    loginInProgress
-  ) {
-
-    return;
-
-  }
-
-  pinValue =
-    pinValue.slice(
-      0,
-      -1
-    );
-
+function pinClear(){
+  if(loginInProgress)return;
+  pinValue=pinValue.slice(0,-1);
   updatePinDisplay();
-
 }
 
-
-/* =====================================================
-   BACK
-===================================================== */
-
-function backToUsers() {
-
-  if (
-    loginInProgress
-  ) {
-
-    return;
-
-  }
-
-  selectedUser =
-    null;
-
-  pinValue =
-    "";
-
-  document.getElementById(
-    "pinCard"
-  ).classList.add(
-    "hidden"
-  );
-
-  document.getElementById(
-    "usersList"
-  ).classList.remove(
-    "hidden"
-  );
-
-  document.getElementById(
-    "usersLoading"
-  ).classList.remove(
-    "hidden"
-  );
-
-  document.getElementById(
-    "usersLoading"
-  ).style.display =
-    "none";
-
-  clearMessage(
-    "loginMessage"
-  );
-
+function backToUsers(){
+  if(loginInProgress)return;
+  selectedUser=null;pinValue="";
+  document.getElementById("pinCard").classList.add("hidden");
+  document.getElementById("usersList").classList.remove("hidden");
+  document.getElementById("usersLoading").classList.remove("hidden");
+  document.getElementById("usersLoading").style.display="none";
+  clearMessage("loginMessage");
 }
 
+async function login(){
+  if(loginInProgress||!selectedUser)return;
 
-/* =====================================================
-   LOGIN
-===================================================== */
+  const message=document.getElementById("loginMessage");
 
-async function login() {
-
-  if (
-    loginInProgress
-  ) {
-
+  if(pinValue.length!==4){
+    message.className="message error";
+    message.textContent="Введите PIN из 4 цифр";
     return;
-
   }
 
-  if (!selectedUser) {
+  loginInProgress=true;
+  message.className="message";
+  message.textContent="";
 
-    return;
+  try{
+    const result=await callRPC("login_by_pin_device",{
+      p_user_id:selectedUser.id,
+      p_pin:pinValue,
+      p_device_token:getDeviceToken(),
+      p_device_name:getDeviceName()
+    });
 
-  }
+    if(!result||result.status==="invalid")throw new Error("Неверный PIN");
 
-  const message =
-    document.getElementById(
-      "loginMessage"
-    );
+    if(result.status==="pending"){
+      const savedDeviceName=localStorage.getItem("a5_device_name");
 
-  if (
-    pinValue.length !== 4
-  ) {
-
-    message.className =
-      "message error";
-
-    message.textContent =
-      "Введите PIN из 4 цифр";
-
-    return;
-
-  }
-
-  loginInProgress =
-    true;
-
-  message.className =
-    "message";
-
-  message.textContent =
-    "";
-
-  try {
-
-    /*
-     * ВАЖНО:
-     * Передаём ID именно выбранного сотрудника.
-     * Это позволяет использовать одинаковые PIN
-     * у разных сотрудников без путаницы.
-     */
-
-    const result =
-      await callRPC(
-        "login_by_pin_device",
-        {
-
-          p_user_id:
-            selectedUser.id,
-
-          p_pin:
-            pinValue,
-
-          p_device_token:
-            getDeviceToken(),
-
-          p_device_name:
-            getDeviceName()
-
-        }
-      );
-
-
-    if (
-      !result ||
-      result.status ===
-      "invalid"
-    ) {
-
-      throw new Error(
-        "Неверный PIN"
-      );
-
-    }
-
-
-    /*
-     * Новое устройство.
-     */
-
-    if (
-      result.status ===
-      "pending"
-    ) {
-
-      const savedDeviceName =
-        localStorage.getItem(
-          "a5_device_name"
-        );
-
-
-      if (!savedDeviceName) {
-
-        const customDeviceName =
-          askDeviceName();
-
-
-        try {
-
-          await callRPC(
-            "login_by_pin_device",
-            {
-
-              p_user_id:
-                selectedUser.id,
-
-              p_pin:
-                pinValue,
-
-              p_device_token:
-                getDeviceToken(),
-
-              p_device_name:
-                customDeviceName
-
-            }
-          );
-
-        }
-        catch(error) {
-
-          console.error(
-            "Не удалось сохранить название устройства:",
-            error
-          );
-
-        }
-
+      if(!savedDeviceName){
+        const customDeviceName=askDeviceName();
+        try{
+          await callRPC("login_by_pin_device",{
+            p_user_id:selectedUser.id,
+            p_pin:pinValue,
+            p_device_token:getDeviceToken(),
+            p_device_name:customDeviceName
+          });
+        }catch(error){console.error("Не удалось сохранить название устройства:",error)}
       }
 
-
-      loginInProgress =
-        false;
-
-      message.className =
-        "message error";
-
-      message.textContent =
-        "Это устройство ожидает разрешения администратора.";
-
-      pinValue =
-        "";
-
+      loginInProgress=false;
+      message.className="message error";
+      message.textContent="Это устройство ожидает разрешения администратора.";
+      pinValue="";
       updatePinDisplay();
-
       return;
-
     }
 
-
-    /*
-     * Заблокированное устройство.
-     */
-
-    if (
-      result.status ===
-      "blocked"
-    ) {
-
-      loginInProgress =
-        false;
-
-      message.className =
-        "message error";
-
-      message.textContent =
-        "Это устройство заблокировано администратором.";
-
-      pinValue =
-        "";
-
+    if(result.status==="blocked"){
+      loginInProgress=false;
+      message.className="message error";
+      message.textContent="Это устройство заблокировано администратором.";
+      pinValue="";
       updatePinDisplay();
-
       return;
-
     }
 
-
-    /*
-     * Старый статус.
-     */
-
-    if (
-      result.status ===
-      "wrong_user"
-    ) {
-
-      loginInProgress =
-        false;
-
-      message.className =
-        "message error";
-
-      message.textContent =
-        "Это устройство авторизовано за другим сотрудником.";
-
-      pinValue =
-        "";
-
+    if(result.status==="wrong_user"){
+      loginInProgress=false;
+      message.className="message error";
+      message.textContent="Это устройство авторизовано за другим сотрудником.";
+      pinValue="";
       updatePinDisplay();
-
       return;
-
     }
 
+    if(result.status!=="authorized")throw new Error("Не удалось выполнить вход");
 
-    if (
-      result.status !==
-      "authorized"
-    ) {
+    const user=result.user;
+    if(!user)throw new Error("Пользователь не найден");
 
-      throw new Error(
-        "Не удалось выполнить вход"
-      );
+    currentUser={
+      id:selectedUser.id,
+      name:selectedUser.name,
+      role:selectedUser.role
+    };
+    currentPin=pinValue;
 
+    /* Всегда начинаем новый вход с формы отчёта */
+    document.getElementById("historyScreen").classList.add("hidden");
+    document.getElementById("settingsScreen").classList.add("hidden");
+    document.getElementById("formScreen").classList.remove("hidden");
+
+    document.getElementById("loginScreen").classList.add("hidden");
+    document.getElementById("appScreen").classList.remove("hidden");
+
+    setText("formTitle","ОТЧЁТ — "+currentUser.name);
+
+    if(currentUser.role==="admin"){
+      document.getElementById("settingsButton").classList.remove("hidden");
+    }else{
+      document.getElementById("settingsButton").classList.add("hidden");
     }
-
-
-    const user =
-      result.user;
-
-    if (!user) {
-
-      throw new Error(
-        "Пользователь не найден"
-      );
-
-    }
-
-
-    currentUser =
-      user;
-
-    currentPin =
-      pinValue;
-
-
-    document.getElementById(
-      "loginScreen"
-    ).classList.add(
-      "hidden"
-    );
-
-    document.getElementById(
-      "appScreen"
-    ).classList.remove(
-      "hidden"
-    );
-
-
-    setText(
-      "formTitle",
-      "ОТЧЁТ — " +
-      user.name
-    );
-
-
-    if (
-      user.role ===
-      "admin"
-    ) {
-
-      document.getElementById(
-        "settingsButton"
-      ).classList.remove(
-        "hidden"
-      );
-
-    }
-    else {
-
-      document.getElementById(
-        "settingsButton"
-      ).classList.add(
-        "hidden"
-      );
-
-    }
-
 
     setToday();
-
     calculate();
-
     startDeviceGuard();
 
-  }
-  catch(error) {
-
-    loginInProgress =
-      false;
-
-    message.className =
-      "message error";
-
-    message.textContent =
-      error.message ||
-      "Ошибка входа";
-
-    pinValue =
-      "";
-
+  }catch(error){
+    loginInProgress=false;
+    message.className="message error";
+    message.textContent=error.message||"Ошибка входа";
+    pinValue="";
     updatePinDisplay();
-
   }
-
 }
 
-
-/* =====================================================
-   DATE
-===================================================== */
-
-function setToday() {
-
-  const date =
-    document.getElementById(
-      "date"
-    );
-
-  if (
-    !date.value
-  ) {
-
-    const now =
-      new Date();
-
-    const year =
-      now.getFullYear();
-
-    const month =
-      String(
-        now.getMonth() + 1
-      ).padStart(
-        2,
-        "0"
-      );
-
-    const day =
-      String(
-        now.getDate()
-      ).padStart(
-        2,
-        "0"
-      );
-
-    date.value =
-      year +
-      "-" +
-      month +
-      "-" +
-      day;
-
+function setToday(){
+  const date=document.getElementById("date");
+  if(!date.value){
+    const now=new Date();
+    date.value=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(now.getDate()).padStart(2,"0");
   }
-
 }
 
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-function logout() {
-
+function logout(){
   stopDeviceGuard();
+  currentUser=null;currentPin="";selectedUser=null;pinValue="";loginInProgress=false;
 
-  currentUser =
-    null;
+  document.getElementById("appScreen").classList.add("hidden");
+  document.getElementById("loginScreen").classList.remove("hidden");
+  document.getElementById("pinCard").classList.add("hidden");
+  document.getElementById("usersList").classList.remove("hidden");
 
-  currentPin =
-    "";
-
-  selectedUser =
-    null;
-
-  pinValue =
-    "";
-
-  loginInProgress =
-    false;
-
-  document.getElementById(
-    "appScreen"
-  ).classList.add(
-    "hidden"
-  );
-
-  document.getElementById(
-    "loginScreen"
-  ).classList.remove(
-    "hidden"
-  );
-
-  document.getElementById(
-    "pinCard"
-  ).classList.add(
-    "hidden"
-  );
-
-  document.getElementById(
-    "usersList"
-  ).classList.remove(
-    "hidden"
-  );
+  document.getElementById("formScreen").classList.remove("hidden");
+  document.getElementById("historyScreen").classList.add("hidden");
+  document.getElementById("settingsScreen").classList.add("hidden");
 
   loadLoginUsers();
-
 }
 
+function calculate(){
+  const cash=num("cash"),card=num("card");
+  setText("paymentTotal",money(cash+card));
 
-/* =====================================================
-   CALCULATE
-===================================================== */
+  const barista=num("baristaExpense1")+num("baristaExpense2")+num("baristaExpense3");
+  const supplier=num("supplier1")+num("supplier2")+num("supplier3")+num("supplier4");
+  const withdrawal=num("withdraw");
+  const expenseTotal=barista+supplier+withdrawal;
 
-function calculate() {
-
-  const cash =
-    num("cash");
-
-  const card =
-    num("card");
-
-  setText(
-    "paymentTotal",
-    money(
-      cash +
-      card
-    )
-  );
-
-
-  const baristaExpense =
-    num("baristaExpense1") +
-    num("baristaExpense2") +
-    num("baristaExpense3");
-
-  const supplierExpense =
-    num("supplier1") +
-    num("supplier2") +
-    num("supplier3") +
-    num("supplier4");
-
-  const withdrawal =
-    num("withdraw");
-
-  const expenseTotal =
-    baristaExpense +
-    supplierExpense +
-    withdrawal;
-
-  setText(
-    "expenseTotal",
-    money(
-      expenseTotal
-    )
-  );
-
-
-  const expected =
-    num("openCash") +
-    cash -
-    expenseTotal;
-
-  setText(
-    "expectedCash",
-    money(
-      expected
-    )
-  );
-
+  setText("expenseTotal",money(expenseTotal));
+  setText("expectedCash",money(num("openCash")+cash-expenseTotal));
 }
 
+document.addEventListener("input",e=>{
+  if(e.target.matches("input"))calculate();
+});
 
-document.addEventListener(
-  "input",
-  function(event) {
+async function saveToSupabase(){
+  const date=val("date");
+  if(!date)throw new Error("Выберите дату");
+  if(!currentUser)throw new Error("Пользователь не авторизован");
 
-    if (
-      event.target.matches(
-        "input"
-      )
-    ) {
+  const barista=num("baristaExpense1")+num("baristaExpense2")+num("baristaExpense3");
+  const supplier=num("supplier1")+num("supplier2")+num("supplier3")+num("supplier4");
+  const withdrawal=num("withdraw");
+  const comments=[];
 
-      calculate();
+  [
+    ["Наличные","cashComment"],
+    ["Безнал","cardComment"],
+    ["Бариста","baristaComment1"],
+    ["Бариста","baristaComment2"],
+    ["Бариста","baristaComment3"],
+    ["Поставщик","supplierComment1"],
+    ["Поставщик","supplierComment2"],
+    ["Поставщик","supplierComment3"],
+    ["Поставщик","supplierComment4"],
+    ["Изъятие","withdrawComment"]
+  ].forEach(item=>{
+    const text=val(item[1]).trim();
+    if(text)comments.push(item[0]+": "+text);
+  });
 
-    }
-
-  }
-);
-
-
-/* =====================================================
-   SAVE TO SUPABASE
-===================================================== */
-
-async function saveToSupabase() {
-
-  const date =
-    val("date");
-
-  if (!date) {
-
-    throw new Error(
-      "Выберите дату"
-    );
-
-  }
-
-  if (!currentUser) {
-
-    throw new Error(
-      "Пользователь не авторизован"
-    );
-
-  }
-
-
-  const baristaExpense =
-    num("baristaExpense1") +
-    num("baristaExpense2") +
-    num("baristaExpense3");
-
-  const supplierExpense =
-    num("supplier1") +
-    num("supplier2") +
-    num("supplier3") +
-    num("supplier4");
-
-  const withdrawal =
-    num("withdraw");
-
-  const comments = [];
-
-
-  const commentFields = [
-
-    ["Наличные", "cashComment"],
-    ["Безнал", "cardComment"],
-
-    ["Бариста", "baristaComment1"],
-    ["Бариста", "baristaComment2"],
-    ["Бариста", "baristaComment3"],
-
-    ["Поставщик", "supplierComment1"],
-    ["Поставщик", "supplierComment2"],
-    ["Поставщик", "supplierComment3"],
-    ["Поставщик", "supplierComment4"],
-
-    ["Изъятие", "withdrawComment"]
-
-  ];
-
-
-  commentFields.forEach(
-    item => {
-
-      const text =
-        val(
-          item[1]
-        ).trim();
-
-      if (text) {
-
-        comments.push(
-          item[0] +
-          ": " +
-          text
-        );
-
-      }
-
-    }
-  );
-
-
-  const result =
-    await callRPC(
-      "save_shift_report",
-      {
-
-        p_pin:
-          currentPin,
-
-        p_report_date:
-          date,
-
-        p_opening_cash:
-          num("openCash"),
-
-        p_opening_time:
-          val("openTime") ||
-          null,
-
-        p_cash:
-          num("cash"),
-
-        p_card:
-          num("card"),
-
-        p_qr:
-          0,
-
-        p_expense_barista:
-          baristaExpense,
-
-        p_expense_supplier:
-          supplierExpense,
-
-        p_expense_withdrawal:
-          withdrawal,
-
-        p_closing_time:
-          val("closeTime") ||
-          null,
-
-        p_actual_cash:
-          num("closeCash"),
-
-        p_comment:
-          comments.join(
-            " | "
-          )
-
-      }
-    );
-
-
-  return result;
-
+  return await callRPC("save_shift_report",{
+    p_pin:currentPin,
+    p_report_date:date,
+    p_opening_cash:num("openCash"),
+    p_opening_time:val("openTime")||null,
+    p_cash:num("cash"),
+    p_card:num("card"),
+    p_qr:0,
+    p_expense_barista:barista,
+    p_expense_supplier:supplier,
+    p_expense_withdrawal:withdrawal,
+    p_closing_time:val("closeTime")||null,
+    p_actual_cash:num("closeCash"),
+    p_comment:comments.join(" | ")
+  });
 }
 
+async function uploadReportImage(reportId,blob){
+  if(!reportId)throw new Error("Не получен ID отчёта");
+  if(!blob)throw new Error("Не создан JPG отчёта");
 
-/* =====================================================
-   UPLOAD JPEG
-===================================================== */
+  const folder=currentUser&&currentUser.id?currentUser.id:"reports";
+  const path=folder+"/"+reportId+".jpg";
 
-async function uploadReportImage(
-  reportId,
-  blob
-) {
+  const response=await fetch(SUPABASE_URL+"/storage/v1/object/"+STORAGE_BUCKET+"/"+path,{
+    method:"POST",
+    headers:{
+      apikey:SUPABASE_KEY,
+      Authorization:"Bearer "+SUPABASE_KEY,
+      "Content-Type":"image/jpeg",
+      "x-upsert":"true"
+    },
+    body:blob
+  });
 
-  if (!reportId) {
+  const text=await response.text();
 
-    throw new Error(
-      "Не получен ID отчёта"
-    );
-
-  }
-
-  if (!blob) {
-
-    throw new Error(
-      "Не создан JPG отчёта"
-    );
-
-  }
-
-
-  const folder =
-    currentUser &&
-    currentUser.id
-      ? currentUser.id
-      : "reports";
-
-
-  const path =
-    folder +
-    "/" +
-    reportId +
-    ".jpg";
-
-
-  const uploadUrl =
-    SUPABASE_URL +
-    "/storage/v1/object/" +
-    STORAGE_BUCKET +
-    "/" +
-    path;
-
-
-  const response =
-    await fetch(
-      uploadUrl,
-      {
-
-        method: "POST",
-
-        headers: {
-
-          "apikey":
-            SUPABASE_KEY,
-
-          "Authorization":
-            "Bearer " +
-            SUPABASE_KEY,
-
-          "Content-Type":
-            "image/jpeg",
-
-          "x-upsert":
-            "true"
-
-        },
-
-        body:
-          blob
-
-      }
-    );
-
-
-  const text =
-    await response.text();
-
-
-  if (!response.ok) {
-
-    let message =
-      "Ошибка загрузки JPG";
-
-    try {
-
-      const data =
-        text
-          ? JSON.parse(text)
-          : null;
-
-      if (
-        data &&
-        data.message
-      ) {
-
-        message =
-          data.message;
-
-      }
-      else if (
-        data &&
-        data.error
-      ) {
-
-        message =
-          data.error;
-
-      }
-      else if (
-        text
-      ) {
-
-        message =
-          text;
-
-      }
-
-    }
-    catch(e) {
-
-      if (text) {
-
-        message =
-          text;
-
-      }
-
-    }
-
-    throw new Error(
-      message
-    );
-
+  if(!response.ok){
+    let message="Ошибка загрузки JPG";
+    try{
+      const data=text?JSON.parse(text):null;
+      if(data&&data.message)message=data.message;
+      else if(data&&data.error)message=data.error;
+      else if(text)message=text;
+    }catch(e){if(text)message=text}
+    throw new Error(message);
   }
 
   return path;
-
 }
 
-
-/* =====================================================
-   SAVE IMAGE PATH
-===================================================== */
-
-async function saveReportImagePath(
-  reportId,
-  imagePath
-) {
-
-  await callRPC(
-    "save_report_image_path",
-    {
-
-      p_pin:
-        currentPin,
-
-      p_report_id:
-        reportId,
-
-      p_image_path:
-        imagePath
-
-    }
-  );
-
+async function saveReportImagePath(reportId,imagePath){
+  await callRPC("save_report_image_path",{
+    p_pin:currentPin,
+    p_report_id:reportId,
+    p_image_path:imagePath
+  });
 }
 
+function fillReportRow(rowId,amountId,commentId,reportAmountId,reportCommentId){
+  const row=document.getElementById(rowId);
+  const amount=val(amountId).trim();
+  const comment=val(commentId).trim();
 
-/* =====================================================
-   REPORT ROW
-===================================================== */
-
-function fillReportRow(
-  rowId,
-  amountId,
-  commentId,
-  reportAmountId,
-  reportCommentId
-) {
-
-  const row =
-    document.getElementById(
-      rowId
-    );
-
-  const amount =
-    val(
-      amountId
-    ).trim();
-
-  const comment =
-    val(
-      commentId
-    ).trim();
-
-  if (
-    !amount &&
-    !comment
-  ) {
-
-    row.style.display =
-      "none";
-
+  if(!amount&&!comment){
+    row.style.display="none";
     return;
-
   }
 
-  row.style.display =
-    "";
-
-  setText(
-    reportAmountId,
-    money(
-      num(amountId)
-    ) +
-    " ₽"
-  );
-
-  setText(
-    reportCommentId,
-    comment
-  );
-
+  row.style.display="";
+  setText(reportAmountId,money(num(amountId))+" ₽");
+  setText(reportCommentId,comment);
 }
 
-
-/* =====================================================
-   CREATE REPORT
-===================================================== */
-
-function createReport() {
-
+function createReport(){
   calculate();
 
+  setText("rDate",formatDate(val("date")));
+  setText("rBarista",currentUser?currentUser.name:"");
+  setText("rOpenTime",val("openTime"));
+  setText("rOpenCash",money(num("openCash"))+" ₽");
 
-  setText(
-    "rDate",
-    formatDate(
-      val("date")
-    )
-  );
+  const cash=val("cash").trim(),card=val("card").trim();
+  const cashRow=document.getElementById("rCashRow");
+  const cardRow=document.getElementById("rCardRow");
 
-
-  setText(
-    "rBarista",
-    currentUser
-      ? currentUser.name
-      : ""
-  );
-
-
-  setText(
-    "rOpenTime",
-    val("openTime")
-  );
-
-
-  setText(
-    "rOpenCash",
-    money(
-      num("openCash")
-    ) +
-    " ₽"
-  );
-
-
-  const cash =
-    val(
-      "cash"
-    ).trim();
-
-  const card =
-    val(
-      "card"
-    ).trim();
-
-
-  const cashRow =
-    document.getElementById(
-      "rCashRow"
-    );
-
-  const cardRow =
-    document.getElementById(
-      "rCardRow"
-    );
-
-
-  if (!cash) {
-
-    cashRow.style.display =
-      "none";
-
-  }
-  else {
-
-    cashRow.style.display =
-      "";
-
-    setText(
-      "rCash",
-      money(
-        num("cash")
-      ) +
-      " ₽"
-    );
-
-    setText(
-      "rCashComment",
-      val(
-        "cashComment"
-      )
-    );
-
+  if(!cash)cashRow.style.display="none";
+  else{
+    cashRow.style.display="";
+    setText("rCash",money(num("cash"))+" ₽");
+    setText("rCashComment",val("cashComment"));
   }
 
-
-  if (!card) {
-
-    cardRow.style.display =
-      "none";
-
-  }
-  else {
-
-    cardRow.style.display =
-      "";
-
-    setText(
-      "rCard",
-      money(
-        num("card")
-      ) +
-      " ₽"
-    );
-
-    setText(
-      "rCardComment",
-      val(
-        "cardComment"
-      )
-    );
-
+  if(!card)cardRow.style.display="none";
+  else{
+    cardRow.style.display="";
+    setText("rCard",money(num("card"))+" ₽");
+    setText("rCardComment",val("cardComment"));
   }
 
+  setText("rPaymentTotal",money(num("cash")+num("card")));
 
-  setText(
-    "rPaymentTotal",
-    money(
-      num("cash") +
-      num("card")
-    )
-  );
+  fillReportRow("rBaristaRow1","baristaExpense1","baristaComment1","rBarista1","rBaristaComment1");
+  fillReportRow("rBaristaRow2","baristaExpense2","baristaComment2","rBarista2","rBaristaComment2");
+  fillReportRow("rBaristaRow3","baristaExpense3","baristaComment3","rBarista3","rBaristaComment3");
+  fillReportRow("rSupplierRow1","supplier1","supplierComment1","rSupplier1","rSupplierComment1");
+  fillReportRow("rSupplierRow2","supplier2","supplierComment2","rSupplier2","rSupplierComment2");
+  fillReportRow("rSupplierRow3","supplier3","supplierComment3","rSupplier3","rSupplierComment3");
+  fillReportRow("rSupplierRow4","supplier4","supplierComment4","rSupplier4","rSupplierComment4");
+  fillReportRow("rWithdrawRow","withdraw","withdrawComment","rWithdraw","rWithdrawComment");
 
-
-  fillReportRow(
-    "rBaristaRow1",
-    "baristaExpense1",
-    "baristaComment1",
-    "rBarista1",
-    "rBaristaComment1"
-  );
-
-
-  fillReportRow(
-    "rBaristaRow2",
-    "baristaExpense2",
-    "baristaComment2",
-    "rBarista2",
-    "rBaristaComment2"
-  );
-
-
-  fillReportRow(
-    "rBaristaRow3",
-    "baristaExpense3",
-    "baristaComment3",
-    "rBarista3",
-    "rBaristaComment3"
-  );
-
-
-  fillReportRow(
-    "rSupplierRow1",
-    "supplier1",
-    "supplierComment1",
-    "rSupplier1",
-    "rSupplierComment1"
-  );
-
-
-  fillReportRow(
-    "rSupplierRow2",
-    "supplier2",
-    "supplierComment2",
-    "rSupplier2",
-    "rSupplierComment2"
-  );
-
-
-  fillReportRow(
-    "rSupplierRow3",
-    "supplier3",
-    "supplierComment3",
-    "rSupplier3",
-    "rSupplierComment3"
-  );
-
-
-  fillReportRow(
-    "rSupplierRow4",
-    "supplier4",
-    "supplierComment4",
-    "rSupplier4",
-    "rSupplierComment4"
-  );
-
-
-  fillReportRow(
-    "rWithdrawRow",
-    "withdraw",
-    "withdrawComment",
-    "rWithdraw",
-    "rWithdrawComment"
-  );
-
-
-  const expenseTotal =
-    num("baristaExpense1") +
-    num("baristaExpense2") +
-    num("baristaExpense3") +
-
-    num("supplier1") +
-    num("supplier2") +
-    num("supplier3") +
-    num("supplier4") +
-
+  const expenseTotal=
+    num("baristaExpense1")+num("baristaExpense2")+num("baristaExpense3")+
+    num("supplier1")+num("supplier2")+num("supplier3")+num("supplier4")+
     num("withdraw");
 
-
-  setText(
-    "rExpenseTotal",
-    money(
-      expenseTotal
-    )
-  );
-
-
-  setText(
-    "rCloseTime",
-    val("closeTime")
-  );
-
-
-  setText(
-    "rCloseCash",
-    money(
-      num("closeCash")
-    ) +
-    " ₽"
-  );
-
+  setText("rExpenseTotal",money(expenseTotal));
+  setText("rCloseTime",val("closeTime"));
+  setText("rCloseCash",money(num("closeCash"))+" ₽");
 }
 
-
-/* =====================================================
-   JPEG
-===================================================== */
-
-async function makeJPEG() {
-
+async function makeJPEG(){
   createReport();
+  const report=document.getElementById("report");
 
+  const canvas=await html2canvas(report,{
+    scale:2,
+    backgroundColor:"#ffffff",
+    useCORS:true,
+    logging:false
+  });
 
-  const report =
-    document.getElementById(
-      "report"
-    );
-
-
-  const canvas =
-    await html2canvas(
-      report,
-      {
-        scale: 2,
-        backgroundColor:
-          "#ffffff",
-        useCORS: true,
-        logging: false
-      }
-    );
-
-
-  return new Promise(
-    resolve => {
-
-      canvas.toBlob(
-        blob => {
-
-          resolve(
-            blob
-          );
-
-        },
-        "image/jpeg",
-        0.95
-      );
-
-    }
-  );
-
+  return new Promise(resolve=>{
+    canvas.toBlob(blob=>resolve(blob),"image/jpeg",0.95);
+  });
 }
 
+async function saveReportAndJPEG(){
+  const message=document.getElementById("saveMessage");
+  message.className="message";
+  message.textContent="Сохранение отчёта...";
 
-/* =====================================================
-   SAVE + JPEG
-===================================================== */
+  try{
+    const reportId=await saveToSupabase();
+    if(!reportId)throw new Error("Отчёт сохранён, но не получен его ID");
 
-async function saveReportAndJPEG() {
+    const blob=await makeJPEG();
+    if(!blob)throw new Error("Не удалось создать JPEG");
 
-  const message =
-    document.getElementById(
-      "saveMessage"
-    );
+    message.textContent="Загрузка фото отчёта...";
 
+    const imagePath=await uploadReportImage(reportId,blob);
+    await saveReportImagePath(reportId,imagePath);
 
-  message.className =
-    "message";
+    const file=new File([blob],"A5_Отчёт_смены.jpg",{type:"image/jpeg"});
 
-  message.textContent =
-    "Сохранение отчёта...";
-
-
-  try {
-
-    const reportId =
-      await saveToSupabase();
-
-
-    if (!reportId) {
-
-      throw new Error(
-        "Отчёт сохранён, но не получен его ID"
-      );
-
-    }
-
-
-    const blob =
-      await makeJPEG();
-
-
-    if (!blob) {
-
-      throw new Error(
-        "Не удалось создать JPEG"
-      );
-
-    }
-
-
-    message.textContent =
-      "Загрузка фото отчёта...";
-
-
-    const imagePath =
-      await uploadReportImage(
-        reportId,
-        blob
-      );
-
-
-    await saveReportImagePath(
-      reportId,
-      imagePath
-    );
-
-
-    const file =
-      new File(
-        [blob],
-        "A5_Отчёт_смены.jpg",
-        {
-          type:
-            "image/jpeg"
-        }
-      );
-
-
-    if (
-      navigator.canShare &&
-      navigator.canShare({
-        files: [file]
-      }) &&
-      navigator.share
-    ) {
-
-      await navigator.share({
-        files: [file],
-        title:
-          "Отчёт смены A5"
-      });
-
-    }
-    else if (
-      navigator.share
-    ) {
-
-      await navigator.share({
-        title:
-          "Отчёт смены A5",
-        text:
-          "Отчёт смены бариста A5"
-      });
-
-    }
-    else {
-
-      const url =
-        URL.createObjectURL(
-          blob
-        );
-
-      const link =
-        document.createElement(
-          "a"
-        );
-
-      link.href =
-        url;
-
-      link.download =
-        file.name;
-
-      document.body.appendChild(
-        link
-      );
-
+    if(navigator.canShare&&navigator.canShare({files:[file]})&&navigator.share){
+      await navigator.share({files:[file],title:"Отчёт смены A5"});
+    }else if(navigator.share){
+      await navigator.share({title:"Отчёт смены A5",text:"Отчёт смены бариста A5"});
+    }else{
+      const url=URL.createObjectURL(blob);
+      const link=document.createElement("a");
+      link.href=url;
+      link.download=file.name;
+      document.body.appendChild(link);
       link.click();
-
       link.remove();
-
-      URL.revokeObjectURL(
-        url
-      );
-
+      URL.revokeObjectURL(url);
     }
 
-
-    message.className =
-      "message success";
-
-    message.textContent =
-      "Отчёт сохранён";
-
+    message.className="message success";
+    message.textContent="Отчёт сохранён";
+  }catch(error){
+    console.error(error);
+    message.className="message error";
+    message.textContent=error.message||"Ошибка сохранения";
   }
-  catch(error) {
-
-    console.error(
-      error
-    );
-
-    message.className =
-      "message error";
-
-    message.textContent =
-      error.message ||
-      "Ошибка сохранения";
-
-  }
-
 }
 
+async function getReportImageUrl(imagePath){
+  if(!imagePath)throw new Error("Фото отчёта не найдено");
 
-/* =====================================================
-   IMAGE URL
-===================================================== */
+  const encodedPath=imagePath.split("/").map(part=>encodeURIComponent(part)).join("/");
 
-async function getReportImageUrl(
-  imagePath
-) {
-
-  if (!imagePath) {
-
-    throw new Error(
-      "Фото отчёта не найдено"
-    );
-
-  }
-
-
-  const encodedPath =
-    imagePath
-      .split("/")
-      .map(
-        part =>
-          encodeURIComponent(
-            part
-          )
-      )
-      .join("/");
-
-
-  const response =
-    await fetch(
-      SUPABASE_URL +
-      "/storage/v1/object/sign/" +
-      STORAGE_BUCKET +
-      "/" +
-      encodedPath,
-      {
-
-        method: "POST",
-
-        headers: {
-
-          "Content-Type":
-            "application/json",
-
-          "apikey":
-            SUPABASE_KEY,
-
-          "Authorization":
-            "Bearer " +
-            SUPABASE_KEY
-
-        },
-
-        body:
-          JSON.stringify({
-            expiresIn:
-              3600
-          })
-
-      }
-    );
-
-
-  const data =
-    await response.json();
-
-
-  if (
-    !response.ok
-  ) {
-
-    throw new Error(
-      data.message ||
-      data.error ||
-      "Не удалось открыть фото"
-    );
-
-  }
-
-
-  if (
-    !data.signedURL
-  ) {
-
-    throw new Error(
-      "Supabase не вернул ссылку на фото"
-    );
-
-  }
-
-
-  if (
-    data.signedURL.startsWith(
-      "http"
-    )
-  ) {
-
-    return data.signedURL;
-
-  }
-
-
-  return (
-    SUPABASE_URL +
-    "/storage/v1" +
-    data.signedURL
-  );
-
-}
-
-
-/* =====================================================
-   OPEN IMAGE
-===================================================== */
-
-async function openReportImage(
-  imagePath
-) {
-
-  try {
-
-    const url =
-      await getReportImageUrl(
-        imagePath
-      );
-
-    window.location.href =
-      url;
-
-  }
-  catch(error) {
-
-    alert(
-      error.message ||
-      "Не удалось открыть фото отчёта"
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   HISTORY TOGGLE
-===================================================== */
-
-function toggleHistory() {
-
-  const form =
-    document.getElementById(
-      "formScreen"
-    );
-
-  const history =
-    document.getElementById(
-      "historyScreen"
-    );
-
-  const settings =
-    document.getElementById(
-      "settingsScreen"
-    );
-
-
-  settings.classList.add(
-    "hidden"
-  );
-
-
-  if (
-    history.classList.contains(
-      "hidden"
-    )
-  ) {
-
-    form.classList.add(
-      "hidden"
-    );
-
-    history.classList.remove(
-      "hidden"
-    );
-
-    loadHistory();
-
-  }
-  else {
-
-    history.classList.add(
-      "hidden"
-    );
-
-    form.classList.remove(
-      "hidden"
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   BARISTA COLOR
-===================================================== */
-
-function getBaristaColorClass(name) {
-
-  const value =
-    String(name || "")
-      .trim()
-      .toLowerCase();
-
-
-  if (
-    value === "диана"
-  ) {
-
-    return "history-barista-diana";
-
-  }
-
-
-  let hash = 0;
-
-
-  for (
-    let i = 0;
-    i < value.length;
-    i++
-  ) {
-
-    hash =
-      value.charCodeAt(i) +
-      ((hash << 5) - hash);
-
-  }
-
-
-  const colors = [
-
-    "history-barista-blue",
-
-    "history-barista-green",
-
-    "history-barista-purple",
-
-    "history-barista-orange",
-
-    "history-barista-red",
-
-    "history-barista-gray"
-
-  ];
-
-
-  return colors[
-    Math.abs(hash) %
-    colors.length
-  ];
-
-}
-
-
-/* =====================================================
-   HISTORY ROW
-===================================================== */
-
-function addHistoryRow(
-  item,
-  title,
-  value
-) {
-
-  const row =
-    document.createElement(
-      "div"
-    );
-
-  row.className =
-    "history-money-row";
-
-  row.innerHTML =
-    "<span>" +
-    escapeHtml(
-      title
-    ) +
-    "</span>" +
-
-    "<span>" +
-    escapeHtml(
-      value
-    ) +
-    "</span>";
-
-  item.appendChild(
-    row
-  );
-
-}
-
-
-/* =====================================================
-   HISTORY INLINE
-===================================================== */
-
-function addHistoryInline(
-  item,
-  title,
-  value
-) {
-
-  const row =
-    document.createElement(
-      "div"
-    );
-
-  row.className =
-    "history-inline-row";
-
-  row.innerHTML =
-    '<span class="history-inline-title">' +
-    escapeHtml(
-      title
-    ) +
-    "</span>" +
-
-    '<span class="history-inline-value">' +
-    escapeHtml(
-      value
-    ) +
-    "</span>";
-
-  item.appendChild(
-    row
-  );
-
-}
-
-
-/* =====================================================
-   LOAD HISTORY
-===================================================== */
-
-async function loadHistory() {
-
-  const list =
-    document.getElementById(
-      "historyList"
-    );
-
-
-  list.innerHTML =
-    '<div style="text-align:center;color:#aaa;">Загрузка...</div>';
-
-
-  try {
-
-    const reports =
-      await callRPC(
-        "get_shift_reports"
-      );
-
-
-    list.innerHTML =
-      "";
-
-
-    if (
-      !Array.isArray(
-        reports
-      ) ||
-      reports.length === 0
-    ) {
-
-      list.innerHTML =
-        '<div style="color:#aaa;text-align:center;padding:15px;">Отчётов пока нет</div>';
-
-      return;
-
-    }
-
-
-    reports.forEach(
-      report => {
-
-        const item =
-          document.createElement(
-            "div"
-          );
-
-        item.className =
-          "history-item";
-
-
-        const baristaHeader =
-          document.createElement(
-            "div"
-          );
-
-        baristaHeader.className =
-          "history-barista-header " +
-          getBaristaColorClass(
-            report.user_name
-          );
-
-        baristaHeader.textContent =
-          "БАРИСТА — " +
-          (
-            report.user_name ||
-            "Не указан"
-          );
-
-        item.appendChild(
-          baristaHeader
-        );
-
-
-        const dateRow =
-          document.createElement(
-            "div"
-          );
-
-        dateRow.className =
-          "history-date-row";
-
-
-        const dateTitle =
-          document.createElement(
-            "div"
-          );
-
-        dateTitle.className =
-          "history-date-title";
-
-        dateTitle.textContent =
-          "Дата";
-
-
-        const dateValue =
-          document.createElement(
-            "div"
-          );
-
-        dateValue.className =
-          "history-date-value";
-
-        dateValue.textContent =
-          formatDate(
-            report.report_date ||
-            report.date ||
-            ""
-          );
-
-
-        dateRow.appendChild(
-          dateTitle
-        );
-
-        dateRow.appendChild(
-          dateValue
-        );
-
-        item.appendChild(
-          dateRow
-        );
-
-
-        const timeRow =
-          document.createElement(
-            "div"
-          );
-
-        timeRow.className =
-          "history-time-row";
-
-
-        const openingTime =
-          report.opening_time
-            ? String(
-                report.opening_time
-              ).slice(
-                0,
-                5
-              )
-            : "—";
-
-
-        const closingTime =
-          report.closing_time
-            ? String(
-                report.closing_time
-              ).slice(
-                0,
-                5
-              )
-            : "—";
-
-
-        const openingElement =
-          document.createElement(
-            "div"
-          );
-
-        openingElement.className =
-          "history-opening-time";
-
-        openingElement.innerHTML =
-          "<span>" +
-          "Открытие смены" +
-          "</span>" +
-
-          "<span>" +
-          escapeHtml(
-            openingTime
-          ) +
-          "</span>";
-
-
-        const closingElement =
-          document.createElement(
-            "div"
-          );
-
-        closingElement.className =
-          "history-closing-time";
-
-        closingElement.innerHTML =
-          "<span>" +
-          "Закрытие смены" +
-          "</span>" +
-
-          "<span>" +
-          escapeHtml(
-            closingTime
-          ) +
-          "</span>";
-
-
-        timeRow.appendChild(
-          openingElement
-        );
-
-        timeRow.appendChild(
-          closingElement
-        );
-
-        item.appendChild(
-          timeRow
-        );
-
-
-        const openingBlock =
-          document.createElement(
-            "div"
-          );
-
-        openingBlock.className =
-          "history-special-block";
-
-        openingBlock.innerHTML =
-
-          '<span class="history-special-title">' +
-          "Остаток наличности на начало смены" +
-          "</span>" +
-
-          '<span class="history-special-value">' +
-          money(
-            report.opening_cash ||
-            0
-          ) +
-          " ₽" +
-          "</span>";
-
-        item.appendChild(
-          openingBlock
-        );
-
-
-        const sales =
-          Number(
-            report.cash ||
-            0
-          ) +
-
-          Number(
-            report.card ||
-            0
-          ) +
-
-          Number(
-            report.qr ||
-            0
-          );
-
-
-        addHistoryInline(
-          item,
-          "Выручка",
-          money(
-            sales
-          ) +
-          " ₽"
-        );
-
-
-        addHistoryRow(
-          item,
-          "Наличные",
-          money(
-            report.cash ||
-            0
-          ) +
-          " ₽"
-        );
-
-
-        addHistoryRow(
-          item,
-          "Безнал",
-          money(
-            Number(
-              report.card ||
-              0
-            ) +
-
-            Number(
-              report.qr ||
-              0
-            )
-          ) +
-          " ₽"
-        );
-
-
-        const expenses =
-          Number(
-            report.expense_barista ||
-            0
-          ) +
-
-          Number(
-            report.expense_supplier ||
-            0
-          ) +
-
-          Number(
-            report.expense_withdrawal ||
-            0
-          );
-
-
-        addHistoryInline(
-          item,
-          "Расходы",
-          money(
-            expenses
-          ) +
-          " ₽"
-        );
-
-
-        const closingRow =
-          document.createElement(
-            "div"
-          );
-
-        closingRow.className =
-          "history-inline-row history-closing-row";
-
-        closingRow.innerHTML =
-
-          '<span class="history-inline-title">' +
-          "Остаток наличности на конец смены" +
-          "</span>" +
-
-          '<span class="history-inline-value">' +
-          money(
-            report.actual_cash ||
-            0
-          ) +
-          " ₽" +
-          "</span>";
-
-        item.appendChild(
-          closingRow
-        );
-
-
-        if (
-          report.comment_barista
-        ) {
-
-          const comment =
-            document.createElement(
-              "div"
-            );
-
-          comment.className =
-            "history-comment";
-
-          comment.innerHTML =
-            "<strong>Комментарий:</strong> " +
-            escapeHtml(
-              report.comment_barista
-            );
-
-          item.appendChild(
-            comment
-          );
-
-        }
-
-
-        if (
-          report.report_image_url
-        ) {
-
-          const photoLink =
-            document.createElement(
-              "a"
-            );
-
-          photoLink.href =
-            "#";
-
-          photoLink.className =
-            "history-photo-link";
-
-          photoLink.textContent =
-            "📷 Открыть фото отчёта";
-
-
-          photoLink.onclick =
-            async function(event) {
-
-              event.preventDefault();
-
-              photoLink.textContent =
-                "📷 Открываю фото...";
-
-
-              try {
-
-                await openReportImage(
-                  report.report_image_url
-                );
-
-              }
-              catch(error) {
-
-                console.error(
-                  error
-                );
-
-              }
-
-              photoLink.textContent =
-                "📷 Открыть фото отчёта";
-
-            };
-
-
-          item.appendChild(
-            photoLink
-          );
-
-        }
-
-
-        list.appendChild(
-          item
-        );
-
-      }
-    );
-
-  }
-  catch(error) {
-
-    list.innerHTML =
-      '<div class="message error" style="display:block">' +
-      escapeHtml(
-        error.message
-      ) +
-      "</div>";
-
-  }
-
-}
-
-
-/* =====================================================
-   SETTINGS TOGGLE
-===================================================== */
-
-function toggleSettings() {
-
-  if (
-    !currentUser ||
-    currentUser.role !==
-    "admin"
-  ) {
-
-    return;
-
-  }
-
-
-  const form =
-    document.getElementById(
-      "formScreen"
-    );
-
-  const history =
-    document.getElementById(
-      "historyScreen"
-    );
-
-  const settings =
-    document.getElementById(
-      "settingsScreen"
-    );
-
-
-  history.classList.add(
-    "hidden"
-  );
-
-
-  if (
-    settings.classList.contains(
-      "hidden"
-    )
-  ) {
-
-    form.classList.add(
-      "hidden"
-    );
-
-    settings.classList.remove(
-      "hidden"
-    );
-
-    loadSettingsUsers();
-
-  }
-  else {
-
-    settings.classList.add(
-      "hidden"
-    );
-
-    form.classList.remove(
-      "hidden"
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   SETTINGS USERS + DEVICES
-===================================================== */
-
-async function loadSettingsUsers() {
-
-  const container =
-    document.getElementById(
-      "settingsUsers"
-    );
-
-
-  container.innerHTML =
-    '<div style="color:#aaa;">Загрузка...</div>';
-
-
-  try {
-
-    const results =
-      await Promise.all([
-
-        callRPC(
-          "get_login_users"
-        ),
-
-        callRPC(
-          "get_devices_admin",
-          {
-            p_admin_pin:
-              currentPin
-          }
-        )
-
-      ]);
-
-
-    const users =
-      results[0];
-
-    const devices =
-      results[1];
-
-
-    container.innerHTML =
-      "";
-
-
-    if (
-      !Array.isArray(users) ||
-      users.length === 0
-    ) {
-
-      container.innerHTML =
-        '<div style="color:#aaa;text-align:center;padding:10px;">Пользователей нет</div>';
-
-      return;
-
-    }
-
-
-    users.forEach(
-      user => {
-
-        const block =
-          document.createElement(
-            "div"
-          );
-
-
-        block.className =
-          "settings-user";
-
-
-        const roleText =
-          user.role === "admin"
-            ? "Администратор"
-            : "Бариста";
-
-
-        const userDevices =
-          Array.isArray(devices)
-            ? devices.filter(
-                device =>
-                  String(
-                    device.user_id
-                  ) ===
-                  String(
-                    user.id
-                  )
-              )
-            : [];
-
-
-        let devicesHtml =
-          "";
-
-
-        if (
-          userDevices.length === 0
-        ) {
-
-          devicesHtml =
-
-            '<div style="' +
-            'color:#777;' +
-            'font-size:13px;' +
-            'padding:8px 0;' +
-            '">' +
-
-            "Авторизованных устройств пока нет" +
-
-            "</div>";
-
-        }
-
-
-        else {
-
-          userDevices.forEach(
-            device => {
-
-              const deviceName =
-                device.device_name ||
-                "Неизвестное устройство";
-
-
-              const statusText =
-                getDeviceStatusText(
-                  device.status
-                );
-
-
-              let deviceButtons =
-                "";
-
-
-              if (
-                device.status ===
-                "pending"
-              ) {
-
-                deviceButtons =
-
-                  '<button ' +
-                  'class="main-button settings-save" ' +
-                  'style="margin-top:8px;" ' +
-                  'onclick="setDeviceStatus(\'' +
-                  escapeHtml(
-                    device.id
-                  ) +
-                  '\', \'active\')">' +
-                  "РАЗРЕШИТЬ" +
-                  "</button>" +
-
-                  '<button ' +
-                  'class="main-button settings-delete" ' +
-                  'style="margin-top:8px;" ' +
-                  'onclick="setDeviceStatus(\'' +
-                  escapeHtml(
-                    device.id
-                  ) +
-                  '\', \'blocked\')">' +
-                  "ЗАБЛОКИРОВАТЬ" +
-                  "</button>";
-
-              }
-
-
-              else if (
-                device.status ===
-                "active"
-              ) {
-
-                deviceButtons =
-
-                  '<button ' +
-                  'class="main-button settings-delete" ' +
-                  'style="margin-top:8px;" ' +
-                  'onclick="setDeviceStatus(\'' +
-                  escapeHtml(
-                    device.id
-                  ) +
-                  '\', \'blocked\')">' +
-                  "ЗАБЛОКИРОВАТЬ" +
-                  "</button>";
-
-              }
-
-
-              else if (
-                device.status ===
-                "blocked"
-              ) {
-
-                deviceButtons =
-
-                  '<button ' +
-                  'class="main-button settings-delete" ' +
-                  'style="margin-top:8px;" ' +
-                  'onclick="deleteDevice(\'' +
-                  escapeHtml(
-                    device.id
-                  ) +
-                  '\')">' +
-                  "УДАЛИТЬ" +
-                  "</button>";
-
-              }
-
-
-              devicesHtml +=
-
-                '<div style="' +
-                'margin-top:8px;' +
-                'padding:9px;' +
-                'background:#181818;' +
-                'border:1px solid #3d3d3d;' +
-                'border-radius:5px;' +
-                '">' +
-
-                '<div style="' +
-                'font-size:15px;' +
-                'font-weight:600;' +
-                '">' +
-
-                escapeHtml(
-                  deviceName
-                ) +
-
-                "</div>" +
-
-                '<div style="' +
-                'margin-top:5px;' +
-                'font-size:13px;' +
-                'color:#ccc;' +
-                '">' +
-
-                escapeHtml(
-                  statusText
-                ) +
-
-                "</div>" +
-
-                '<div style="' +
-                'margin-top:5px;' +
-                'color:#777;' +
-                'font-size:11px;' +
-                '">' +
-
-                "Добавлено: " +
-
-                escapeHtml(
-                  formatDateTime(
-                    device.created_at
-                  )
-                ) +
-
-                "</div>" +
-
-                '<div style="' +
-                'margin-top:3px;' +
-                'color:#777;' +
-                'font-size:11px;' +
-                '">' +
-
-                "Последняя активность: " +
-
-                escapeHtml(
-                  formatDateTime(
-                    device.last_seen_at
-                  )
-                ) +
-
-                "</div>" +
-
-                deviceButtons +
-
-                "</div>";
-
-            }
-          );
-
-        }
-
-
-        block.innerHTML =
-
-          '<div class="settings-user-title">' +
-          escapeHtml(
-            user.name
-          ) +
-          "</div>" +
-
-          '<div class="settings-role">' +
-          escapeHtml(
-            roleText
-          ) +
-          "</div>" +
-
-          "<label>Имя</label>" +
-
-          '<input type="text" ' +
-          'id="settingsName_' +
-          escapeHtml(
-            user.id
-          ) +
-          '" value="' +
-          escapeHtml(
-            user.name
-          ) +
-          '">' +
-
-          "<label>Новый PIN</label>" +
-
-          '<input type="text" ' +
-          'inputmode="numeric" ' +
-          'maxlength="4" ' +
-          'id="settingsPin_' +
-          escapeHtml(
-            user.id
-          ) +
-          '" placeholder="4 цифры">' +
-
-          '<button ' +
-          'class="main-button settings-save" ' +
-          'onclick="updateUserAccount(\'' +
-          escapeHtml(
-            user.id
-          ) +
-          '\')">' +
-          "СОХРАНИТЬ" +
-          "</button>" +
-
-          '<button ' +
-          'class="main-button settings-delete" ' +
-          'onclick="deleteUserAccount(\'' +
-          escapeHtml(
-            user.id
-          ) +
-          '\', \'' +
-          escapeHtml(
-            user.name
-          ) +
-          '\', \'' +
-          escapeHtml(
-            user.role
-          ) +
-          '\')">' +
-          "УДАЛИТЬ" +
-          "</button>" +
-
-          '<div class="message" ' +
-          'id="settingsMessage_' +
-          escapeHtml(
-            user.id
-          ) +
-          '"></div>' +
-
-          '<div style="' +
-          'margin-top:18px;' +
-          'padding-top:10px;' +
-          'border-top:1px solid #444;' +
-          '">' +
-
-          '<div style="' +
-          'font-size:14px;' +
-          'font-weight:600;' +
-          'margin-bottom:5px;' +
-          '">' +
-
-          "УСТРОЙСТВА СОТРУДНИКА" +
-
-          "</div>" +
-
-          devicesHtml +
-
-          "</div>";
-
-
-        container.appendChild(
-          block
-        );
-
-      }
-    );
-
-  }
-  catch(error) {
-
-    container.innerHTML =
-      '<div class="message error" style="display:block">' +
-      escapeHtml(
-        error.message
-      ) +
-      "</div>";
-
-  }
-
-}
-
-
-/* =====================================================
-   DEVICE HELPERS
-===================================================== */
-
-function getDeviceStatusText(status) {
-
-  if (
-    status ===
-    "active"
-  ) {
-
-    return "🟢 Авторизовано";
-
-  }
-
-
-  if (
-    status ===
-    "blocked"
-  ) {
-
-    return "🔴 Заблокировано";
-
-  }
-
-
-  return "🟡 Ожидает разрешения";
-
-}
-
-
-function formatDateTime(value) {
-
-  if (!value) {
-
-    return "—";
-
-  }
-
-
-  const date =
-    new Date(value);
-
-
-  if (
-    Number.isNaN(
-      date.getTime()
-    )
-  ) {
-
-    return "—";
-
-  }
-
-
-  return date.toLocaleString(
-    "ru-RU",
+  const response=await fetch(
+    SUPABASE_URL+"/storage/v1/object/sign/"+STORAGE_BUCKET+"/"+encodedPath,
     {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit"
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        apikey:SUPABASE_KEY,
+        Authorization:"Bearer "+SUPABASE_KEY
+      },
+      body:JSON.stringify({expiresIn:3600})
     }
   );
 
+  const data=await response.json();
+
+  if(!response.ok)throw new Error(data.message||data.error||"Не удалось открыть фото");
+  if(!data.signedURL)throw new Error("Supabase не вернул ссылку на фото");
+
+  return data.signedURL.startsWith("http")
+    ?data.signedURL
+    :SUPABASE_URL+"/storage/v1"+data.signedURL;
 }
 
+async function openReportImage(imagePath){
+  try{
+    const url=await getReportImageUrl(imagePath);
+    window.location.href=url;
+  }catch(error){
+    alert(error.message||"Не удалось открыть фото отчёта");
+  }
+}
 
-/* =====================================================
-   OLD DEVICE LIST
-===================================================== */
+function toggleHistory(){
+  const form=document.getElementById("formScreen");
+  const history=document.getElementById("historyScreen");
+  const settings=document.getElementById("settingsScreen");
 
-async function loadSettingsDevices() {
+  settings.classList.add("hidden");
 
+  if(history.classList.contains("hidden")){
+    form.classList.add("hidden");
+    history.classList.remove("hidden");
+    loadHistory();
+  }else{
+    history.classList.add("hidden");
+    form.classList.remove("hidden");
+  }
+}
+
+function getBaristaColorClass(name){
+  const value=String(name||"").trim().toLowerCase();
+  if(value==="диана")return"history-barista-diana";
+
+  let hash=0;
+  for(let i=0;i<value.length;i++)hash=value.charCodeAt(i)+((hash<<5)-hash);
+
+  const colors=[
+    "history-barista-blue",
+    "history-barista-green",
+    "history-barista-purple",
+    "history-barista-orange",
+    "history-barista-red",
+    "history-barista-gray"
+  ];
+
+  return colors[Math.abs(hash)%colors.length];
+}
+
+function addHistoryRow(item,title,value){
+  const row=document.createElement("div");
+  row.className="history-money-row";
+  row.innerHTML="<span>"+escapeHtml(title)+"</span><span>"+escapeHtml(value)+"</span>";
+  item.appendChild(row);
+}
+
+function addHistoryInline(item,title,value){
+  const row=document.createElement("div");
+  row.className="history-inline-row";
+  row.innerHTML='<span class="history-inline-title">'+escapeHtml(title)+'</span><span class="history-inline-value">'+escapeHtml(value)+'</span>';
+  item.appendChild(row);
+}
+
+async function loadHistory(){
+  const list=document.getElementById("historyList");
+  list.innerHTML='<div style="text-align:center;color:#aaa">Загрузка...</div>';
+
+  try{
+    const reports=await callRPC("get_shift_reports");
+    list.innerHTML="";
+
+    if(!Array.isArray(reports)||reports.length===0){
+      list.innerHTML='<div style="color:#aaa;text-align:center;padding:15px">Отчётов пока нет</div>';
+      return;
+    }
+
+    reports.forEach(report=>{
+      const item=document.createElement("div");
+      item.className="history-item";
+
+      const header=document.createElement("div");
+      header.className="history-barista-header "+getBaristaColorClass(report.user_name);
+      header.textContent="БАРИСТА — "+(report.user_name||"Не указан");
+      item.appendChild(header);
+
+      const dateRow=document.createElement("div");
+      dateRow.className="history-date-row";
+
+      const dateTitle=document.createElement("div");
+      dateTitle.className="history-date-title";
+      dateTitle.textContent="Дата";
+
+      const dateValue=document.createElement("div");
+      dateValue.className="history-date-value";
+      dateValue.textContent=formatDate(report.report_date||report.date||"");
+
+      dateRow.appendChild(dateTitle);
+      dateRow.appendChild(dateValue);
+      item.appendChild(dateRow);
+
+      const timeRow=document.createElement("div");
+      timeRow.className="history-time-row";
+
+      const openingTime=report.opening_time?String(report.opening_time).slice(0,5):"—";
+      const closingTime=report.closing_time?String(report.closing_time).slice(0,5):"—";
+
+      const opening=document.createElement("div");
+      opening.className="history-opening-time";
+      opening.innerHTML="<span>Открытие смены</span><span>"+escapeHtml(openingTime)+"</span>";
+
+      const closing=document.createElement("div");
+      closing.className="history-closing-time";
+      closing.innerHTML="<span>Закрытие смены</span><span>"+escapeHtml(closingTime)+"</span>";
+
+      timeRow.appendChild(opening);
+      timeRow.appendChild(closing);
+      item.appendChild(timeRow);
+
+      const openingBlock=document.createElement("div");
+      openingBlock.className="history-special-block";
+      openingBlock.innerHTML=
+        '<span class="history-special-title">Остаток наличности на начало смены</span>'+
+        '<span class="history-special-value">'+money(report.opening_cash||0)+" ₽</span>";
+      item.appendChild(openingBlock);
+
+      const sales=
+        Number(report.cash||0)+
+        Number(report.card||0)+
+        Number(report.qr||0);
+
+      addHistoryInline(item,"Выручка",money(sales)+" ₽");
+      addHistoryRow(item,"Наличные",money(report.cash||0)+" ₽");
+      addHistoryRow(item,"Безнал",money(Number(report.card||0)+Number(report.qr||0))+" ₽");
+
+      const expenses=
+        Number(report.expense_barista||0)+
+        Number(report.expense_supplier||0)+
+        Number(report.expense_withdrawal||0);
+
+      addHistoryInline(item,"Расходы",money(expenses)+" ₽");
+
+      const closingRow=document.createElement("div");
+      closingRow.className="history-inline-row history-closing-row";
+      closingRow.innerHTML=
+        '<span class="history-inline-title">Остаток наличности на конец смены</span>'+
+        '<span class="history-inline-value">'+money(report.actual_cash||0)+" ₽</span>";
+      item.appendChild(closingRow);
+
+      if(report.comment_barista){
+        const comment=document.createElement("div");
+        comment.className="history-comment";
+        comment.innerHTML="<strong>Комментарий:</strong> "+escapeHtml(report.comment_barista);
+        item.appendChild(comment);
+      }
+
+      if(report.report_image_url){
+        const photo=document.createElement("a");
+        photo.href="#";
+        photo.className="history-photo-link";
+        photo.textContent="📷 Открыть фото отчёта";
+
+        photo.onclick=async event=>{
+          event.preventDefault();
+          photo.textContent="📷 Открываю фото...";
+          try{await openReportImage(report.report_image_url)}catch(error){console.error(error)}
+          photo.textContent="📷 Открыть фото отчёта";
+        };
+
+        item.appendChild(photo);
+      }
+
+      list.appendChild(item);
+    });
+
+  }catch(error){
+    list.innerHTML='<div class="message error" style="display:block">'+escapeHtml(error.message)+'</div>';
+  }
+}
+
+function toggleSettings(){
+  if(!currentUser||currentUser.role!=="admin")return;
+
+  const form=document.getElementById("formScreen");
+  const history=document.getElementById("historyScreen");
+  const settings=document.getElementById("settingsScreen");
+
+  history.classList.add("hidden");
+
+  if(settings.classList.contains("hidden")){
+    form.classList.add("hidden");
+    settings.classList.remove("hidden");
+    loadSettingsUsers();
+  }else{
+    settings.classList.add("hidden");
+    form.classList.remove("hidden");
+  }
+}
+
+async function loadSettingsUsers(){
+  const container=document.getElementById("settingsUsers");
+  container.innerHTML='<div style="color:#aaa">Загрузка...</div>';
+
+  try{
+    const results=await Promise.all([
+      callRPC("get_login_users"),
+      callRPC("get_devices_admin",{p_admin_pin:currentPin})
+    ]);
+
+    const users=results[0],devices=results[1];
+    container.innerHTML="";
+
+    if(!Array.isArray(users)||users.length===0){
+      container.innerHTML='<div style="color:#aaa;text-align:center;padding:10px">Пользователей нет</div>';
+      return;
+    }
+
+    users.forEach(user=>{
+      const block=document.createElement("div");
+      block.className="settings-user";
+
+      const roleText=user.role==="admin"?"Администратор":"Бариста";
+      const userDevices=Array.isArray(devices)
+        ?devices.filter(device=>String(device.user_id)===String(user.id))
+        :[];
+
+      let devicesHtml="";
+
+      if(!userDevices.length){
+        devicesHtml='<div style="color:#777;font-size:13px;padding:8px 0">Авторизованных устройств пока нет</div>';
+      }else{
+        userDevices.forEach(device=>{
+          const deviceName=device.device_name||"Неизвестное устройство";
+          const statusText=getDeviceStatusText(device.status);
+          let buttons="";
+
+          if(device.status==="pending"){
+            buttons=
+              '<button class="main-button settings-save" style="margin-top:8px" onclick="setDeviceStatus(\''+
+              escapeHtml(device.id)+'\',\'active\')">РАЗРЕШИТЬ</button>'+
+              '<button class="main-button settings-delete" style="margin-top:8px" onclick="setDeviceStatus(\''+
+              escapeHtml(device.id)+'\',\'blocked\')">ЗАБЛОКИРОВАТЬ</button>';
+          }else if(device.status==="active"){
+            buttons=
+              '<button class="main-button settings-delete" style="margin-top:8px" onclick="setDeviceStatus(\''+
+              escapeHtml(device.id)+'\',\'blocked\')">ЗАБЛОКИРОВАТЬ</button>';
+          }else if(device.status==="blocked"){
+            buttons=
+              '<button class="main-button settings-delete" style="margin-top:8px" onclick="deleteDevice(\''+
+              escapeHtml(device.id)+'\')">УДАЛИТЬ</button>';
+          }
+
+          devicesHtml+=
+            '<div style="margin-top:8px;padding:9px;background:#181818;border:1px solid #3d3d3d;border-radius:5px">'+
+            '<div style="font-size:15px;font-weight:600">'+escapeHtml(deviceName)+'</div>'+
+            '<div style="margin-top:5px;font-size:13px;color:#ccc">'+escapeHtml(statusText)+'</div>'+
+            '<div style="margin-top:5px;color:#777;font-size:11px">Добавлено: '+escapeHtml(formatDateTime(device.created_at))+'</div>'+
+            '<div style="margin-top:3px;color:#777;font-size:11px">Последняя активность: '+escapeHtml(formatDateTime(device.last_seen_at))+'</div>'+
+            buttons+
+            "</div>";
+        });
+      }
+
+      block.innerHTML=
+        '<div class="settings-user-title">'+escapeHtml(user.name)+'</div>'+
+        '<div class="settings-role">'+escapeHtml(roleText)+'</div>'+
+        "<label>Имя</label>"+
+        '<input type="text" id="settingsName_'+escapeHtml(user.id)+'" value="'+escapeHtml(user.name)+'">'+
+        "<label>Новый PIN</label>"+
+        '<input type="text" inputmode="numeric" maxlength="4" id="settingsPin_'+escapeHtml(user.id)+'" placeholder="4 цифры">'+
+        '<button class="main-button settings-save" onclick="updateUserAccount(\''+escapeHtml(user.id)+'\')">СОХРАНИТЬ</button>'+
+        '<button class="main-button settings-delete" onclick="deleteUserAccount(\''+
+        escapeHtml(user.id)+'\',\''+escapeHtml(user.name)+'\',\''+escapeHtml(user.role)+'\')">УДАЛИТЬ</button>'+
+        '<div class="message" id="settingsMessage_'+escapeHtml(user.id)+'"></div>'+
+        '<div style="margin-top:18px;padding-top:10px;border-top:1px solid #444">'+
+        '<div style="font-size:14px;font-weight:600;margin-bottom:5px">УСТРОЙСТВА СОТРУДНИКА</div>'+
+        devicesHtml+
+        "</div>";
+
+      container.appendChild(block);
+    });
+
+  }catch(error){
+    container.innerHTML='<div class="message error" style="display:block">'+escapeHtml(error.message)+'</div>';
+  }
+}
+
+function getDeviceStatusText(status){
+  if(status==="active")return"🟢 Авторизовано";
+  if(status==="blocked")return"🔴 Заблокировано";
+  return"🟡 Ожидает разрешения";
+}
+
+function formatDateTime(value){
+  if(!value)return"—";
+  const date=new Date(value);
+  if(Number.isNaN(date.getTime()))return"—";
+  return date.toLocaleString("ru-RU",{
+    day:"2-digit",
+    month:"2-digit",
+    year:"numeric",
+    hour:"2-digit",
+    minute:"2-digit"
+  });
+}
+
+async function loadSettingsDevices(){
   return loadSettingsUsers();
-
 }
 
+async function setDeviceStatus(deviceId,status){
+  if(!currentUser||currentUser.role!=="admin")return;
 
-/* =====================================================
-   CHANGE DEVICE STATUS
-===================================================== */
+  let question="";
+  if(status==="active")question="Разрешить этому устройству доступ?";
+  else if(status==="blocked")question="Заблокировать это устройство?";
+  else question="Изменить статус устройства?";
 
-async function setDeviceStatus(
-  deviceId,
-  status
-) {
+  if(!confirm(question))return;
 
-  if (
-    !currentUser ||
-    currentUser.role !==
-    "admin"
-  ) {
+  try{
+    const result=await callRPC("set_device_status",{
+      p_admin_pin:currentPin,
+      p_device_id:deviceId,
+      p_status:status
+    });
 
-    return;
-
-  }
-
-
-  let question =
-    "";
-
-
-  if (
-    status ===
-    "active"
-  ) {
-
-    question =
-      "Разрешить этому устройству доступ?";
-
-  }
-  else if (
-    status ===
-    "blocked"
-  ) {
-
-    question =
-      "Заблокировать это устройство?";
-
-  }
-  else {
-
-    question =
-      "Изменить статус устройства?";
-
-  }
-
-
-  if (
-    !confirm(
-      question
-    )
-  ) {
-
-    return;
-
-  }
-
-
-  try {
-
-    const result =
-      await callRPC(
-        "set_device_status",
-        {
-
-          p_admin_pin:
-            currentPin,
-
-          p_device_id:
-            deviceId,
-
-          p_status:
-            status
-
-        }
-      );
-
-
-    if (
-      !result ||
-      result.success !== true
-    ) {
-
-      throw new Error(
-        result &&
-        result.message
-          ? result.message
-          : "Не удалось изменить статус"
-      );
-
+    if(!result||result.success!==true){
+      throw new Error(result&&result.message?result.message:"Не удалось изменить статус");
     }
 
-
     await loadSettingsUsers();
-
+  }catch(error){
+    alert(error.message||"Ошибка изменения устройства");
   }
-  catch(error) {
-
-    alert(
-      error.message ||
-      "Ошибка изменения устройства"
-    );
-
-  }
-
 }
 
+async function deleteDevice(deviceId){
+  if(!currentUser||currentUser.role!=="admin")return;
 
-/* =====================================================
-   DELETE DEVICE
-===================================================== */
+  if(!confirm(
+    "Удалить это устройство?\n\n"+
+    "Сначала оно будет заблокировано, после чего полностью удалено из списка устройств."
+  ))return;
 
-async function deleteDevice(
-  deviceId
-) {
+  try{
+    const result=await callRPC("delete_device_admin",{
+      p_admin_pin:currentPin,
+      p_device_id:deviceId
+    });
 
-  if (
-    !currentUser ||
-    currentUser.role !==
-    "admin"
-  ) {
-
-    return;
-
-  }
-
-
-  const confirmed =
-    confirm(
-      "Удалить это устройство?\n\n" +
-      "Сначала оно будет заблокировано, " +
-      "после чего полностью удалено из списка устройств."
-    );
-
-
-  if (!confirmed) {
-
-    return;
-
-  }
-
-
-  try {
-
-    const result =
-      await callRPC(
-        "delete_device_admin",
-        {
-
-          p_admin_pin:
-            currentPin,
-
-          p_device_id:
-            deviceId
-
-        }
-      );
-
-
-    if (
-      !result ||
-      result.success !== true
-    ) {
-
-      throw new Error(
-        result &&
-        result.message
-          ? result.message
-          : "Не удалось удалить устройство"
-      );
-
+    if(!result||result.success!==true){
+      throw new Error(result&&result.message?result.message:"Не удалось удалить устройство");
     }
 
-
     await loadSettingsUsers();
-
+  }catch(error){
+    alert(error.message||"Ошибка удаления устройства");
   }
-  catch(error) {
-
-    alert(
-      error.message ||
-      "Ошибка удаления устройства"
-    );
-
-  }
-
 }
 
+async function addUserAccount(){
+  const name=val("newUserName").trim();
+  const role=val("newUserRole");
+  const pin=val("newUserPin").trim();
+  const message=document.getElementById("newUserMessage");
 
-/* =====================================================
-   ADD USER
-===================================================== */
-
-async function addUserAccount() {
-
-  const name =
-    val(
-      "newUserName"
-    ).trim();
-
-
-  const role =
-    val(
-      "newUserRole"
-    );
-
-
-  const pin =
-    val(
-      "newUserPin"
-    ).trim();
-
-
-  const message =
-    document.getElementById(
-      "newUserMessage"
-    );
-
-
-  if (!name) {
-
-    message.className =
-      "message error";
-
-    message.textContent =
-      "Введите имя";
-
+  if(!name){
+    message.className="message error";
+    message.textContent="Введите имя";
     return;
-
   }
 
-
-  if (
-    !/^[0-9]{4}$/.test(
-      pin
-    )
-  ) {
-
-    message.className =
-      "message error";
-
-    message.textContent =
-      "PIN должен состоять из 4 цифр";
-
+  if(!/^[0-9]{4}$/.test(pin)){
+    message.className="message error";
+    message.textContent="PIN должен состоять из 4 цифр";
     return;
-
   }
 
+  try{
+    message.className="message";
+    message.textContent="Добавление...";
 
-  try {
+    await callRPC("add_user_account",{
+      p_admin_pin:currentPin,
+      p_name:name,
+      p_role:role,
+      p_new_pin:pin
+    });
 
-    message.className =
-      "message";
+    message.className="message success";
+    message.textContent="Сотрудник добавлен";
 
-    message.textContent =
-      "Добавление...";
-
-
-    await callRPC(
-      "add_user_account",
-      {
-
-        p_admin_pin:
-          currentPin,
-
-        p_name:
-          name,
-
-        p_role:
-          role,
-
-        p_new_pin:
-          pin
-
-      }
-    );
-
-
-    message.className =
-      "message success";
-
-    message.textContent =
-      "Сотрудник добавлен";
-
-
-    document.getElementById(
-      "newUserName"
-    ).value =
-      "";
-
-
-    document.getElementById(
-      "newUserPin"
-    ).value =
-      "";
-
+    document.getElementById("newUserName").value="";
+    document.getElementById("newUserPin").value="";
 
     await loadLoginUsers();
-
     await loadSettingsUsers();
 
+  }catch(error){
+    message.className="message error";
+    message.textContent=error.message||"Ошибка добавления";
   }
-  catch(error) {
-
-    message.className =
-      "message error";
-
-    message.textContent =
-      error.message ||
-      "Ошибка добавления";
-
-  }
-
 }
 
+async function updateUserAccount(userId){
+  const name=val("settingsName_"+userId).trim();
+  const newPin=val("settingsPin_"+userId).trim();
+  const message=document.getElementById("settingsMessage_"+userId);
 
-/* =====================================================
-   UPDATE USER
-===================================================== */
-
-async function updateUserAccount(
-  userId
-) {
-
-  const name =
-    val(
-      "settingsName_" +
-      userId
-    ).trim();
-
-
-  const newPin =
-    val(
-      "settingsPin_" +
-      userId
-    ).trim();
-
-
-  const message =
-    document.getElementById(
-      "settingsMessage_" +
-      userId
-    );
-
-
-  if (!name) {
-
-    message.className =
-      "message error";
-
-    message.textContent =
-      "Введите имя";
-
+  if(!name){
+    message.className="message error";
+    message.textContent="Введите имя";
     return;
-
   }
 
-
-  if (
-    !/^[0-9]{4}$/.test(
-      newPin
-    )
-  ) {
-
-    message.className =
-      "message error";
-
-    message.textContent =
-      "PIN должен состоять из 4 цифр";
-
+  if(!/^[0-9]{4}$/.test(newPin)){
+    message.className="message error";
+    message.textContent="PIN должен состоять из 4 цифр";
     return;
-
   }
 
+  try{
+    message.className="message";
+    message.textContent="Сохранение...";
 
-  try {
+    await callRPC("update_user_account",{
+      p_admin_pin:currentPin,
+      p_user_id:userId,
+      p_name:name,
+      p_new_pin:newPin
+    });
 
-    message.className =
-      "message";
-
-    message.textContent =
-      "Сохранение...";
-
-
-    await callRPC(
-      "update_user_account",
-      {
-
-        p_admin_pin:
-          currentPin,
-
-        p_user_id:
-          userId,
-
-        p_name:
-          name,
-
-        p_new_pin:
-          newPin
-
-      }
-    );
-
-
-    message.className =
-      "message success";
-
-    message.textContent =
-      "Сохранено";
-
+    message.className="message success";
+    message.textContent="Сохранено";
 
     await loadLoginUsers();
-
     await loadSettingsUsers();
 
+  }catch(error){
+    message.className="message error";
+    message.textContent=error.message||"Ошибка сохранения";
   }
-  catch(error) {
-
-    message.className =
-      "message error";
-
-    message.textContent =
-      error.message ||
-      "Ошибка сохранения";
-
-  }
-
 }
 
+async function deleteUserAccount(userId,userName,userRole){
+  const roleText=userRole==="admin"?"администратора":"бариста";
 
-/* =====================================================
-   DELETE USER
-===================================================== */
+  if(!confirm(
+    "Удалить "+roleText+" «"+userName+"»?\n\n"+
+    "Старые отчёты этого сотрудника сохранятся."
+  ))return;
 
-async function deleteUserAccount(
-  userId,
-  userName,
-  userRole
-) {
-
-  const roleText =
-    userRole === "admin"
-      ? "администратора"
-      : "бариста";
-
-
-  const confirmed =
-    confirm(
-      "Удалить " +
-      roleText +
-      " «" +
-      userName +
-      "»?\n\n" +
-      "Старые отчёты этого сотрудника сохранятся."
-    );
-
-
-  if (!confirmed) {
-
-    return;
-
-  }
-
-
-  try {
-
-    await callRPC(
-      "delete_user_account",
-      {
-
-        p_admin_pin:
-          currentPin,
-
-        p_user_id:
-          userId
-
-      }
-    );
-
+  try{
+    await callRPC("delete_user_account",{
+      p_admin_pin:currentPin,
+      p_user_id:userId
+    });
 
     await loadLoginUsers();
-
     await loadSettingsUsers();
 
+  }catch(error){
+    alert(error.message||"Ошибка удаления");
   }
-  catch(error) {
-
-    alert(
-      error.message ||
-      "Ошибка удаления"
-    );
-
-  }
-
 }
 
-
-/* =====================================================
-   INITIALIZATION
-===================================================== */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  function() {
-
-    getDeviceToken();
-
-    loadLoginUsers();
-
-    calculate();
-
-  }
-);
-
+document.addEventListener("DOMContentLoaded",()=>{
+  getDeviceToken();
+  loadLoginUsers();
+  calculate();
+});
 </script>
 
 </body>
