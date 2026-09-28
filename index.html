@@ -18,10 +18,6 @@
 
 <style>
 
-/* =====================================================
-   BASE
-===================================================== */
-
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
@@ -488,7 +484,7 @@ input[type="number"] {
 }
 
 
-/* ---------- BARISTA HEADER ---------- */
+/* BARISTA HEADER */
 
 .history-barista-header {
   width: calc(100% + 26px);
@@ -530,7 +526,7 @@ input[type="number"] {
 }
 
 
-/* ---------- PHOTO LINK ---------- */
+/* PHOTO */
 
 .history-photo-link {
   display: block;
@@ -543,12 +539,8 @@ input[type="number"] {
   cursor: pointer;
 }
 
-.history-photo-link:active {
-  opacity: .7;
-}
 
-
-/* ---------- DATE ---------- */
+/* DATE */
 
 .history-date-row {
   display: flex;
@@ -573,7 +565,7 @@ input[type="number"] {
 }
 
 
-/* ---------- OPEN/CLOSE TIME ---------- */
+/* TIME */
 
 .history-time-row {
   display: flex;
@@ -601,7 +593,7 @@ input[type="number"] {
 }
 
 
-/* ---------- START CASH ---------- */
+/* SPECIAL */
 
 .history-special-block {
   display: flex;
@@ -628,7 +620,7 @@ input[type="number"] {
 }
 
 
-/* ---------- INLINE ROW ---------- */
+/* INLINE */
 
 .history-inline-row {
   display: flex;
@@ -656,7 +648,7 @@ input[type="number"] {
 }
 
 
-/* ---------- CASH / CARD ---------- */
+/* MONEY */
 
 .history-money-row {
   display: flex;
@@ -678,16 +670,10 @@ input[type="number"] {
   flex-shrink: 0;
 }
 
-
-/* ---------- CLOSING ---------- */
-
 .history-closing-row {
   margin-top: 10px;
   margin-bottom: 2px;
 }
-
-
-/* ---------- COMMENT ---------- */
 
 .history-comment {
   margin-top: 12px;
@@ -1007,8 +993,6 @@ value=""
 >
 
 
-<!-- OPENING -->
-
 <div class="section">
 ОТКРЫТИЕ СМЕНЫ
 </div>
@@ -1036,8 +1020,6 @@ value=""
 inputmode="decimal"
 >
 
-
-<!-- PAYMENTS -->
 
 <div class="section">
 ОПЛАТЫ ЗА СМЕНУ
@@ -1117,8 +1099,6 @@ id="cardComment"
 <span id="paymentTotal">0</span> ₽
 </div>
 
-
-<!-- EXPENSES -->
 
 <div class="section">
 РАСХОДЫ И ИЗЪЯТИЯ
@@ -1293,8 +1273,6 @@ id="withdrawComment">
 </div>
 
 
-<!-- CLOSING -->
-
 <div class="section">
 ЗАКРЫТИЕ СМЕНЫ
 </div>
@@ -1382,16 +1360,30 @@ onclick="saveReportAndJPEG()">
   </div>
 
 
-  <!-- =================================================
-       ADD USER
-  ================================================== -->
+  <!-- ===================================================
+       СОТРУДНИКИ
+  ==================================================== -->
+
+  <div class="settings-title">
+    СОТРУДНИКИ
+  </div>
+
+
+  <div id="settingsUsers">
+  </div>
+
+
+  <!-- ===================================================
+       ДОБАВИТЬ СОТРУДНИКА
+  ==================================================== -->
+
+  <div class="settings-title"
+       style="margin-top:20px;">
+    ДОБАВИТЬ СОТРУДНИКА
+  </div>
+
 
   <div class="settings-user">
-
-    <div class="settings-user-title">
-      ДОБАВИТЬ СОТРУДНИКА
-    </div>
-
 
     <label>
       Имя
@@ -1446,34 +1438,6 @@ onclick="saveReportAndJPEG()">
       id="newUserMessage">
     </div>
 
-  </div>
-
-
-  <!-- =================================================
-       USERS
-  ================================================== -->
-
-  <div class="settings-title"
-       style="margin-top:20px;">
-    СОТРУДНИКИ
-  </div>
-
-
-  <div id="settingsUsers">
-  </div>
-
-
-  <!-- =================================================
-       DEVICES
-  ================================================== -->
-
-  <div class="settings-title"
-       style="margin-top:20px;">
-    УСТРОЙСТВА
-  </div>
-
-
-  <div id="settingsDevices">
   </div>
 
 
@@ -1725,28 +1689,12 @@ let loginInProgress = false;
 let deviceCheckTimer = null;
 
 
-/*
- * Уникальный ID браузера.
- *
- * Он работает на:
- * - iPhone / iPad
- * - Android
- * - Windows
- * - Mac
- * - других современных браузерах
- *
- * Это не IMEI и не серийный номер телефона.
- * Браузер не даёт сайту доступ к таким данным.
- */
-
 function getDeviceToken() {
 
   const storageKey =
     "a5_device_token";
 
-
   let token = "";
-
 
   try {
 
@@ -1765,20 +1713,18 @@ function getDeviceToken() {
 
   }
 
-
   if (token) {
 
     return token;
 
   }
 
-
   try {
 
     if (
       window.crypto &&
       typeof crypto.randomUUID ===
-        "function"
+      "function"
     ) {
 
       token =
@@ -1795,11 +1741,6 @@ function getDeviceToken() {
 
   }
 
-
-  /*
-   * Запасной вариант для старых браузеров
-   */
-
   if (!token) {
 
     token =
@@ -1815,7 +1756,6 @@ function getDeviceToken() {
         .substring(2, 15);
 
   }
-
 
   try {
 
@@ -1834,22 +1774,31 @@ function getDeviceToken() {
 
   }
 
-
   return token;
 
 }
 
 
 /*
- * Определяем понятное название устройства.
+ * Название устройства.
  */
 
 function getDeviceName() {
 
+  const savedName =
+    localStorage.getItem(
+      "a5_device_name"
+    );
+
+  if (savedName) {
+
+    return savedName;
+
+  }
+
   const ua =
     navigator.userAgent ||
     "";
-
 
   if (
     /iPhone/i.test(ua)
@@ -1859,7 +1808,6 @@ function getDeviceName() {
 
   }
 
-
   if (
     /iPad/i.test(ua)
   ) {
@@ -1868,14 +1816,10 @@ function getDeviceName() {
 
   }
 
-
   if (
     /Android/i.test(ua)
   ) {
 
-    /*
-     * Если это Android-планшет/телефон
-     */
     if (
       /Mobile/i.test(ua)
     ) {
@@ -1888,7 +1832,6 @@ function getDeviceName() {
 
   }
 
-
   if (
     /Windows/i.test(ua)
   ) {
@@ -1896,7 +1839,6 @@ function getDeviceName() {
     return "Windows";
 
   }
-
 
   if (
     /Macintosh|Mac OS X/i.test(ua)
@@ -1906,7 +1848,6 @@ function getDeviceName() {
 
   }
 
-
   if (
     /Linux/i.test(ua)
   ) {
@@ -1915,14 +1856,67 @@ function getDeviceName() {
 
   }
 
-
   return "Другое устройство";
 
 }
 
 
 /*
- * Останавливаем периодическую проверку.
+ * Название нового устройства.
+ */
+
+function askDeviceName() {
+
+  const defaultName =
+    getDeviceName();
+
+  const name =
+    window.prompt(
+      "Введите название этого устройства:",
+      defaultName
+    );
+
+  if (
+    name === null
+  ) {
+
+    return defaultName;
+
+  }
+
+  const cleanName =
+    name.trim();
+
+  if (!cleanName) {
+
+    return defaultName;
+
+  }
+
+  try {
+
+    localStorage.setItem(
+      "a5_device_name",
+      cleanName
+    );
+
+  }
+  catch(error) {
+
+    console.error(
+      "Не удалось сохранить название устройства:",
+      error
+    );
+
+  }
+
+  return cleanName;
+
+}
+
+
+/*
+ * Остановка проверки устройства.
  */
 
 function stopDeviceGuard() {
@@ -1944,13 +1938,12 @@ function stopDeviceGuard() {
 
 
 /*
- * Запускаем периодическую проверку устройства.
+ * Запуск проверки устройства.
  */
 
 function startDeviceGuard() {
 
   stopDeviceGuard();
-
 
   if (
     !currentUser
@@ -1960,12 +1953,6 @@ function startDeviceGuard() {
 
   }
 
-
-  /*
-   * Администратор не привязывается
-   * к устройству.
-   */
-
   if (
     currentUser.role ===
     "admin"
@@ -1974,11 +1961,6 @@ function startDeviceGuard() {
     return;
 
   }
-
-
-  /*
-   * Проверяем каждые 30 секунд.
-   */
 
   deviceCheckTimer =
     setInterval(
@@ -1990,7 +1972,7 @@ function startDeviceGuard() {
 
 
 /*
- * Проверка текущего устройства.
+ * Проверка устройства.
  */
 
 async function checkCurrentDevice() {
@@ -2004,11 +1986,6 @@ async function checkCurrentDevice() {
 
   }
 
-
-  /*
-   * Администратор не проверяется.
-   */
-
   if (
     currentUser.role ===
     "admin"
@@ -2017,7 +1994,6 @@ async function checkCurrentDevice() {
     return;
 
   }
-
 
   try {
 
@@ -2034,7 +2010,6 @@ async function checkCurrentDevice() {
 
         }
       );
-
 
     if (
       !result ||
@@ -2059,14 +2034,12 @@ async function checkCurrentDevice() {
 
 
 /*
- * Если администратор заблокировал устройство,
- * закрываем приложение.
+ * Доступ запрещён.
  */
 
 function deviceAccessDenied() {
 
   stopDeviceGuard();
-
 
   currentUser =
     null;
@@ -2083,13 +2056,11 @@ function deviceAccessDenied() {
   loginInProgress =
     false;
 
-
   document.getElementById(
     "appScreen"
   ).classList.add(
     "hidden"
   );
-
 
   document.getElementById(
     "loginScreen"
@@ -2097,13 +2068,11 @@ function deviceAccessDenied() {
     "hidden"
   );
 
-
   document.getElementById(
     "pinCard"
   ).classList.add(
     "hidden"
   );
-
 
   document.getElementById(
     "usersList"
@@ -2111,46 +2080,20 @@ function deviceAccessDenied() {
     "hidden"
   );
 
-
   const message =
     document.getElementById(
       "loginMessage"
     );
 
-
   message.className =
     "message error";
-
 
   message.textContent =
     "Доступ с этого устройства заблокирован администратором.";
 
-
   loadLoginUsers();
 
 }
-
-
-/*
- * При возвращении во вкладку
- * тоже проверяем устройство.
- */
-
-document.addEventListener(
-  "visibilitychange",
-  function() {
-
-    if (
-      document.visibilityState ===
-      "visible"
-    ) {
-
-      checkCurrentDevice();
-
-    }
-
-  }
-);
 
 
 /* =====================================================
@@ -2189,7 +2132,10 @@ function setText(id, value) {
     document.getElementById(id);
 
   if (el) {
-    el.textContent = value;
+
+    el.textContent =
+      value;
+
   }
 
 }
@@ -2241,22 +2187,23 @@ function escapeHtml(value) {
 function formatDate(dateString) {
 
   if (!dateString) {
-    return "";
-  }
 
+    return "";
+
+  }
 
   const parts =
     String(
       dateString
     ).split("-");
 
-
   if (
     parts.length !== 3
   ) {
-    return dateString;
-  }
 
+    return dateString;
+
+  }
 
   return (
     parts[2] +
@@ -2274,15 +2221,14 @@ function clearMessage(id) {
   const element =
     document.getElementById(id);
 
-
   if (!element) {
-    return;
-  }
 
+    return;
+
+  }
 
   element.className =
     "message";
-
 
   element.textContent =
     "";
@@ -2308,6 +2254,7 @@ async function callRPC(
         method: "POST",
 
         headers: {
+
           "Content-Type":
             "application/json",
 
@@ -2317,12 +2264,14 @@ async function callRPC(
           "Authorization":
             "Bearer " +
             SUPABASE_KEY
+
         },
 
         body:
           JSON.stringify(
             params
           )
+
       }
     );
 
@@ -2330,9 +2279,7 @@ async function callRPC(
   const text =
     await response.text();
 
-
   let data = null;
-
 
   try {
 
@@ -2349,12 +2296,10 @@ async function callRPC(
 
   }
 
-
   if (!response.ok) {
 
     let message =
       "Ошибка Supabase";
-
 
     if (data) {
 
@@ -2402,13 +2347,11 @@ async function callRPC(
 
     }
 
-
     throw new Error(
       message
     );
 
   }
-
 
   return data;
 
@@ -2426,12 +2369,10 @@ async function loadLoginUsers() {
       "usersLoading"
     );
 
-
   const list =
     document.getElementById(
       "usersList"
     );
-
 
   try {
 
@@ -2440,20 +2381,16 @@ async function loadLoginUsers() {
         "get_login_users"
       );
 
-
     loginUsers =
       Array.isArray(users)
         ? users
         : [];
 
-
     loading.style.display =
       "none";
 
-
     list.innerHTML =
       "";
-
 
     const baristas =
       loginUsers.filter(
@@ -2462,14 +2399,12 @@ async function loadLoginUsers() {
           "barista"
       );
 
-
     const admins =
       loginUsers.filter(
         user =>
           user.role ===
           "admin"
       );
-
 
     baristas.forEach(
       user => {
@@ -2479,10 +2414,8 @@ async function loadLoginUsers() {
             "button"
           );
 
-
         button.className =
           "login-user-button";
-
 
         button.innerHTML =
           escapeHtml(
@@ -2493,13 +2426,11 @@ async function loadLoginUsers() {
           "Бариста" +
           "</span>";
 
-
         button.onclick =
           () =>
             selectUser(
               user
             );
-
 
         list.appendChild(
           button
@@ -2518,10 +2449,8 @@ async function loadLoginUsers() {
           "div"
         );
 
-
       adminSpace.className =
         "admin-login-space";
-
 
       admins.forEach(
         user => {
@@ -2531,10 +2460,8 @@ async function loadLoginUsers() {
               "button"
             );
 
-
           button.className =
             "login-user-button admin-login-button";
-
 
           button.innerHTML =
             escapeHtml(
@@ -2545,13 +2472,11 @@ async function loadLoginUsers() {
             "Администратор" +
             "</span>";
 
-
           button.onclick =
             () =>
               selectUser(
                 user
               );
-
 
           adminSpace.appendChild(
             button
@@ -2559,7 +2484,6 @@ async function loadLoginUsers() {
 
         }
       );
-
 
       list.appendChild(
         adminSpace
@@ -2573,10 +2497,8 @@ async function loadLoginUsers() {
     loading.textContent =
       "Ошибка загрузки пользователей";
 
-
     loading.style.color =
       "#ff8b8b";
-
 
     console.error(
       error
@@ -2596,14 +2518,11 @@ function selectUser(user) {
   selectedUser =
     user;
 
-
   pinValue =
     "";
 
-
   loginInProgress =
     false;
-
 
   document.getElementById(
     "usersList"
@@ -2611,13 +2530,11 @@ function selectUser(user) {
     "hidden"
   );
 
-
   document.getElementById(
     "usersLoading"
   ).classList.add(
     "hidden"
   );
-
 
   document.getElementById(
     "pinCard"
@@ -2625,15 +2542,12 @@ function selectUser(user) {
     "hidden"
   );
 
-
   document.getElementById(
     "pinUserName"
   ).textContent =
     user.name;
 
-
   updatePinDisplay();
-
 
   clearMessage(
     "loginMessage"
@@ -2653,11 +2567,11 @@ function updatePinDisplay() {
       "pinDisplay"
     );
 
-
   if (!display) {
-    return;
-  }
 
+    return;
+
+  }
 
   if (!pinValue) {
 
@@ -2667,7 +2581,6 @@ function updatePinDisplay() {
     return;
 
   }
-
 
   display.textContent =
     "●".repeat(
@@ -2683,7 +2596,7 @@ function updatePinDisplay() {
 
 
 /* =====================================================
-   PIN INPUT
+   PIN
 ===================================================== */
 
 function pinPress(number) {
@@ -2691,23 +2604,23 @@ function pinPress(number) {
   if (
     loginInProgress
   ) {
-    return;
-  }
 
+    return;
+
+  }
 
   if (
     pinValue.length >= 4
   ) {
-    return;
-  }
 
+    return;
+
+  }
 
   pinValue +=
     number;
 
-
   updatePinDisplay();
-
 
   if (
     pinValue.length === 4
@@ -2727,25 +2640,21 @@ function pinPress(number) {
 }
 
 
-/* =====================================================
-   PIN CLEAR
-===================================================== */
-
 function pinClear() {
 
   if (
     loginInProgress
   ) {
-    return;
-  }
 
+    return;
+
+  }
 
   pinValue =
     pinValue.slice(
       0,
       -1
     );
-
 
   updatePinDisplay();
 
@@ -2761,17 +2670,16 @@ function backToUsers() {
   if (
     loginInProgress
   ) {
-    return;
-  }
 
+    return;
+
+  }
 
   selectedUser =
     null;
 
-
   pinValue =
     "";
-
 
   document.getElementById(
     "pinCard"
@@ -2779,26 +2687,22 @@ function backToUsers() {
     "hidden"
   );
 
-
   document.getElementById(
     "usersList"
   ).classList.remove(
     "hidden"
   );
 
-
   document.getElementById(
     "usersLoading"
   ).classList.remove(
     "hidden"
   );
 
-
   document.getElementById(
     "usersLoading"
   ).style.display =
     "none";
-
 
   clearMessage(
     "loginMessage"
@@ -2816,20 +2720,21 @@ async function login() {
   if (
     loginInProgress
   ) {
-    return;
-  }
 
+    return;
+
+  }
 
   if (!selectedUser) {
-    return;
-  }
 
+    return;
+
+  }
 
   const message =
     document.getElementById(
       "loginMessage"
     );
-
 
   if (
     pinValue.length !== 4
@@ -2838,34 +2743,23 @@ async function login() {
     message.className =
       "message error";
 
-
     message.textContent =
       "Введите PIN из 4 цифр";
-
 
     return;
 
   }
 
-
   loginInProgress =
     true;
-
 
   message.className =
     "message";
 
-
   message.textContent =
     "";
 
-
   try {
-
-    /*
-     * Теперь вместо старого login_by_pin
-     * используем новый RPC с проверкой устройства.
-     */
 
     const result =
       await callRPC(
@@ -2884,10 +2778,6 @@ async function login() {
         }
       );
 
-
-    /*
-     * Неверный PIN
-     */
 
     if (
       !result ||
@@ -2911,24 +2801,62 @@ async function login() {
       "pending"
     ) {
 
+      const savedDeviceName =
+        localStorage.getItem(
+          "a5_device_name"
+        );
+
+
+      if (!savedDeviceName) {
+
+        const customDeviceName =
+          askDeviceName();
+
+
+        try {
+
+          await callRPC(
+            "login_by_pin_device",
+            {
+
+              p_pin:
+                pinValue,
+
+              p_device_token:
+                getDeviceToken(),
+
+              p_device_name:
+                customDeviceName
+
+            }
+          );
+
+        }
+        catch(error) {
+
+          console.error(
+            "Не удалось сохранить название устройства:",
+            error
+          );
+
+        }
+
+      }
+
+
       loginInProgress =
         false;
-
 
       message.className =
         "message error";
 
-
       message.textContent =
         "Это устройство ожидает разрешения администратора.";
-
 
       pinValue =
         "";
 
-
       updatePinDisplay();
-
 
       return;
 
@@ -2947,21 +2875,16 @@ async function login() {
       loginInProgress =
         false;
 
-
       message.className =
         "message error";
-
 
       message.textContent =
         "Это устройство заблокировано администратором.";
 
-
       pinValue =
         "";
 
-
       updatePinDisplay();
-
 
       return;
 
@@ -2969,7 +2892,10 @@ async function login() {
 
 
     /*
-     * Устройство принадлежит другому сотруднику.
+     * Старый статус.
+     * Оставляем обработку на случай,
+     * если на сервере ещё используется
+     * старая версия функции.
      */
 
     if (
@@ -2980,30 +2906,21 @@ async function login() {
       loginInProgress =
         false;
 
-
       message.className =
         "message error";
-
 
       message.textContent =
         "Это устройство авторизовано за другим сотрудником.";
 
-
       pinValue =
         "";
 
-
       updatePinDisplay();
-
 
       return;
 
     }
 
-
-    /*
-     * Всё разрешено.
-     */
 
     if (
       result.status !==
@@ -3020,7 +2937,6 @@ async function login() {
     const user =
       result.user;
 
-
     if (!user) {
 
       throw new Error(
@@ -3033,7 +2949,6 @@ async function login() {
     currentUser =
       user;
 
-
     currentPin =
       pinValue;
 
@@ -3043,7 +2958,6 @@ async function login() {
     ).classList.add(
       "hidden"
     );
-
 
     document.getElementById(
       "appScreen"
@@ -3086,12 +3000,6 @@ async function login() {
 
     calculate();
 
-
-    /*
-     * Запускаем контроль устройства
-     * для бариста.
-     */
-
     startDeviceGuard();
 
   }
@@ -3100,19 +3008,15 @@ async function login() {
     loginInProgress =
       false;
 
-
     message.className =
       "message error";
-
 
     message.textContent =
       error.message ||
       "Ошибка входа";
 
-
     pinValue =
       "";
-
 
     updatePinDisplay();
 
@@ -3132,7 +3036,6 @@ function setToday() {
       "date"
     );
 
-
   if (
     !date.value
   ) {
@@ -3140,10 +3043,8 @@ function setToday() {
     const now =
       new Date();
 
-
     const year =
       now.getFullYear();
-
 
     const month =
       String(
@@ -3153,7 +3054,6 @@ function setToday() {
         "0"
       );
 
-
     const day =
       String(
         now.getDate()
@@ -3161,7 +3061,6 @@ function setToday() {
         2,
         "0"
       );
-
 
     date.value =
       year +
@@ -3183,26 +3082,20 @@ function logout() {
 
   stopDeviceGuard();
 
-
   currentUser =
     null;
-
 
   currentPin =
     "";
 
-
   selectedUser =
     null;
-
 
   pinValue =
     "";
 
-
   loginInProgress =
     false;
-
 
   document.getElementById(
     "appScreen"
@@ -3210,13 +3103,11 @@ function logout() {
     "hidden"
   );
 
-
   document.getElementById(
     "loginScreen"
   ).classList.remove(
     "hidden"
   );
-
 
   document.getElementById(
     "pinCard"
@@ -3224,13 +3115,11 @@ function logout() {
     "hidden"
   );
 
-
   document.getElementById(
     "usersList"
   ).classList.remove(
     "hidden"
   );
-
 
   loadLoginUsers();
 
@@ -3246,10 +3135,8 @@ function calculate() {
   const cash =
     num("cash");
 
-
   const card =
     num("card");
-
 
   setText(
     "paymentTotal",
@@ -3265,23 +3152,19 @@ function calculate() {
     num("baristaExpense2") +
     num("baristaExpense3");
 
-
   const supplierExpense =
     num("supplier1") +
     num("supplier2") +
     num("supplier3") +
     num("supplier4");
 
-
   const withdrawal =
     num("withdraw");
-
 
   const expenseTotal =
     baristaExpense +
     supplierExpense +
     withdrawal;
-
 
   setText(
     "expenseTotal",
@@ -3295,7 +3178,6 @@ function calculate() {
     num("openCash") +
     cash -
     expenseTotal;
-
 
   setText(
     "expectedCash",
@@ -3334,7 +3216,6 @@ async function saveToSupabase() {
   const date =
     val("date");
 
-
   if (!date) {
 
     throw new Error(
@@ -3342,7 +3223,6 @@ async function saveToSupabase() {
     );
 
   }
-
 
   if (!currentUser) {
 
@@ -3358,17 +3238,14 @@ async function saveToSupabase() {
     num("baristaExpense2") +
     num("baristaExpense3");
 
-
   const supplierExpense =
     num("supplier1") +
     num("supplier2") +
     num("supplier3") +
     num("supplier4");
 
-
   const withdrawal =
     num("withdraw");
-
 
   const comments = [];
 
@@ -3399,7 +3276,6 @@ async function saveToSupabase() {
         val(
           item[1]
         ).trim();
-
 
       if (text) {
 
@@ -3473,7 +3349,7 @@ async function saveToSupabase() {
 
 
 /* =====================================================
-   UPLOAD JPEG TO STORAGE
+   UPLOAD JPEG
 ===================================================== */
 
 async function uploadReportImage(
@@ -3488,7 +3364,6 @@ async function uploadReportImage(
     );
 
   }
-
 
   if (!blob) {
 
@@ -3525,6 +3400,7 @@ async function uploadReportImage(
     await fetch(
       uploadUrl,
       {
+
         method: "POST",
 
         headers: {
@@ -3546,6 +3422,7 @@ async function uploadReportImage(
 
         body:
           blob
+
       }
     );
 
@@ -3559,14 +3436,12 @@ async function uploadReportImage(
     let message =
       "Ошибка загрузки JPG";
 
-
     try {
 
       const data =
         text
           ? JSON.parse(text)
           : null;
-
 
       if (
         data &&
@@ -3599,19 +3474,19 @@ async function uploadReportImage(
     catch(e) {
 
       if (text) {
+
         message =
           text;
+
       }
 
     }
-
 
     throw new Error(
       message
     );
 
   }
-
 
   return path;
 
@@ -3663,18 +3538,15 @@ function fillReportRow(
       rowId
     );
 
-
   const amount =
     val(
       amountId
     ).trim();
 
-
   const comment =
     val(
       commentId
     ).trim();
-
 
   if (
     !amount &&
@@ -3684,15 +3556,12 @@ function fillReportRow(
     row.style.display =
       "none";
 
-
     return;
 
   }
 
-
   row.style.display =
     "";
-
 
   setText(
     reportAmountId,
@@ -3701,7 +3570,6 @@ function fillReportRow(
     ) +
     " ₽"
   );
-
 
   setText(
     reportCommentId,
@@ -3756,7 +3624,6 @@ function createReport() {
       "cash"
     ).trim();
 
-
   const card =
     val(
       "card"
@@ -3767,7 +3634,6 @@ function createReport() {
     document.getElementById(
       "rCashRow"
     );
-
 
   const cardRow =
     document.getElementById(
@@ -3786,7 +3652,6 @@ function createReport() {
     cashRow.style.display =
       "";
 
-
     setText(
       "rCash",
       money(
@@ -3794,7 +3659,6 @@ function createReport() {
       ) +
       " ₽"
     );
-
 
     setText(
       "rCashComment",
@@ -3817,7 +3681,6 @@ function createReport() {
     cardRow.style.display =
       "";
 
-
     setText(
       "rCard",
       money(
@@ -3825,7 +3688,6 @@ function createReport() {
       ) +
       " ₽"
     );
-
 
     setText(
       "rCardComment",
@@ -4006,7 +3868,7 @@ async function makeJPEG() {
 
 
 /* =====================================================
-   SAVE + JPEG + STORAGE
+   SAVE + JPEG
 ===================================================== */
 
 async function saveReportAndJPEG() {
@@ -4020,16 +3882,11 @@ async function saveReportAndJPEG() {
   message.className =
     "message";
 
-
   message.textContent =
     "Сохранение отчёта...";
 
 
   try {
-
-    /* ---------------------------------
-       1. SAVE REPORT
-    --------------------------------- */
 
     const reportId =
       await saveToSupabase();
@@ -4044,10 +3901,6 @@ async function saveReportAndJPEG() {
     }
 
 
-    /* ---------------------------------
-       2. CREATE JPEG
-    --------------------------------- */
-
     const blob =
       await makeJPEG();
 
@@ -4061,10 +3914,6 @@ async function saveReportAndJPEG() {
     }
 
 
-    /* ---------------------------------
-       3. UPLOAD JPEG
-    --------------------------------- */
-
     message.textContent =
       "Загрузка фото отчёта...";
 
@@ -4076,19 +3925,11 @@ async function saveReportAndJPEG() {
       );
 
 
-    /* ---------------------------------
-       4. SAVE IMAGE PATH
-    --------------------------------- */
-
     await saveReportImagePath(
       reportId,
       imagePath
     );
 
-
-    /* ---------------------------------
-       5. SHARE / DOWNLOAD
-    --------------------------------- */
 
     const file =
       new File(
@@ -4135,31 +3976,24 @@ async function saveReportAndJPEG() {
           blob
         );
 
-
       const link =
         document.createElement(
           "a"
         );
 
-
       link.href =
         url;
 
-
       link.download =
         file.name;
-
 
       document.body.appendChild(
         link
       );
 
-
       link.click();
 
-
       link.remove();
-
 
       URL.revokeObjectURL(
         url
@@ -4171,7 +4005,6 @@ async function saveReportAndJPEG() {
     message.className =
       "message success";
 
-
     message.textContent =
       "Отчёт сохранён";
 
@@ -4182,10 +4015,8 @@ async function saveReportAndJPEG() {
       error
     );
 
-
     message.className =
       "message error";
-
 
     message.textContent =
       error.message ||
@@ -4197,7 +4028,7 @@ async function saveReportAndJPEG() {
 
 
 /* =====================================================
-   CREATE SIGNED IMAGE URL
+   IMAGE URL
 ===================================================== */
 
 async function getReportImageUrl(
@@ -4309,7 +4140,7 @@ async function getReportImageUrl(
 
 
 /* =====================================================
-   OPEN REPORT IMAGE
+   OPEN IMAGE
 ===================================================== */
 
 async function openReportImage(
@@ -4322,7 +4153,6 @@ async function openReportImage(
       await getReportImageUrl(
         imagePath
       );
-
 
     window.location.href =
       url;
@@ -4351,12 +4181,10 @@ function toggleHistory() {
       "formScreen"
     );
 
-
   const history =
     document.getElementById(
       "historyScreen"
     );
-
 
   const settings =
     document.getElementById(
@@ -4379,11 +4207,9 @@ function toggleHistory() {
       "hidden"
     );
 
-
     history.classList.remove(
       "hidden"
     );
-
 
     loadHistory();
 
@@ -4393,7 +4219,6 @@ function toggleHistory() {
     history.classList.add(
       "hidden"
     );
-
 
     form.classList.remove(
       "hidden"
@@ -4405,7 +4230,7 @@ function toggleHistory() {
 
 
 /* =====================================================
-   BARISTA HISTORY COLOR
+   BARISTA COLOR
 ===================================================== */
 
 function getBaristaColorClass(name) {
@@ -4467,7 +4292,7 @@ function getBaristaColorClass(name) {
 
 
 /* =====================================================
-   HISTORY MONEY ROW
+   HISTORY ROW
 ===================================================== */
 
 function addHistoryRow(
@@ -4481,10 +4306,8 @@ function addHistoryRow(
       "div"
     );
 
-
   row.className =
     "history-money-row";
-
 
   row.innerHTML =
     "<span>" +
@@ -4499,7 +4322,6 @@ function addHistoryRow(
     ) +
     "</span>";
 
-
   item.appendChild(
     row
   );
@@ -4508,7 +4330,7 @@ function addHistoryRow(
 
 
 /* =====================================================
-   HISTORY INLINE ROW
+   HISTORY INLINE
 ===================================================== */
 
 function addHistoryInline(
@@ -4522,10 +4344,8 @@ function addHistoryInline(
       "div"
     );
 
-
   row.className =
     "history-inline-row";
-
 
   row.innerHTML =
     '<span class="history-inline-title">' +
@@ -4539,7 +4359,6 @@ function addHistoryInline(
       value
     ) +
     "</span>";
-
 
   item.appendChild(
     row
@@ -4586,7 +4405,6 @@ async function loadHistory() {
       list.innerHTML =
         '<div style="color:#aaa;text-align:center;padding:15px;">Отчётов пока нет</div>';
 
-
       return;
 
     }
@@ -4600,7 +4418,6 @@ async function loadHistory() {
             "div"
           );
 
-
         item.className =
           "history-item";
 
@@ -4610,13 +4427,11 @@ async function loadHistory() {
             "div"
           );
 
-
         baristaHeader.className =
           "history-barista-header " +
           getBaristaColorClass(
             report.user_name
           );
-
 
         baristaHeader.textContent =
           "БАРИСТА — " +
@@ -4624,7 +4439,6 @@ async function loadHistory() {
             report.user_name ||
             "Не указан"
           );
-
 
         item.appendChild(
           baristaHeader
@@ -4636,7 +4450,6 @@ async function loadHistory() {
             "div"
           );
 
-
         dateRow.className =
           "history-date-row";
 
@@ -4646,10 +4459,8 @@ async function loadHistory() {
             "div"
           );
 
-
         dateTitle.className =
           "history-date-title";
-
 
         dateTitle.textContent =
           "Дата";
@@ -4660,10 +4471,8 @@ async function loadHistory() {
             "div"
           );
 
-
         dateValue.className =
           "history-date-value";
-
 
         dateValue.textContent =
           formatDate(
@@ -4677,11 +4486,9 @@ async function loadHistory() {
           dateTitle
         );
 
-
         dateRow.appendChild(
           dateValue
         );
-
 
         item.appendChild(
           dateRow
@@ -4692,7 +4499,6 @@ async function loadHistory() {
           document.createElement(
             "div"
           );
-
 
         timeRow.className =
           "history-time-row";
@@ -4725,10 +4531,8 @@ async function loadHistory() {
             "div"
           );
 
-
         openingElement.className =
           "history-opening-time";
-
 
         openingElement.innerHTML =
           "<span>" +
@@ -4747,10 +4551,8 @@ async function loadHistory() {
             "div"
           );
 
-
         closingElement.className =
           "history-closing-time";
-
 
         closingElement.innerHTML =
           "<span>" +
@@ -4768,11 +4570,9 @@ async function loadHistory() {
           openingElement
         );
 
-
         timeRow.appendChild(
           closingElement
         );
-
 
         item.appendChild(
           timeRow
@@ -4784,10 +4584,8 @@ async function loadHistory() {
             "div"
           );
 
-
         openingBlock.className =
           "history-special-block";
-
 
         openingBlock.innerHTML =
 
@@ -4802,7 +4600,6 @@ async function loadHistory() {
           ) +
           " ₽" +
           "</span>";
-
 
         item.appendChild(
           openingBlock
@@ -4897,10 +4694,8 @@ async function loadHistory() {
             "div"
           );
 
-
         closingRow.className =
           "history-inline-row history-closing-row";
-
 
         closingRow.innerHTML =
 
@@ -4916,7 +4711,6 @@ async function loadHistory() {
           " ₽" +
           "</span>";
 
-
         item.appendChild(
           closingRow
         );
@@ -4931,17 +4725,14 @@ async function loadHistory() {
               "div"
             );
 
-
           comment.className =
             "history-comment";
-
 
           comment.innerHTML =
             "<strong>Комментарий:</strong> " +
             escapeHtml(
               report.comment_barista
             );
-
 
           item.appendChild(
             comment
@@ -4959,14 +4750,11 @@ async function loadHistory() {
               "a"
             );
 
-
           photoLink.href =
             "#";
 
-
           photoLink.className =
             "history-photo-link";
-
 
           photoLink.textContent =
             "📷 Открыть фото отчёта";
@@ -4976,7 +4764,6 @@ async function loadHistory() {
             async function(event) {
 
               event.preventDefault();
-
 
               photoLink.textContent =
                 "📷 Открываю фото...";
@@ -4988,17 +4775,17 @@ async function loadHistory() {
                   report.report_image_url
                 );
 
-
-                photoLink.textContent =
-                  "📷 Открыть фото отчёта";
-
               }
               catch(error) {
 
-                photoLink.textContent =
-                  "📷 Открыть фото отчёта";
+                console.error(
+                  error
+                );
 
               }
+
+              photoLink.textContent =
+                "📷 Открыть фото отчёта";
 
             };
 
@@ -5054,12 +4841,10 @@ function toggleSettings() {
       "formScreen"
     );
 
-
   const history =
     document.getElementById(
       "historyScreen"
     );
-
 
   const settings =
     document.getElementById(
@@ -5082,15 +4867,11 @@ function toggleSettings() {
       "hidden"
     );
 
-
     settings.classList.remove(
       "hidden"
     );
 
-
     loadSettingsUsers();
-
-    loadSettingsDevices();
 
   }
   else {
@@ -5098,7 +4879,6 @@ function toggleSettings() {
     settings.classList.add(
       "hidden"
     );
-
 
     form.classList.remove(
       "hidden"
@@ -5110,7 +4890,7 @@ function toggleSettings() {
 
 
 /* =====================================================
-   SETTINGS USERS
+   SETTINGS USERS + DEVICES
 ===================================================== */
 
 async function loadSettingsUsers() {
@@ -5127,10 +4907,34 @@ async function loadSettingsUsers() {
 
   try {
 
+    /*
+     * Загружаем сотрудников и устройства
+     * одновременно.
+     */
+
+    const results =
+      await Promise.all([
+
+        callRPC(
+          "get_login_users"
+        ),
+
+        callRPC(
+          "get_devices_admin",
+          {
+            p_admin_pin:
+              currentPin
+          }
+        )
+
+      ]);
+
+
     const users =
-      await callRPC(
-        "get_login_users"
-      );
+      results[0];
+
+    const devices =
+      results[1];
 
 
     container.innerHTML =
@@ -5168,6 +4972,240 @@ async function loadSettingsUsers() {
             ? "Администратор"
             : "Бариста";
 
+
+        /*
+         * Берём только устройства этого сотрудника.
+         */
+
+        const userDevices =
+          Array.isArray(devices)
+            ? devices.filter(
+                device =>
+                  String(
+                    device.user_id
+                  ) ===
+                  String(
+                    user.id
+                  )
+              )
+            : [];
+
+
+        let devicesHtml =
+          "";
+
+
+        /*
+         * Если устройств нет.
+         */
+
+        if (
+          userDevices.length === 0
+        ) {
+
+          devicesHtml =
+
+            '<div style="' +
+            'color:#777;' +
+            'font-size:13px;' +
+            'padding:8px 0;' +
+            '">' +
+
+            "Авторизованных устройств пока нет" +
+
+            "</div>";
+
+        }
+
+
+        /*
+         * Если устройства есть.
+         */
+
+        else {
+
+          userDevices.forEach(
+            device => {
+
+              const deviceName =
+                device.device_name ||
+                "Неизвестное устройство";
+
+
+              const statusText =
+                getDeviceStatusText(
+                  device.status
+                );
+
+
+              let deviceButtons =
+                "";
+
+
+              /*
+               * PENDING
+               */
+
+              if (
+                device.status ===
+                "pending"
+              ) {
+
+                deviceButtons =
+
+                  '<button ' +
+                  'class="main-button settings-save" ' +
+                  'style="margin-top:8px;" ' +
+                  'onclick="setDeviceStatus(\'' +
+                  escapeHtml(
+                    device.id
+                  ) +
+                  '\', \'active\')">' +
+                  "РАЗРЕШИТЬ" +
+                  "</button>" +
+
+                  '<button ' +
+                  'class="main-button settings-delete" ' +
+                  'style="margin-top:8px;" ' +
+                  'onclick="setDeviceStatus(\'' +
+                  escapeHtml(
+                    device.id
+                  ) +
+                  '\', \'blocked\')">' +
+                  "ЗАБЛОКИРОВАТЬ" +
+                  "</button>";
+
+              }
+
+
+              /*
+               * ACTIVE
+               */
+
+              else if (
+                device.status ===
+                "active"
+              ) {
+
+                deviceButtons =
+
+                  '<button ' +
+                  'class="main-button settings-delete" ' +
+                  'style="margin-top:8px;" ' +
+                  'onclick="setDeviceStatus(\'' +
+                  escapeHtml(
+                    device.id
+                  ) +
+                  '\', \'blocked\')">' +
+                  "ЗАБЛОКИРОВАТЬ" +
+                  "</button>";
+
+              }
+
+
+              /*
+               * BLOCKED
+               */
+
+              else if (
+                device.status ===
+                "blocked"
+              ) {
+
+                deviceButtons =
+
+                  '<button ' +
+                  'class="main-button settings-delete" ' +
+                  'style="margin-top:8px;" ' +
+                  'onclick="deleteDevice(\'' +
+                  escapeHtml(
+                    device.id
+                  ) +
+                  '\')">' +
+                  "УДАЛИТЬ" +
+                  "</button>";
+
+              }
+
+
+              devicesHtml +=
+
+                '<div style="' +
+                'margin-top:8px;' +
+                'padding:9px;' +
+                'background:#181818;' +
+                'border:1px solid #3d3d3d;' +
+                'border-radius:5px;' +
+                '">' +
+
+                '<div style="' +
+                'font-size:15px;' +
+                'font-weight:600;' +
+                '">' +
+
+                escapeHtml(
+                  deviceName
+                ) +
+
+                "</div>" +
+
+                '<div style="' +
+                'margin-top:5px;' +
+                'font-size:13px;' +
+                'color:#ccc;' +
+                '">' +
+
+                escapeHtml(
+                  statusText
+                ) +
+
+                "</div>" +
+
+                '<div style="' +
+                'margin-top:5px;' +
+                'color:#777;' +
+                'font-size:11px;' +
+                '">' +
+
+                "Добавлено: " +
+
+                escapeHtml(
+                  formatDateTime(
+                    device.created_at
+                  )
+                ) +
+
+                "</div>" +
+
+                '<div style="' +
+                'margin-top:3px;' +
+                'color:#777;' +
+                'font-size:11px;' +
+                '">' +
+
+                "Последняя активность: " +
+
+                escapeHtml(
+                  formatDateTime(
+                    device.last_seen_at
+                  )
+                ) +
+
+                "</div>" +
+
+                deviceButtons +
+
+                "</div>";
+
+            }
+          );
+
+        }
+
+
+        /*
+         * Карточка сотрудника.
+         */
 
         block.innerHTML =
 
@@ -5240,7 +5278,31 @@ async function loadSettingsUsers() {
           escapeHtml(
             user.id
           ) +
-          '"></div>';
+          '"></div>' +
+
+          /*
+           * Устройства сотрудника.
+           */
+
+          '<div style="' +
+          'margin-top:18px;' +
+          'padding-top:10px;' +
+          'border-top:1px solid #444;' +
+          '">' +
+
+          '<div style="' +
+          'font-size:14px;' +
+          'font-weight:600;' +
+          'margin-bottom:5px;' +
+          '">' +
+
+          "УСТРОЙСТВА СОТРУДНИКА" +
+
+          "</div>" +
+
+          devicesHtml +
+
+          "</div>";
 
 
         container.appendChild(
@@ -5266,7 +5328,7 @@ async function loadSettingsUsers() {
 
 
 /* =====================================================
-   SETTINGS DEVICES
+   DEVICE HELPERS
 ===================================================== */
 
 function getDeviceStatusText(status) {
@@ -5296,15 +5358,12 @@ function getDeviceStatusText(status) {
 }
 
 
-/*
- * Показываем дату в формате:
- * 24.09.2026 14:35
- */
-
 function formatDateTime(value) {
 
   if (!value) {
+
     return "—";
+
   }
 
 
@@ -5337,245 +5396,26 @@ function formatDateTime(value) {
 }
 
 
-/*
- * Загрузка списка устройств
- * для администратора.
- */
+/* =====================================================
+   OLD DEVICE LIST
+   Оставлена для совместимости.
+===================================================== */
 
 async function loadSettingsDevices() {
 
-  const container =
-    document.getElementById(
-      "settingsDevices"
-    );
+  /*
+   * Теперь устройства отображаются
+   * внутри карточек сотрудников.
+   */
 
-
-  if (!container) {
-    return;
-  }
-
-
-  container.innerHTML =
-    '<div style="color:#aaa;">Загрузка устройств...</div>';
-
-
-  try {
-
-    const devices =
-      await callRPC(
-        "get_devices_admin",
-        {
-
-          p_admin_pin:
-            currentPin
-
-        }
-      );
-
-
-    container.innerHTML =
-      "";
-
-
-    if (
-      !Array.isArray(
-        devices
-      ) ||
-      devices.length === 0
-    ) {
-
-      container.innerHTML =
-        '<div style="color:#aaa;text-align:center;padding:10px;">Устройств пока нет</div>';
-
-      return;
-
-    }
-
-
-    devices.forEach(
-      device => {
-
-        const block =
-          document.createElement(
-            "div"
-          );
-
-
-        block.className =
-          "settings-user";
-
-
-        const statusText =
-          getDeviceStatusText(
-            device.status
-          );
-
-
-        const deviceName =
-          device.device_name ||
-          "Неизвестное устройство";
-
-
-        const userName =
-          device.user_name ||
-          "Неизвестный пользователь";
-
-
-        let buttons =
-          "";
-
-
-        /*
-         * Ожидающее устройство:
-         * Разрешить / Заблокировать
-         */
-
-        if (
-          device.status ===
-          "pending"
-        ) {
-
-          buttons =
-
-            '<button ' +
-            'class="main-button settings-save" ' +
-            'onclick="setDeviceStatus(\'' +
-            escapeHtml(
-              device.id
-            ) +
-            '\', \'active\')">' +
-            "РАЗРЕШИТЬ" +
-            "</button>" +
-
-            '<button ' +
-            'class="main-button settings-delete" ' +
-            'onclick="setDeviceStatus(\'' +
-            escapeHtml(
-              device.id
-            ) +
-            '\', \'blocked\')">' +
-            "ЗАБЛОКИРОВАТЬ" +
-            "</button>";
-
-        }
-
-
-        /*
-         * Авторизованное:
-         * Заблокировать
-         */
-
-        else if (
-          device.status ===
-          "active"
-        ) {
-
-          buttons =
-
-            '<button ' +
-            'class="main-button settings-delete" ' +
-            'onclick="setDeviceStatus(\'' +
-            escapeHtml(
-              device.id
-            ) +
-            '\', \'blocked\')">' +
-            "ЗАБЛОКИРОВАТЬ" +
-            "</button>";
-
-        }
-
-
-        /*
-         * Заблокированное:
-         * Разрешить снова
-         */
-
-        else if (
-          device.status ===
-          "blocked"
-        ) {
-
-          buttons =
-
-            '<button ' +
-            'class="main-button settings-save" ' +
-            'onclick="setDeviceStatus(\'' +
-            escapeHtml(
-              device.id
-            ) +
-            '\', \'active\')">' +
-            "РАЗРЕШИТЬ СНОВА" +
-            "</button>";
-
-        }
-
-
-        block.innerHTML =
-
-          '<div class="settings-user-title">' +
-          escapeHtml(
-            userName
-          ) +
-          "</div>" +
-
-          '<div class="settings-role">' +
-          escapeHtml(
-            deviceName
-          ) +
-          "</div>" +
-
-          '<div style="margin-top:7px;">' +
-          escapeHtml(
-            statusText
-          ) +
-          "</div>" +
-
-          '<div style="margin-top:7px;color:#999;font-size:12px;">' +
-          "Добавлено: " +
-          escapeHtml(
-            formatDateTime(
-              device.created_at
-            )
-          ) +
-          "</div>" +
-
-          '<div style="margin-top:3px;color:#999;font-size:12px;">' +
-          "Последняя активность: " +
-          escapeHtml(
-            formatDateTime(
-              device.last_seen_at
-            )
-          ) +
-          "</div>" +
-
-          buttons;
-
-
-        container.appendChild(
-          block
-        );
-
-      }
-    );
-
-  }
-  catch(error) {
-
-    container.innerHTML =
-      '<div class="message error" style="display:block">' +
-      escapeHtml(
-        error.message
-      ) +
-      "</div>";
-
-  }
+  return loadSettingsUsers();
 
 }
 
 
-/*
- * Изменение статуса устройства.
- */
+/* =====================================================
+   CHANGE DEVICE STATUS
+===================================================== */
 
 async function setDeviceStatus(
   deviceId,
@@ -5669,7 +5509,7 @@ async function setDeviceStatus(
     }
 
 
-    await loadSettingsDevices();
+    await loadSettingsUsers();
 
   }
   catch(error) {
@@ -5677,6 +5517,87 @@ async function setDeviceStatus(
     alert(
       error.message ||
       "Ошибка изменения устройства"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   DELETE DEVICE
+===================================================== */
+
+async function deleteDevice(
+  deviceId
+) {
+
+  if (
+    !currentUser ||
+    currentUser.role !==
+    "admin"
+  ) {
+
+    return;
+
+  }
+
+
+  const confirmed =
+    confirm(
+      "Удалить это устройство?\n\n" +
+      "Сначала оно будет заблокировано, " +
+      "после чего полностью удалено из списка устройств."
+    );
+
+
+  if (!confirmed) {
+
+    return;
+
+  }
+
+
+  try {
+
+    const result =
+      await callRPC(
+        "delete_device_admin",
+        {
+
+          p_admin_pin:
+            currentPin,
+
+          p_device_id:
+            deviceId
+
+        }
+      );
+
+
+    if (
+      !result ||
+      result.success !== true
+    ) {
+
+      throw new Error(
+        result &&
+        result.message
+          ? result.message
+          : "Не удалось удалить устройство"
+      );
+
+    }
+
+
+    await loadSettingsUsers();
+
+  }
+  catch(error) {
+
+    alert(
+      error.message ||
+      "Ошибка удаления устройства"
     );
 
   }
@@ -5719,10 +5640,8 @@ async function addUserAccount() {
     message.className =
       "message error";
 
-
     message.textContent =
       "Введите имя";
-
 
     return;
 
@@ -5738,10 +5657,8 @@ async function addUserAccount() {
     message.className =
       "message error";
 
-
     message.textContent =
       "PIN должен состоять из 4 цифр";
-
 
     return;
 
@@ -5752,7 +5669,6 @@ async function addUserAccount() {
 
     message.className =
       "message";
-
 
     message.textContent =
       "Добавление...";
@@ -5781,7 +5697,6 @@ async function addUserAccount() {
     message.className =
       "message success";
 
-
     message.textContent =
       "Сотрудник добавлен";
 
@@ -5807,7 +5722,6 @@ async function addUserAccount() {
 
     message.className =
       "message error";
-
 
     message.textContent =
       error.message ||
@@ -5852,10 +5766,8 @@ async function updateUserAccount(
     message.className =
       "message error";
 
-
     message.textContent =
       "Введите имя";
-
 
     return;
 
@@ -5871,10 +5783,8 @@ async function updateUserAccount(
     message.className =
       "message error";
 
-
     message.textContent =
       "PIN должен состоять из 4 цифр";
-
 
     return;
 
@@ -5885,7 +5795,6 @@ async function updateUserAccount(
 
     message.className =
       "message";
-
 
     message.textContent =
       "Сохранение...";
@@ -5914,7 +5823,6 @@ async function updateUserAccount(
     message.className =
       "message success";
 
-
     message.textContent =
       "Сохранено";
 
@@ -5928,7 +5836,6 @@ async function updateUserAccount(
 
     message.className =
       "message error";
-
 
     message.textContent =
       error.message ||
@@ -5967,7 +5874,9 @@ async function deleteUserAccount(
 
 
   if (!confirmed) {
+
     return;
+
   }
 
 
@@ -5991,8 +5900,6 @@ async function deleteUserAccount(
 
     await loadSettingsUsers();
 
-    await loadSettingsDevices();
-
   }
   catch(error) {
 
@@ -6015,12 +5922,10 @@ document.addEventListener(
   function() {
 
     /*
-     * Создаём ID устройства сразу,
-     * независимо от типа устройства.
+     * Создаём ID устройства сразу.
      */
 
     getDeviceToken();
-
 
     loadLoginUsers();
 
