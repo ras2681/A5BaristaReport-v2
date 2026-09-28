@@ -1360,12 +1360,30 @@ onclick="saveReportAndJPEG()">
   </div>
 
 
+  <!-- ===================================================
+       СОТРУДНИКИ
+  ==================================================== -->
+
+  <div class="settings-title">
+    СОТРУДНИКИ
+  </div>
+
+
+  <div id="settingsUsers">
+  </div>
+
+
+  <!-- ===================================================
+       ДОБАВИТЬ СОТРУДНИКА
+  ==================================================== -->
+
+  <div class="settings-title"
+       style="margin-top:20px;">
+    ДОБАВИТЬ СОТРУДНИКА
+  </div>
+
+
   <div class="settings-user">
-
-    <div class="settings-user-title">
-      ДОБАВИТЬ СОТРУДНИКА
-    </div>
-
 
     <label>
       Имя
@@ -1420,26 +1438,6 @@ onclick="saveReportAndJPEG()">
       id="newUserMessage">
     </div>
 
-  </div>
-
-
-  <div class="settings-title"
-       style="margin-top:20px;">
-    СОТРУДНИКИ
-  </div>
-
-
-  <div id="settingsUsers">
-  </div>
-
-
-  <div class="settings-title"
-       style="margin-top:20px;">
-    УСТРОЙСТВА
-  </div>
-
-
-  <div id="settingsDevices">
   </div>
 
 
@@ -1783,9 +1781,6 @@ function getDeviceToken() {
 
 /*
  * Название устройства.
- *
- * Если пользователь уже задавал своё название,
- * оно используется вместо автоматического.
  */
 
 function getDeviceName() {
@@ -2099,23 +2094,6 @@ function deviceAccessDenied() {
   loadLoginUsers();
 
 }
-
-
-document.addEventListener(
-  "visibilitychange",
-  function() {
-
-    if (
-      document.visibilityState ===
-      "visible"
-    ) {
-
-      checkCurrentDevice();
-
-    }
-
-  }
-);
 
 
 /* =====================================================
@@ -2835,12 +2813,6 @@ async function login() {
           askDeviceName();
 
 
-        /*
-         * Второй вызов сохраняет
-         * пользовательское название
-         * в существующую pending-запись.
-         */
-
         try {
 
           await callRPC(
@@ -2920,8 +2892,10 @@ async function login() {
 
 
     /*
-     * Устройство принадлежит
-     * другому сотруднику.
+     * Старый статус.
+     * Оставляем обработку на случай,
+     * если на сервере ещё используется
+     * старая версия функции.
      */
 
     if (
@@ -4899,8 +4873,6 @@ function toggleSettings() {
 
     loadSettingsUsers();
 
-    loadSettingsDevices();
-
   }
   else {
 
@@ -4918,7 +4890,7 @@ function toggleSettings() {
 
 
 /* =====================================================
-   SETTINGS USERS
+   SETTINGS USERS + DEVICES
 ===================================================== */
 
 async function loadSettingsUsers() {
@@ -4935,10 +4907,34 @@ async function loadSettingsUsers() {
 
   try {
 
+    /*
+     * Загружаем сотрудников и устройства
+     * одновременно.
+     */
+
+    const results =
+      await Promise.all([
+
+        callRPC(
+          "get_login_users"
+        ),
+
+        callRPC(
+          "get_devices_admin",
+          {
+            p_admin_pin:
+              currentPin
+          }
+        )
+
+      ]);
+
+
     const users =
-      await callRPC(
-        "get_login_users"
-      );
+      results[0];
+
+    const devices =
+      results[1];
 
 
     container.innerHTML =
@@ -4966,6 +4962,7 @@ async function loadSettingsUsers() {
             "div"
           );
 
+
         block.className =
           "settings-user";
 
@@ -4975,6 +4972,240 @@ async function loadSettingsUsers() {
             ? "Администратор"
             : "Бариста";
 
+
+        /*
+         * Берём только устройства этого сотрудника.
+         */
+
+        const userDevices =
+          Array.isArray(devices)
+            ? devices.filter(
+                device =>
+                  String(
+                    device.user_id
+                  ) ===
+                  String(
+                    user.id
+                  )
+              )
+            : [];
+
+
+        let devicesHtml =
+          "";
+
+
+        /*
+         * Если устройств нет.
+         */
+
+        if (
+          userDevices.length === 0
+        ) {
+
+          devicesHtml =
+
+            '<div style="' +
+            'color:#777;' +
+            'font-size:13px;' +
+            'padding:8px 0;' +
+            '">' +
+
+            "Авторизованных устройств пока нет" +
+
+            "</div>";
+
+        }
+
+
+        /*
+         * Если устройства есть.
+         */
+
+        else {
+
+          userDevices.forEach(
+            device => {
+
+              const deviceName =
+                device.device_name ||
+                "Неизвестное устройство";
+
+
+              const statusText =
+                getDeviceStatusText(
+                  device.status
+                );
+
+
+              let deviceButtons =
+                "";
+
+
+              /*
+               * PENDING
+               */
+
+              if (
+                device.status ===
+                "pending"
+              ) {
+
+                deviceButtons =
+
+                  '<button ' +
+                  'class="main-button settings-save" ' +
+                  'style="margin-top:8px;" ' +
+                  'onclick="setDeviceStatus(\'' +
+                  escapeHtml(
+                    device.id
+                  ) +
+                  '\', \'active\')">' +
+                  "РАЗРЕШИТЬ" +
+                  "</button>" +
+
+                  '<button ' +
+                  'class="main-button settings-delete" ' +
+                  'style="margin-top:8px;" ' +
+                  'onclick="setDeviceStatus(\'' +
+                  escapeHtml(
+                    device.id
+                  ) +
+                  '\', \'blocked\')">' +
+                  "ЗАБЛОКИРОВАТЬ" +
+                  "</button>";
+
+              }
+
+
+              /*
+               * ACTIVE
+               */
+
+              else if (
+                device.status ===
+                "active"
+              ) {
+
+                deviceButtons =
+
+                  '<button ' +
+                  'class="main-button settings-delete" ' +
+                  'style="margin-top:8px;" ' +
+                  'onclick="setDeviceStatus(\'' +
+                  escapeHtml(
+                    device.id
+                  ) +
+                  '\', \'blocked\')">' +
+                  "ЗАБЛОКИРОВАТЬ" +
+                  "</button>";
+
+              }
+
+
+              /*
+               * BLOCKED
+               */
+
+              else if (
+                device.status ===
+                "blocked"
+              ) {
+
+                deviceButtons =
+
+                  '<button ' +
+                  'class="main-button settings-delete" ' +
+                  'style="margin-top:8px;" ' +
+                  'onclick="deleteDevice(\'' +
+                  escapeHtml(
+                    device.id
+                  ) +
+                  '\')">' +
+                  "УДАЛИТЬ" +
+                  "</button>";
+
+              }
+
+
+              devicesHtml +=
+
+                '<div style="' +
+                'margin-top:8px;' +
+                'padding:9px;' +
+                'background:#181818;' +
+                'border:1px solid #3d3d3d;' +
+                'border-radius:5px;' +
+                '">' +
+
+                '<div style="' +
+                'font-size:15px;' +
+                'font-weight:600;' +
+                '">' +
+
+                escapeHtml(
+                  deviceName
+                ) +
+
+                "</div>" +
+
+                '<div style="' +
+                'margin-top:5px;' +
+                'font-size:13px;' +
+                'color:#ccc;' +
+                '">' +
+
+                escapeHtml(
+                  statusText
+                ) +
+
+                "</div>" +
+
+                '<div style="' +
+                'margin-top:5px;' +
+                'color:#777;' +
+                'font-size:11px;' +
+                '">' +
+
+                "Добавлено: " +
+
+                escapeHtml(
+                  formatDateTime(
+                    device.created_at
+                  )
+                ) +
+
+                "</div>" +
+
+                '<div style="' +
+                'margin-top:3px;' +
+                'color:#777;' +
+                'font-size:11px;' +
+                '">' +
+
+                "Последняя активность: " +
+
+                escapeHtml(
+                  formatDateTime(
+                    device.last_seen_at
+                  )
+                ) +
+
+                "</div>" +
+
+                deviceButtons +
+
+                "</div>";
+
+            }
+          );
+
+        }
+
+
+        /*
+         * Карточка сотрудника.
+         */
 
         block.innerHTML =
 
@@ -5047,7 +5278,31 @@ async function loadSettingsUsers() {
           escapeHtml(
             user.id
           ) +
-          '"></div>';
+          '"></div>' +
+
+          /*
+           * Устройства сотрудника.
+           */
+
+          '<div style="' +
+          'margin-top:18px;' +
+          'padding-top:10px;' +
+          'border-top:1px solid #444;' +
+          '">' +
+
+          '<div style="' +
+          'font-size:14px;' +
+          'font-weight:600;' +
+          'margin-bottom:5px;' +
+          '">' +
+
+          "УСТРОЙСТВА СОТРУДНИКА" +
+
+          "</div>" +
+
+          devicesHtml +
+
+          "</div>";
 
 
         container.appendChild(
@@ -5073,7 +5328,7 @@ async function loadSettingsUsers() {
 
 
 /* =====================================================
-   DEVICE SETTINGS
+   DEVICE HELPERS
 ===================================================== */
 
 function getDeviceStatusText(status) {
@@ -5142,238 +5397,18 @@ function formatDateTime(value) {
 
 
 /* =====================================================
-   LOAD DEVICES
+   OLD DEVICE LIST
+   Оставлена для совместимости.
 ===================================================== */
 
 async function loadSettingsDevices() {
 
-  const container =
-    document.getElementById(
-      "settingsDevices"
-    );
-
-
-  if (!container) {
-
-    return;
-
-  }
-
-
-  container.innerHTML =
-    '<div style="color:#aaa;">Загрузка устройств...</div>';
-
-
-  try {
-
-    const devices =
-      await callRPC(
-        "get_devices_admin",
-        {
-
-          p_admin_pin:
-            currentPin
-
-        }
-      );
-
-
-    container.innerHTML =
-      "";
-
-
-    if (
-      !Array.isArray(
-        devices
-      ) ||
-      devices.length === 0
-    ) {
-
-      container.innerHTML =
-        '<div style="color:#aaa;text-align:center;padding:10px;">Устройств пока нет</div>';
-
-      return;
-
-    }
-
-
-    devices.forEach(
-      device => {
-
-        const block =
-          document.createElement(
-            "div"
-          );
-
-
-        block.className =
-          "settings-user";
-
-
-        const statusText =
-          getDeviceStatusText(
-            device.status
-          );
-
-
-        const deviceName =
-          device.device_name ||
-          "Неизвестное устройство";
-
-
-        const userName =
-          device.user_name ||
-          "Неизвестный пользователь";
-
-
-        let buttons =
-          "";
-
-
-        /*
-         * PENDING
-         */
-
-        if (
-          device.status ===
-          "pending"
-        ) {
-
-          buttons =
-
-            '<button ' +
-            'class="main-button settings-save" ' +
-            'onclick="setDeviceStatus(\'' +
-            escapeHtml(
-              device.id
-            ) +
-            '\', \'active\')">' +
-            "РАЗРЕШИТЬ" +
-            "</button>" +
-
-            '<button ' +
-            'class="main-button settings-delete" ' +
-            'onclick="setDeviceStatus(\'' +
-            escapeHtml(
-              device.id
-            ) +
-            '\', \'blocked\')">' +
-            "ЗАБЛОКИРОВАТЬ" +
-            "</button>";
-
-        }
-
-
-        /*
-         * ACTIVE
-         */
-
-        else if (
-          device.status ===
-          "active"
-        ) {
-
-          buttons =
-
-            '<button ' +
-            'class="main-button settings-delete" ' +
-            'onclick="setDeviceStatus(\'' +
-            escapeHtml(
-              device.id
-            ) +
-            '\', \'blocked\')">' +
-            "ЗАБЛОКИРОВАТЬ" +
-            "</button>";
-
-        }
-
-
-        /*
-         * BLOCKED
-         *
-         * Здесь теперь не "Разрешить снова",
-         * а именно "Удалить".
-         */
-
-        else if (
-          device.status ===
-          "blocked"
-        ) {
-
-          buttons =
-
-            '<button ' +
-            'class="main-button settings-delete" ' +
-            'onclick="deleteDevice(\'' +
-            escapeHtml(
-              device.id
-            ) +
-            '\')">' +
-            "УДАЛИТЬ" +
-            "</button>";
-
-        }
-
-
-        block.innerHTML =
-
-          '<div class="settings-user-title">' +
-          escapeHtml(
-            userName
-          ) +
-          "</div>" +
-
-          '<div class="settings-role">' +
-          escapeHtml(
-            deviceName
-          ) +
-          "</div>" +
-
-          '<div style="margin-top:7px;">' +
-          escapeHtml(
-            statusText
-          ) +
-          "</div>" +
-
-          '<div style="margin-top:7px;color:#999;font-size:12px;">' +
-          "Добавлено: " +
-          escapeHtml(
-            formatDateTime(
-              device.created_at
-            )
-          ) +
-          "</div>" +
-
-          '<div style="margin-top:3px;color:#999;font-size:12px;">' +
-          "Последняя активность: " +
-          escapeHtml(
-            formatDateTime(
-              device.last_seen_at
-            )
-          ) +
-          "</div>" +
-
-          buttons;
-
-
-        container.appendChild(
-          block
-        );
-
-      }
-    );
-
-  }
-  catch(error) {
-
-    container.innerHTML =
-      '<div class="message error" style="display:block">' +
-      escapeHtml(
-        error.message
-      ) +
-      "</div>";
-
-  }
+  /*
+   * Теперь устройства отображаются
+   * внутри карточек сотрудников.
+   */
+
+  return loadSettingsUsers();
 
 }
 
@@ -5474,7 +5509,7 @@ async function setDeviceStatus(
     }
 
 
-    await loadSettingsDevices();
+    await loadSettingsUsers();
 
   }
   catch(error) {
@@ -5555,13 +5590,7 @@ async function deleteDevice(
     }
 
 
-    /*
-     * Обновляем список.
-     * Удалённое устройство больше
-     * здесь не появится.
-     */
-
-    await loadSettingsDevices();
+    await loadSettingsUsers();
 
   }
   catch(error) {
@@ -5870,8 +5899,6 @@ async function deleteUserAccount(
     await loadLoginUsers();
 
     await loadSettingsUsers();
-
-    await loadSettingsDevices();
 
   }
   catch(error) {
