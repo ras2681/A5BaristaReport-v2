@@ -1842,9 +1842,25 @@ function getDeviceToken() {
 
 /*
  * Определяем понятное название устройства.
+ *
+ * Если пользователь уже задал своё название,
+ * используем его.
  */
 
 function getDeviceName() {
+
+  const savedName =
+    localStorage.getItem(
+      "a5_device_name"
+    );
+
+
+  if (savedName) {
+
+    return savedName;
+
+  }
+
 
   const ua =
     navigator.userAgent ||
@@ -1873,9 +1889,6 @@ function getDeviceName() {
     /Android/i.test(ua)
   ) {
 
-    /*
-     * Если это Android-планшет/телефон
-     */
     if (
       /Mobile/i.test(ua)
     ) {
@@ -1917,6 +1930,80 @@ function getDeviceName() {
 
 
   return "Другое устройство";
+
+}
+
+
+/*
+ * Запрашиваем название нового устройства.
+ *
+ * Показывается только один раз,
+ * пока название ещё не сохранено
+ * в localStorage.
+ */
+
+function askDeviceName() {
+
+  const defaultName =
+    getDeviceName();
+
+
+  const name =
+    window.prompt(
+      "Введите название этого устройства:",
+      defaultName
+    );
+
+
+  /*
+   * Если пользователь нажал Отмена,
+   * оставляем автоматическое название.
+   */
+
+  if (
+    name === null
+  ) {
+
+    return defaultName;
+
+  }
+
+
+  const cleanName =
+    name.trim();
+
+
+  /*
+   * Если введено пустое название,
+   * оставляем автоматическое.
+   */
+
+  if (!cleanName) {
+
+    return defaultName;
+
+  }
+
+
+  try {
+
+    localStorage.setItem(
+      "a5_device_name",
+      cleanName
+    );
+
+  }
+  catch(error) {
+
+    console.error(
+      "Не удалось сохранить название устройства:",
+      error
+    );
+
+  }
+
+
+  return cleanName;
 
 }
 
@@ -2910,6 +2997,67 @@ async function login() {
       result.status ===
       "pending"
     ) {
+
+      /*
+       * Если название устройства ещё
+       * не задано, предлагаем пользователю
+       * назвать его.
+       *
+       * Название сохраняется локально,
+       * поэтому повторно спрашивать
+       * его на этом устройстве не будем.
+       */
+
+      const savedDeviceName =
+        localStorage.getItem(
+          "a5_device_name"
+        );
+
+
+      if (!savedDeviceName) {
+
+        const customDeviceName =
+          askDeviceName();
+
+
+        /*
+         * Повторно вызываем RPC.
+         *
+         * Так как устройство уже создано
+         * первым вызовом, второй вызов
+         * просто обновит его название.
+         */
+
+        try {
+
+          await callRPC(
+            "login_by_pin_device",
+            {
+
+              p_pin:
+                pinValue,
+
+              p_device_token:
+                getDeviceToken(),
+
+              p_device_name:
+                customDeviceName
+
+            }
+          );
+
+        }
+        catch(error) {
+
+          console.error(
+            "Не удалось сохранить название устройства:",
+            error
+          );
+
+        }
+
+      }
+
 
       loginInProgress =
         false;
