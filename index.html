@@ -1463,6 +1463,20 @@ onclick="saveReportAndJPEG()">
   </div>
 
 
+  <!-- =================================================
+       DEVICES
+  ================================================== -->
+
+  <div class="settings-title"
+       style="margin-top:20px;">
+    УСТРОЙСТВА
+  </div>
+
+
+  <div id="settingsDevices">
+  </div>
+
+
   <button
     class="main-button dark-button"
     onclick="toggleSettings()">
@@ -1702,6 +1716,441 @@ let currentUser = null;
 let currentPin = "";
 
 let loginInProgress = false;
+
+
+/* =====================================================
+   DEVICE AUTHORIZATION
+===================================================== */
+
+let deviceCheckTimer = null;
+
+
+/*
+ * Уникальный ID браузера.
+ *
+ * Он работает на:
+ * - iPhone / iPad
+ * - Android
+ * - Windows
+ * - Mac
+ * - других современных браузерах
+ *
+ * Это не IMEI и не серийный номер телефона.
+ * Браузер не даёт сайту доступ к таким данным.
+ */
+
+function getDeviceToken() {
+
+  const storageKey =
+    "a5_device_token";
+
+
+  let token = "";
+
+
+  try {
+
+    token =
+      localStorage.getItem(
+        storageKey
+      ) || "";
+
+  }
+  catch(error) {
+
+    console.error(
+      "Ошибка чтения device token:",
+      error
+    );
+
+  }
+
+
+  if (token) {
+
+    return token;
+
+  }
+
+
+  try {
+
+    if (
+      window.crypto &&
+      typeof crypto.randomUUID ===
+        "function"
+    ) {
+
+      token =
+        crypto.randomUUID();
+
+    }
+
+  }
+  catch(error) {
+
+    console.error(
+      error
+    );
+
+  }
+
+
+  /*
+   * Запасной вариант для старых браузеров
+   */
+
+  if (!token) {
+
+    token =
+      "a5-" +
+      Date.now().toString(36) +
+      "-" +
+      Math.random()
+        .toString(36)
+        .substring(2, 15) +
+      "-" +
+      Math.random()
+        .toString(36)
+        .substring(2, 15);
+
+  }
+
+
+  try {
+
+    localStorage.setItem(
+      storageKey,
+      token
+    );
+
+  }
+  catch(error) {
+
+    console.error(
+      "Ошибка сохранения device token:",
+      error
+    );
+
+  }
+
+
+  return token;
+
+}
+
+
+/*
+ * Определяем понятное название устройства.
+ */
+
+function getDeviceName() {
+
+  const ua =
+    navigator.userAgent ||
+    "";
+
+
+  if (
+    /iPhone/i.test(ua)
+  ) {
+
+    return "iPhone";
+
+  }
+
+
+  if (
+    /iPad/i.test(ua)
+  ) {
+
+    return "iPad";
+
+  }
+
+
+  if (
+    /Android/i.test(ua)
+  ) {
+
+    /*
+     * Если это Android-планшет/телефон
+     */
+    if (
+      /Mobile/i.test(ua)
+    ) {
+
+      return "Android";
+
+    }
+
+    return "Android планшет";
+
+  }
+
+
+  if (
+    /Windows/i.test(ua)
+  ) {
+
+    return "Windows";
+
+  }
+
+
+  if (
+    /Macintosh|Mac OS X/i.test(ua)
+  ) {
+
+    return "Mac";
+
+  }
+
+
+  if (
+    /Linux/i.test(ua)
+  ) {
+
+    return "Linux";
+
+  }
+
+
+  return "Другое устройство";
+
+}
+
+
+/*
+ * Останавливаем периодическую проверку.
+ */
+
+function stopDeviceGuard() {
+
+  if (
+    deviceCheckTimer
+  ) {
+
+    clearInterval(
+      deviceCheckTimer
+    );
+
+    deviceCheckTimer =
+      null;
+
+  }
+
+}
+
+
+/*
+ * Запускаем периодическую проверку устройства.
+ */
+
+function startDeviceGuard() {
+
+  stopDeviceGuard();
+
+
+  if (
+    !currentUser
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+   * Администратор не привязывается
+   * к устройству.
+   */
+
+  if (
+    currentUser.role ===
+    "admin"
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+   * Проверяем каждые 30 секунд.
+   */
+
+  deviceCheckTimer =
+    setInterval(
+      checkCurrentDevice,
+      30000
+    );
+
+}
+
+
+/*
+ * Проверка текущего устройства.
+ */
+
+async function checkCurrentDevice() {
+
+  if (
+    !currentUser ||
+    !currentPin
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+   * Администратор не проверяется.
+   */
+
+  if (
+    currentUser.role ===
+    "admin"
+  ) {
+
+    return;
+
+  }
+
+
+  try {
+
+    const result =
+      await callRPC(
+        "check_device_access",
+        {
+
+          p_pin:
+            currentPin,
+
+          p_device_token:
+            getDeviceToken()
+
+        }
+      );
+
+
+    if (
+      !result ||
+      result.authorized !== true
+    ) {
+
+      deviceAccessDenied();
+
+    }
+
+  }
+  catch(error) {
+
+    console.error(
+      "Ошибка проверки устройства:",
+      error
+    );
+
+  }
+
+}
+
+
+/*
+ * Если администратор заблокировал устройство,
+ * закрываем приложение.
+ */
+
+function deviceAccessDenied() {
+
+  stopDeviceGuard();
+
+
+  currentUser =
+    null;
+
+  currentPin =
+    "";
+
+  selectedUser =
+    null;
+
+  pinValue =
+    "";
+
+  loginInProgress =
+    false;
+
+
+  document.getElementById(
+    "appScreen"
+  ).classList.add(
+    "hidden"
+  );
+
+
+  document.getElementById(
+    "loginScreen"
+  ).classList.remove(
+    "hidden"
+  );
+
+
+  document.getElementById(
+    "pinCard"
+  ).classList.add(
+    "hidden"
+  );
+
+
+  document.getElementById(
+    "usersList"
+  ).classList.remove(
+    "hidden"
+  );
+
+
+  const message =
+    document.getElementById(
+      "loginMessage"
+    );
+
+
+  message.className =
+    "message error";
+
+
+  message.textContent =
+    "Доступ с этого устройства заблокирован администратором.";
+
+
+  loadLoginUsers();
+
+}
+
+
+/*
+ * При возвращении во вкладку
+ * тоже проверяем устройство.
+ */
+
+document.addEventListener(
+  "visibilitychange",
+  function() {
+
+    if (
+      document.visibilityState ===
+      "visible"
+    ) {
+
+      checkCurrentDevice();
+
+    }
+
+  }
+);
 
 
 /* =====================================================
@@ -2413,28 +2862,169 @@ async function login() {
 
   try {
 
+    /*
+     * Теперь вместо старого login_by_pin
+     * используем новый RPC с проверкой устройства.
+     */
+
     const result =
       await callRPC(
-        "login_by_pin",
+        "login_by_pin_device",
         {
+
           p_pin:
-            pinValue
+            pinValue,
+
+          p_device_token:
+            getDeviceToken(),
+
+          p_device_name:
+            getDeviceName()
+
         }
       );
 
 
+    /*
+     * Неверный PIN
+     */
+
+    if (
+      !result ||
+      result.status ===
+      "invalid"
+    ) {
+
+      throw new Error(
+        "Неверный PIN"
+      );
+
+    }
+
+
+    /*
+     * Новое устройство.
+     */
+
+    if (
+      result.status ===
+      "pending"
+    ) {
+
+      loginInProgress =
+        false;
+
+
+      message.className =
+        "message error";
+
+
+      message.textContent =
+        "Это устройство ожидает разрешения администратора.";
+
+
+      pinValue =
+        "";
+
+
+      updatePinDisplay();
+
+
+      return;
+
+    }
+
+
+    /*
+     * Заблокированное устройство.
+     */
+
+    if (
+      result.status ===
+      "blocked"
+    ) {
+
+      loginInProgress =
+        false;
+
+
+      message.className =
+        "message error";
+
+
+      message.textContent =
+        "Это устройство заблокировано администратором.";
+
+
+      pinValue =
+        "";
+
+
+      updatePinDisplay();
+
+
+      return;
+
+    }
+
+
+    /*
+     * Устройство принадлежит другому сотруднику.
+     */
+
+    if (
+      result.status ===
+      "wrong_user"
+    ) {
+
+      loginInProgress =
+        false;
+
+
+      message.className =
+        "message error";
+
+
+      message.textContent =
+        "Это устройство авторизовано за другим сотрудником.";
+
+
+      pinValue =
+        "";
+
+
+      updatePinDisplay();
+
+
+      return;
+
+    }
+
+
+    /*
+     * Всё разрешено.
+     */
+
+    if (
+      result.status !==
+      "authorized"
+    ) {
+
+      throw new Error(
+        "Не удалось выполнить вход"
+      );
+
+    }
+
+
     const user =
-      Array.isArray(
-        result
-      )
-        ? result[0]
-        : result;
+      result.user;
 
 
     if (!user) {
 
       throw new Error(
-        "Неверный PIN"
+        "Пользователь не найден"
       );
 
     }
@@ -2495,6 +3085,14 @@ async function login() {
     setToday();
 
     calculate();
+
+
+    /*
+     * Запускаем контроль устройства
+     * для бариста.
+     */
+
+    startDeviceGuard();
 
   }
   catch(error) {
@@ -2582,6 +3180,9 @@ function setToday() {
 ===================================================== */
 
 function logout() {
+
+  stopDeviceGuard();
+
 
   currentUser =
     null;
@@ -4489,6 +5090,8 @@ function toggleSettings() {
 
     loadSettingsUsers();
 
+    loadSettingsDevices();
+
   }
   else {
 
@@ -4656,6 +5259,425 @@ async function loadSettingsUsers() {
         error.message
       ) +
       "</div>";
+
+  }
+
+}
+
+
+/* =====================================================
+   SETTINGS DEVICES
+===================================================== */
+
+function getDeviceStatusText(status) {
+
+  if (
+    status ===
+    "active"
+  ) {
+
+    return "🟢 Авторизовано";
+
+  }
+
+
+  if (
+    status ===
+    "blocked"
+  ) {
+
+    return "🔴 Заблокировано";
+
+  }
+
+
+  return "🟡 Ожидает разрешения";
+
+}
+
+
+/*
+ * Показываем дату в формате:
+ * 24.09.2026 14:35
+ */
+
+function formatDateTime(value) {
+
+  if (!value) {
+    return "—";
+  }
+
+
+  const date =
+    new Date(value);
+
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
+
+    return "—";
+
+  }
+
+
+  return date.toLocaleString(
+    "ru-RU",
+    {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    }
+  );
+
+}
+
+
+/*
+ * Загрузка списка устройств
+ * для администратора.
+ */
+
+async function loadSettingsDevices() {
+
+  const container =
+    document.getElementById(
+      "settingsDevices"
+    );
+
+
+  if (!container) {
+    return;
+  }
+
+
+  container.innerHTML =
+    '<div style="color:#aaa;">Загрузка устройств...</div>';
+
+
+  try {
+
+    const devices =
+      await callRPC(
+        "get_devices_admin",
+        {
+
+          p_admin_pin:
+            currentPin
+
+        }
+      );
+
+
+    container.innerHTML =
+      "";
+
+
+    if (
+      !Array.isArray(
+        devices
+      ) ||
+      devices.length === 0
+    ) {
+
+      container.innerHTML =
+        '<div style="color:#aaa;text-align:center;padding:10px;">Устройств пока нет</div>';
+
+      return;
+
+    }
+
+
+    devices.forEach(
+      device => {
+
+        const block =
+          document.createElement(
+            "div"
+          );
+
+
+        block.className =
+          "settings-user";
+
+
+        const statusText =
+          getDeviceStatusText(
+            device.status
+          );
+
+
+        const deviceName =
+          device.device_name ||
+          "Неизвестное устройство";
+
+
+        const userName =
+          device.user_name ||
+          "Неизвестный пользователь";
+
+
+        let buttons =
+          "";
+
+
+        /*
+         * Ожидающее устройство:
+         * Разрешить / Заблокировать
+         */
+
+        if (
+          device.status ===
+          "pending"
+        ) {
+
+          buttons =
+
+            '<button ' +
+            'class="main-button settings-save" ' +
+            'onclick="setDeviceStatus(\'' +
+            escapeHtml(
+              device.id
+            ) +
+            '\', \'active\')">' +
+            "РАЗРЕШИТЬ" +
+            "</button>" +
+
+            '<button ' +
+            'class="main-button settings-delete" ' +
+            'onclick="setDeviceStatus(\'' +
+            escapeHtml(
+              device.id
+            ) +
+            '\', \'blocked\')">' +
+            "ЗАБЛОКИРОВАТЬ" +
+            "</button>";
+
+        }
+
+
+        /*
+         * Авторизованное:
+         * Заблокировать
+         */
+
+        else if (
+          device.status ===
+          "active"
+        ) {
+
+          buttons =
+
+            '<button ' +
+            'class="main-button settings-delete" ' +
+            'onclick="setDeviceStatus(\'' +
+            escapeHtml(
+              device.id
+            ) +
+            '\', \'blocked\')">' +
+            "ЗАБЛОКИРОВАТЬ" +
+            "</button>";
+
+        }
+
+
+        /*
+         * Заблокированное:
+         * Разрешить снова
+         */
+
+        else if (
+          device.status ===
+          "blocked"
+        ) {
+
+          buttons =
+
+            '<button ' +
+            'class="main-button settings-save" ' +
+            'onclick="setDeviceStatus(\'' +
+            escapeHtml(
+              device.id
+            ) +
+            '\', \'active\')">' +
+            "РАЗРЕШИТЬ СНОВА" +
+            "</button>";
+
+        }
+
+
+        block.innerHTML =
+
+          '<div class="settings-user-title">' +
+          escapeHtml(
+            userName
+          ) +
+          "</div>" +
+
+          '<div class="settings-role">' +
+          escapeHtml(
+            deviceName
+          ) +
+          "</div>" +
+
+          '<div style="margin-top:7px;">' +
+          escapeHtml(
+            statusText
+          ) +
+          "</div>" +
+
+          '<div style="margin-top:7px;color:#999;font-size:12px;">' +
+          "Добавлено: " +
+          escapeHtml(
+            formatDateTime(
+              device.created_at
+            )
+          ) +
+          "</div>" +
+
+          '<div style="margin-top:3px;color:#999;font-size:12px;">' +
+          "Последняя активность: " +
+          escapeHtml(
+            formatDateTime(
+              device.last_seen_at
+            )
+          ) +
+          "</div>" +
+
+          buttons;
+
+
+        container.appendChild(
+          block
+        );
+
+      }
+    );
+
+  }
+  catch(error) {
+
+    container.innerHTML =
+      '<div class="message error" style="display:block">' +
+      escapeHtml(
+        error.message
+      ) +
+      "</div>";
+
+  }
+
+}
+
+
+/*
+ * Изменение статуса устройства.
+ */
+
+async function setDeviceStatus(
+  deviceId,
+  status
+) {
+
+  if (
+    !currentUser ||
+    currentUser.role !==
+    "admin"
+  ) {
+
+    return;
+
+  }
+
+
+  let question =
+    "";
+
+
+  if (
+    status ===
+    "active"
+  ) {
+
+    question =
+      "Разрешить этому устройству доступ?";
+
+  }
+  else if (
+    status ===
+    "blocked"
+  ) {
+
+    question =
+      "Заблокировать это устройство?";
+
+  }
+  else {
+
+    question =
+      "Изменить статус устройства?";
+
+  }
+
+
+  if (
+    !confirm(
+      question
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  try {
+
+    const result =
+      await callRPC(
+        "set_device_status",
+        {
+
+          p_admin_pin:
+            currentPin,
+
+          p_device_id:
+            deviceId,
+
+          p_status:
+            status
+
+        }
+      );
+
+
+    if (
+      !result ||
+      result.success !== true
+    ) {
+
+      throw new Error(
+        result &&
+        result.message
+          ? result.message
+          : "Не удалось изменить статус"
+      );
+
+    }
+
+
+    await loadSettingsDevices();
+
+  }
+  catch(error) {
+
+    alert(
+      error.message ||
+      "Ошибка изменения устройства"
+    );
 
   }
 
@@ -4969,6 +5991,8 @@ async function deleteUserAccount(
 
     await loadSettingsUsers();
 
+    await loadSettingsDevices();
+
   }
   catch(error) {
 
@@ -4989,6 +6013,14 @@ async function deleteUserAccount(
 document.addEventListener(
   "DOMContentLoaded",
   function() {
+
+    /*
+     * Создаём ID устройства сразу,
+     * независимо от типа устройства.
+     */
+
+    getDeviceToken();
+
 
     loadLoginUsers();
 
