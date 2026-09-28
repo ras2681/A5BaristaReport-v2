@@ -1360,10 +1360,6 @@ onclick="saveReportAndJPEG()">
   </div>
 
 
-  <!-- ===================================================
-       СОТРУДНИКИ
-  ==================================================== -->
-
   <div class="settings-title">
     СОТРУДНИКИ
   </div>
@@ -1372,10 +1368,6 @@ onclick="saveReportAndJPEG()">
   <div id="settingsUsers">
   </div>
 
-
-  <!-- ===================================================
-       ДОБАВИТЬ СОТРУДНИКА
-  ==================================================== -->
 
   <div class="settings-title"
        style="margin-top:20px;">
@@ -1779,10 +1771,6 @@ function getDeviceToken() {
 }
 
 
-/*
- * Название устройства.
- */
-
 function getDeviceName() {
 
   const savedName =
@@ -1861,10 +1849,6 @@ function getDeviceName() {
 }
 
 
-/*
- * Название нового устройства.
- */
-
 function askDeviceName() {
 
   const defaultName =
@@ -1915,10 +1899,6 @@ function askDeviceName() {
 }
 
 
-/*
- * Остановка проверки устройства.
- */
-
 function stopDeviceGuard() {
 
   if (
@@ -1936,10 +1916,6 @@ function stopDeviceGuard() {
 
 }
 
-
-/*
- * Запуск проверки устройства.
- */
 
 function startDeviceGuard() {
 
@@ -1972,7 +1948,8 @@ function startDeviceGuard() {
 
 
 /*
- * Проверка устройства.
+ * ВАЖНО:
+ * Теперь передаём ID выбранного сотрудника.
  */
 
 async function checkCurrentDevice() {
@@ -2001,6 +1978,9 @@ async function checkCurrentDevice() {
       await callRPC(
         "check_device_access",
         {
+
+          p_user_id:
+            currentUser.id,
 
           p_pin:
             currentPin,
@@ -2032,10 +2012,6 @@ async function checkCurrentDevice() {
 
 }
 
-
-/*
- * Доступ запрещён.
- */
 
 function deviceAccessDenied() {
 
@@ -2761,10 +2737,20 @@ async function login() {
 
   try {
 
+    /*
+     * ВАЖНО:
+     * Передаём ID именно выбранного сотрудника.
+     * Это позволяет использовать одинаковые PIN
+     * у разных сотрудников без путаницы.
+     */
+
     const result =
       await callRPC(
         "login_by_pin_device",
         {
+
+          p_user_id:
+            selectedUser.id,
 
           p_pin:
             pinValue,
@@ -2818,6 +2804,9 @@ async function login() {
           await callRPC(
             "login_by_pin_device",
             {
+
+              p_user_id:
+                selectedUser.id,
 
               p_pin:
                 pinValue,
@@ -2893,9 +2882,6 @@ async function login() {
 
     /*
      * Старый статус.
-     * Оставляем обработку на случай,
-     * если на сервере ещё используется
-     * старая версия функции.
      */
 
     if (
@@ -4907,11 +4893,6 @@ async function loadSettingsUsers() {
 
   try {
 
-    /*
-     * Загружаем сотрудников и устройства
-     * одновременно.
-     */
-
     const results =
       await Promise.all([
 
@@ -4973,10 +4954,6 @@ async function loadSettingsUsers() {
             : "Бариста";
 
 
-        /*
-         * Берём только устройства этого сотрудника.
-         */
-
         const userDevices =
           Array.isArray(devices)
             ? devices.filter(
@@ -4994,10 +4971,6 @@ async function loadSettingsUsers() {
         let devicesHtml =
           "";
 
-
-        /*
-         * Если устройств нет.
-         */
 
         if (
           userDevices.length === 0
@@ -5018,10 +4991,6 @@ async function loadSettingsUsers() {
         }
 
 
-        /*
-         * Если устройства есть.
-         */
-
         else {
 
           userDevices.forEach(
@@ -5041,10 +5010,6 @@ async function loadSettingsUsers() {
               let deviceButtons =
                 "";
 
-
-              /*
-               * PENDING
-               */
 
               if (
                 device.status ===
@@ -5078,10 +5043,6 @@ async function loadSettingsUsers() {
               }
 
 
-              /*
-               * ACTIVE
-               */
-
               else if (
                 device.status ===
                 "active"
@@ -5102,10 +5063,6 @@ async function loadSettingsUsers() {
 
               }
 
-
-              /*
-               * BLOCKED
-               */
 
               else if (
                 device.status ===
@@ -5203,10 +5160,6 @@ async function loadSettingsUsers() {
         }
 
 
-        /*
-         * Карточка сотрудника.
-         */
-
         block.innerHTML =
 
           '<div class="settings-user-title">' +
@@ -5279,10 +5232,6 @@ async function loadSettingsUsers() {
             user.id
           ) +
           '"></div>' +
-
-          /*
-           * Устройства сотрудника.
-           */
 
           '<div style="' +
           'margin-top:18px;' +
@@ -5398,15 +5347,9 @@ function formatDateTime(value) {
 
 /* =====================================================
    OLD DEVICE LIST
-   Оставлена для совместимости.
 ===================================================== */
 
 async function loadSettingsDevices() {
-
-  /*
-   * Теперь устройства отображаются
-   * внутри карточек сотрудников.
-   */
 
   return loadSettingsUsers();
 
@@ -5920,10 +5863,6 @@ async function deleteUserAccount(
 document.addEventListener(
   "DOMContentLoaded",
   function() {
-
-    /*
-     * Создаём ID устройства сразу.
-     */
 
     getDeviceToken();
 
