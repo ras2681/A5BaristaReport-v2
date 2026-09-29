@@ -1128,10 +1128,10 @@ async function loadSettingsUsers(){
           devicesHtml+=
             '<div data-device-card="'+escapeHtml(device.id)+'" style="margin-top:8px;padding:9px;background:#181818;border:1px solid #3d3d3d;border-radius:5px">'+
             '<div style="font-size:15px;font-weight:600">'+escapeHtml(deviceName)+'</div>'+
-            '<div style="margin-top:5px;font-size:13px;color:#ccc">'+escapeHtml(statusText)+'</div>'+
+            '<div data-device-status style="margin-top:5px;font-size:13px;color:#ccc">'+escapeHtml(statusText)+'</div>'+
             '<div style="margin-top:5px;color:#777;font-size:11px">Добавлено: '+escapeHtml(formatDateTime(device.created_at))+'</div>'+
             '<div style="margin-top:3px;color:#777;font-size:11px">Последняя активность: '+escapeHtml(formatDateTime(device.last_seen_at))+'</div>'+
-            buttons+
+            '<div data-device-buttons>'+buttons+"</div>"+
             "</div>";
         });
       }
@@ -1183,29 +1183,87 @@ async function loadSettingsDevices(){
   return loadSettingsUsers();
 }
 
+/*
+  Разрешение устройства теперь происходит БЕЗ полной перерисовки
+  страницы.
+
+  Благодаря этому:
+  - экран не прыгает вверх;
+  - карточка устройства остаётся на месте;
+  - меняется только её статус и кнопки.
+*/
 async function setDeviceStatus(deviceId,status){
   if(!currentUser||currentUser.role!=="admin")return;
 
-  let question="";
-  if(status==="active")question="Разрешить этому устройству доступ?";
-  else question="Изменить статус устройства?";
+  if(status!=="active"){
+    return;
+  }
 
-  if(!confirm(question))return;
+  if(!confirm("Разрешить этому устройству доступ?"))return;
+
+  const card=document.querySelector(
+    '[data-device-card="'+CSS.escape(String(deviceId))+'"]'
+  );
+
+  const statusElement=card
+    ?card.querySelector("[data-device-status]")
+    :null;
+
+  const buttonsElement=card
+    ?card.querySelector("[data-device-buttons]")
+    :null;
+
+  const scrollY=window.scrollY;
 
   try{
+    if(buttonsElement){
+      buttonsElement.style.opacity="0.5";
+      buttonsElement.style.pointerEvents="none";
+    }
+
     const result=await callRPC("set_device_status",{
       p_admin_pin:currentPin,
       p_device_id:deviceId,
-      p_status:status
+      p_status:"active"
     });
 
     if(!result||result.success!==true){
-      throw new Error(result&&result.message?result.message:"Не удалось изменить статус");
+      throw new Error(
+        result&&result.message
+          ?result.message
+          :"Не удалось разрешить устройство"
+      );
     }
 
-    await loadSettingsUsers();
+    if(statusElement){
+      statusElement.textContent="🟢 Авторизовано";
+    }
+
+    if(buttonsElement){
+      buttonsElement.innerHTML=
+        '<button class="main-button settings-delete" style="margin-top:8px" onclick="deleteDevice(\''+
+        escapeHtml(deviceId)+
+        '\')">УДАЛИТЬ</button>';
+
+      buttonsElement.style.opacity="1";
+      buttonsElement.style.pointerEvents="auto";
+    }
+
+    requestAnimationFrame(()=>{
+      window.scrollTo(0,scrollY);
+    });
+
   }catch(error){
-    alert(error.message||"Ошибка изменения устройства");
+    if(buttonsElement){
+      buttonsElement.style.opacity="1";
+      buttonsElement.style.pointerEvents="auto";
+    }
+
+    alert(error.message||"Ошибка разрешения устройства");
+
+    requestAnimationFrame(()=>{
+      window.scrollTo(0,scrollY);
+    });
   }
 }
 
@@ -1247,6 +1305,10 @@ async function deleteDevice(deviceId){
 
   }catch(error){
     alert(error.message||"Ошибка удаления устройства");
+
+    requestAnimationFrame(()=>{
+      window.scrollTo(0,scrollY);
+    });
   }
 }
 
