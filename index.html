@@ -33,9 +33,17 @@ button{-webkit-appearance:none;appearance:none}
 .pin-keyboard .clear{background:#333}
 .back-button{display:block;width:100%;margin-top:10px;padding:11px;border:none;border-radius:5px;background:#222;color:#fff;font-size:14px}
 
-.app-top{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-bottom:6px}
-.app-actions{display:flex;gap:5px}
-.app-actions button{width:auto;margin:0;padding:7px 9px;font-size:12px;border-radius:5px}
+.app-top{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-bottom:10px}
+.app-actions{display:flex;gap:8px}
+.app-actions button{
+  width:auto;
+  min-height:48px;
+  margin:0;
+  padding:10px 16px;
+  font-size:16px;
+  font-weight:500;
+  border-radius:7px;
+}
 .app-actions .secondary{background:#333;color:#fff}
 
 h1{text-align:center;font-size:21px;margin:7px 0 14px}
@@ -115,8 +123,10 @@ input[type=number]{font-size:17px}
 .history-opening-time,.history-closing-time{font-size:13px}
 .history-inline-title,.history-inline-value,.history-special-title,.history-special-value,.history-money-row{font-size:14px}
 }
+
 @media screen and (max-width:380px){
-body{padding:5px}.history-item{padding:10px}
+body{padding:5px}
+.history-item{padding:10px}
 .history-date-title,.history-date-value{font-size:13px}
 .history-opening-time,.history-closing-time{font-size:12px}
 .history-inline-title,.history-inline-value,.history-special-title,.history-special-value,.history-money-row{font-size:13px}
@@ -1183,21 +1193,10 @@ async function loadSettingsDevices(){
   return loadSettingsUsers();
 }
 
-/*
-  Разрешение устройства теперь происходит БЕЗ полной перерисовки
-  страницы.
-
-  Благодаря этому:
-  - экран не прыгает вверх;
-  - карточка устройства остаётся на месте;
-  - меняется только её статус и кнопки.
-*/
 async function setDeviceStatus(deviceId,status){
   if(!currentUser||currentUser.role!=="admin")return;
 
-  if(status!=="active"){
-    return;
-  }
+  if(status!=="active")return;
 
   if(!confirm("Разрешить этому устройству доступ?"))return;
 
