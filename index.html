@@ -579,7 +579,6 @@ async function login(){
     };
     currentPin=pinValue;
 
-    /* Всегда начинаем новый вход с формы отчёта */
     document.getElementById("historyScreen").classList.add("hidden");
     document.getElementById("settingsScreen").classList.add("hidden");
     document.getElementById("formScreen").classList.remove("hidden");
@@ -1118,20 +1117,16 @@ async function loadSettingsUsers(){
             buttons=
               '<button class="main-button settings-save" style="margin-top:8px" onclick="setDeviceStatus(\''+
               escapeHtml(device.id)+'\',\'active\')">РАЗРЕШИТЬ</button>'+
-              '<button class="main-button settings-delete" style="margin-top:8px" onclick="setDeviceStatus(\''+
-              escapeHtml(device.id)+'\',\'blocked\')">ЗАБЛОКИРОВАТЬ</button>';
+              '<button class="main-button settings-delete" style="margin-top:8px" onclick="deleteDevice(\''+
+              escapeHtml(device.id)+'\')">УДАЛИТЬ</button>';
           }else if(device.status==="active"){
-            buttons=
-              '<button class="main-button settings-delete" style="margin-top:8px" onclick="setDeviceStatus(\''+
-              escapeHtml(device.id)+'\',\'blocked\')">ЗАБЛОКИРОВАТЬ</button>';
-          }else if(device.status==="blocked"){
             buttons=
               '<button class="main-button settings-delete" style="margin-top:8px" onclick="deleteDevice(\''+
               escapeHtml(device.id)+'\')">УДАЛИТЬ</button>';
           }
 
           devicesHtml+=
-            '<div style="margin-top:8px;padding:9px;background:#181818;border:1px solid #3d3d3d;border-radius:5px">'+
+            '<div data-device-card="'+escapeHtml(device.id)+'" style="margin-top:8px;padding:9px;background:#181818;border:1px solid #3d3d3d;border-radius:5px">'+
             '<div style="font-size:15px;font-weight:600">'+escapeHtml(deviceName)+'</div>'+
             '<div style="margin-top:5px;font-size:13px;color:#ccc">'+escapeHtml(statusText)+'</div>'+
             '<div style="margin-top:5px;color:#777;font-size:11px">Добавлено: '+escapeHtml(formatDateTime(device.created_at))+'</div>'+
@@ -1193,7 +1188,6 @@ async function setDeviceStatus(deviceId,status){
 
   let question="";
   if(status==="active")question="Разрешить этому устройству доступ?";
-  else if(status==="blocked")question="Заблокировать это устройство?";
   else question="Изменить статус устройства?";
 
   if(!confirm(question))return;
@@ -1220,8 +1214,10 @@ async function deleteDevice(deviceId){
 
   if(!confirm(
     "Удалить это устройство?\n\n"+
-    "Сначала оно будет заблокировано, после чего полностью удалено из списка устройств."
+    "Доступ устройства будет немедленно заблокирован, после чего устройство будет удалено."
   ))return;
+
+  const scrollY=window.scrollY;
 
   try{
     const result=await callRPC("delete_device_admin",{
@@ -1230,10 +1226,25 @@ async function deleteDevice(deviceId){
     });
 
     if(!result||result.success!==true){
-      throw new Error(result&&result.message?result.message:"Не удалось удалить устройство");
+      throw new Error(
+        result&&result.message
+          ?result.message
+          :"Не удалось удалить устройство"
+      );
     }
 
-    await loadSettingsUsers();
+    const deviceCard=document.querySelector(
+      '[data-device-card="'+CSS.escape(String(deviceId))+'"]'
+    );
+
+    if(deviceCard){
+      deviceCard.remove();
+    }
+
+    requestAnimationFrame(()=>{
+      window.scrollTo(0,scrollY);
+    });
+
   }catch(error){
     alert(error.message||"Ошибка удаления устройства");
   }
