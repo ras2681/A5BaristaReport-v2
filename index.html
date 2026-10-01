@@ -101,8 +101,33 @@ input[type=number]{font-size:17px}
 .history-title{font-size:19px;font-weight:600;margin:12px 0}
 .history-item{background:#222;border:1px solid #444;border-radius:5px;margin-bottom:8px;padding:13px;font-size:14px;overflow:hidden}
 .history-barista-header{width:calc(100% + 26px);margin:-13px -13px 10px;padding:8px 13px;border-radius:5px 5px 0 0;color:#fff;font-size:14px;font-weight:700;white-space:nowrap}
-.history-barista-blue{background:#24527a}.history-barista-green{background:#286044}.history-barista-purple{background:#55417a}.history-barista-orange{background:#795126}.history-barista-red{background:#713838}.history-barista-gray{background:#4a4a4a}.history-barista-diana{background:#176b78}
+.history-barista-blue{background:#24527a}
+.history-barista-green{background:#286044}
+.history-barista-purple{background:#55417a}
+.history-barista-orange{background:#795126}
+.history-barista-red{background:#713838}
+.history-barista-gray{background:#4a4a4a}
+.history-barista-diana{background:#176b78}
+
 .history-photo-link{display:block;margin-top:12px;padding-top:9px;border-top:1px solid #444;color:#bbb;text-decoration:none;font-size:13px;cursor:pointer}
+
+.history-delete-button{
+  display:block;
+  width:100%;
+  margin-top:12px;
+  padding:10px;
+  border:1px solid #633;
+  border-radius:5px;
+  background:#401919;
+  color:#ffb5b5;
+  font-size:13px;
+  font-weight:600;
+}
+
+.history-delete-button:active{
+  background:#572020;
+}
+
 .history-date-row{display:flex;justify-content:space-between;align-items:center;width:100%;margin-bottom:5px;white-space:nowrap}
 .history-date-title{font-size:14px;font-weight:400;white-space:nowrap}
 .history-date-value{font-size:14px;font-weight:700;white-space:nowrap;text-align:right}
@@ -116,7 +141,8 @@ input[type=number]{font-size:17px}
 .history-inline-title{font-size:14px;font-weight:700;line-height:1.15;white-space:nowrap}
 .history-inline-value{flex-shrink:0;font-size:14px;font-weight:400;text-align:right;white-space:nowrap}
 .history-money-row{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;margin:5px 0;white-space:nowrap;font-size:14px;color:#ddd}
-.history-money-row span{white-space:nowrap}.history-money-row span:last-child{flex-shrink:0}
+.history-money-row span{white-space:nowrap}
+.history-money-row span:last-child{flex-shrink:0}
 .history-closing-row{margin-top:10px;margin-bottom:2px}
 .history-comment{margin-top:12px;padding-top:8px;border-top:1px solid #444;color:#aaa;font-size:13px}
 
@@ -969,12 +995,101 @@ function addHistoryInline(item,title,value){
   item.appendChild(row);
 }
 
+
+/* =========================================================
+   УДАЛЕНИЕ ОТЧЁТА — ТОЛЬКО АДМИНИСТРАТОР
+   ========================================================= */
+
+async function deleteShiftReport(reportId,item){
+
+  if(!currentUser||currentUser.role!=="admin"){
+    return;
+  }
+
+  if(!reportId){
+    alert("Не найден ID отчёта");
+    return;
+  }
+
+  if(!confirm(
+    "Удалить этот отчёт?\n\n"+
+    "Отчёт будет удалён из истории.\n"+
+    "Это действие нельзя отменить."
+  )){
+    return;
+  }
+
+  const scrollY=window.scrollY;
+
+  try{
+
+    const button=item
+      ?item.querySelector(".history-delete-button")
+      :null;
+
+    if(button){
+      button.disabled=true;
+      button.textContent="УДАЛЕНИЕ...";
+      button.style.opacity="0.6";
+    }
+
+    const result=await callRPC("delete_shift_report",{
+      p_admin_pin:currentPin,
+      p_report_id:String(reportId)
+    });
+
+    if(!result||result.success!==true){
+      throw new Error(
+        result&&result.message
+          ?result.message
+          :"Не удалось удалить отчёт"
+      );
+    }
+
+    if(item){
+      item.remove();
+    }
+
+    const list=document.getElementById("historyList");
+
+    if(list&&!list.children.length){
+      list.innerHTML=
+        '<div style="color:#aaa;text-align:center;padding:15px">Отчётов пока нет</div>';
+    }
+
+    requestAnimationFrame(()=>{
+      window.scrollTo(0,scrollY);
+    });
+
+  }catch(error){
+
+    alert(error.message||"Ошибка удаления отчёта");
+
+    const button=item
+      ?item.querySelector(".history-delete-button")
+      :null;
+
+    if(button){
+      button.disabled=false;
+      button.textContent="УДАЛИТЬ";
+      button.style.opacity="1";
+    }
+
+    requestAnimationFrame(()=>{
+      window.scrollTo(0,scrollY);
+    });
+  }
+}
+
+
 async function loadHistory(){
   const list=document.getElementById("historyList");
   list.innerHTML='<div style="text-align:center;color:#aaa">Загрузка...</div>';
 
   try{
+
     const reports=await callRPC("get_shift_reports");
+
     list.innerHTML="";
 
     if(!Array.isArray(reports)||reports.length===0){
@@ -983,6 +1098,7 @@ async function loadHistory(){
     }
 
     reports.forEach(report=>{
+
       const item=document.createElement("div");
       item.className="history-item";
 
@@ -1070,18 +1186,48 @@ async function loadHistory(){
         photo.onclick=async event=>{
           event.preventDefault();
           photo.textContent="📷 Открываю фото...";
-          try{await openReportImage(report.report_image_url)}catch(error){console.error(error)}
+          try{
+            await openReportImage(report.report_image_url);
+          }catch(error){
+            console.error(error);
+          }
           photo.textContent="📷 Открыть фото отчёта";
         };
 
         item.appendChild(photo);
       }
 
+
+      /* КНОПКА УДАЛЕНИЯ ТОЛЬКО ДЛЯ АДМИНИСТРАТОРА */
+      if(currentUser&&currentUser.role==="admin"){
+
+        const deleteButton=document.createElement("button");
+
+        deleteButton.className="history-delete-button";
+        deleteButton.textContent="УДАЛИТЬ";
+
+        deleteButton.onclick=()=>{
+          const reportId=
+            report.id||
+            report.report_id||
+            report.shift_report_id||
+            "";
+
+          deleteShiftReport(reportId,item);
+        };
+
+        item.appendChild(deleteButton);
+      }
+
       list.appendChild(item);
     });
 
   }catch(error){
-    list.innerHTML='<div class="message error" style="display:block">'+escapeHtml(error.message)+'</div>';
+
+    list.innerHTML=
+      '<div class="message error" style="display:block">'+
+      escapeHtml(error.message)+
+      '</div>';
   }
 }
 
@@ -1136,18 +1282,23 @@ async function loadSettingsUsers(){
       if(!userDevices.length){
         devicesHtml='<div style="color:#777;font-size:13px;padding:8px 0">Авторизованных устройств пока нет</div>';
       }else{
+
         userDevices.forEach(device=>{
+
           const deviceName=device.device_name||"Неизвестное устройство";
           const statusText=getDeviceStatusText(device.status);
           let buttons="";
 
           if(device.status==="pending"){
+
             buttons=
               '<button class="main-button settings-save" style="margin-top:8px" onclick="setDeviceStatus(\''+
               escapeHtml(device.id)+'\',\'active\')">РАЗРЕШИТЬ</button>'+
               '<button class="main-button settings-delete" style="margin-top:8px" onclick="deleteDevice(\''+
               escapeHtml(device.id)+'\')">УДАЛИТЬ</button>';
+
           }else if(device.status==="active"){
+
             buttons=
               '<button class="main-button settings-delete" style="margin-top:8px" onclick="deleteDevice(\''+
               escapeHtml(device.id)+'\')">УДАЛИТЬ</button>';
@@ -1198,6 +1349,7 @@ function formatDateTime(value){
   if(!value)return"—";
   const date=new Date(value);
   if(Number.isNaN(date.getTime()))return"—";
+
   return date.toLocaleString("ru-RU",{
     day:"2-digit",
     month:"2-digit",
@@ -1233,6 +1385,7 @@ async function setDeviceStatus(deviceId,status){
   const scrollY=window.scrollY;
 
   try{
+
     if(buttonsElement){
       buttonsElement.style.opacity="0.5";
       buttonsElement.style.pointerEvents="none";
@@ -1257,6 +1410,7 @@ async function setDeviceStatus(deviceId,status){
     }
 
     if(buttonsElement){
+
       buttonsElement.innerHTML=
         '<button class="main-button settings-delete" style="margin-top:8px" onclick="deleteDevice(\''+
         escapeHtml(deviceId)+
@@ -1271,6 +1425,7 @@ async function setDeviceStatus(deviceId,status){
     });
 
   }catch(error){
+
     if(buttonsElement){
       buttonsElement.style.opacity="1";
       buttonsElement.style.pointerEvents="auto";
@@ -1285,6 +1440,7 @@ async function setDeviceStatus(deviceId,status){
 }
 
 async function deleteDevice(deviceId){
+
   if(!currentUser||currentUser.role!=="admin")return;
 
   if(!confirm(
@@ -1295,6 +1451,7 @@ async function deleteDevice(deviceId){
   const scrollY=window.scrollY;
 
   try{
+
     const result=await callRPC("delete_device_admin",{
       p_admin_pin:currentPin,
       p_device_id:deviceId
@@ -1321,6 +1478,7 @@ async function deleteDevice(deviceId){
     });
 
   }catch(error){
+
     alert(error.message||"Ошибка удаления устройства");
 
     requestAnimationFrame(()=>{
@@ -1330,6 +1488,7 @@ async function deleteDevice(deviceId){
 }
 
 async function addUserAccount(){
+
   const name=val("newUserName").trim();
   const role=val("newUserRole");
   const pin=val("newUserPin").trim();
@@ -1348,6 +1507,7 @@ async function addUserAccount(){
   }
 
   try{
+
     message.className="message";
     message.textContent="Добавление...";
 
@@ -1368,12 +1528,14 @@ async function addUserAccount(){
     await loadSettingsUsers();
 
   }catch(error){
+
     message.className="message error";
     message.textContent=error.message||"Ошибка добавления";
   }
 }
 
 async function updateUserAccount(userId){
+
   const name=val("settingsName_"+userId).trim();
   const newPin=val("settingsPin_"+userId).trim();
   const message=document.getElementById("settingsMessage_"+userId);
@@ -1391,6 +1553,7 @@ async function updateUserAccount(userId){
   }
 
   try{
+
     message.className="message";
     message.textContent="Сохранение...";
 
@@ -1408,12 +1571,14 @@ async function updateUserAccount(userId){
     await loadSettingsUsers();
 
   }catch(error){
+
     message.className="message error";
     message.textContent=error.message||"Ошибка сохранения";
   }
 }
 
 async function deleteUserAccount(userId,userName,userRole){
+
   const roleText=userRole==="admin"?"администратора":"бариста";
 
   if(!confirm(
@@ -1422,6 +1587,7 @@ async function deleteUserAccount(userId,userName,userRole){
   ))return;
 
   try{
+
     await callRPC("delete_user_account",{
       p_admin_pin:currentPin,
       p_user_id:userId
@@ -1431,6 +1597,7 @@ async function deleteUserAccount(userId,userName,userRole){
     await loadSettingsUsers();
 
   }catch(error){
+
     alert(error.message||"Ошибка удаления");
   }
 }
