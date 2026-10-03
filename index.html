@@ -9,7 +9,6 @@ content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no
 
 <title>A5 — Отчёт смены</title>
 
-<!-- ЛОГОТИП ДЛЯ ЯРЛЫКА И iOS -->
 <link rel="icon" type="image/png" sizes="1024x1024" href="a5-logo.png?v=3">
 <link rel="apple-touch-icon" href="a5-logo.png?v=3">
 
@@ -71,11 +70,6 @@ button{
   margin:0 auto
 }
 
-
-/* =========================================================
-   ФИРМЕННЫЙ ЛОГОТИП A5 — ИЗОБРАЖЕНИЕ
-   ========================================================= */
-
 .login-logo{
   display:block;
   width:150px;
@@ -87,21 +81,11 @@ button{
   border-radius:50%;
 }
 
-
-/* =========================================================
-   ЗАГОЛОВОК
-   ========================================================= */
-
 .login-title{
   text-align:center;
   font-size:21px;
   margin-bottom:25px
 }
-
-
-/* =========================================================
-   ВХОД
-   ========================================================= */
 
 .login-card{
   width:100%
@@ -142,11 +126,6 @@ button{
   background:#333!important;
   color:#fff!important
 }
-
-
-/* =========================================================
-   PIN
-   ========================================================= */
 
 .pin-title{
   text-align:center;
@@ -207,11 +186,6 @@ button{
   font-size:14px
 }
 
-
-/* =========================================================
-   ВЕРХНИЕ КНОПКИ
-   ========================================================= */
-
 .app-top{
   display:flex;
   align-items:center;
@@ -241,11 +215,6 @@ button{
   background:#333;
   color:#fff
 }
-
-
-/* =========================================================
-   ФОРМА
-   ========================================================= */
 
 h1{
   text-align:center;
@@ -304,11 +273,6 @@ input[type=number]{
   font-weight:600
 }
 
-
-/* =========================================================
-   ТАБЛИЦЫ
-   ========================================================= */
-
 .form-table{
   width:100%;
   table-layout:fixed;
@@ -359,11 +323,6 @@ input[type=number]{
   font-size:17px!important
 }
 
-
-/* =========================================================
-   ИТОГИ
-   ========================================================= */
-
 .total{
   width:100%;
   margin-top:6px;
@@ -385,11 +344,6 @@ input[type=number]{
   text-align:right
 }
 
-
-/* =========================================================
-   КНОПКИ
-   ========================================================= */
-
 .main-button{
   display:block;
   width:100%;
@@ -407,11 +361,6 @@ input[type=number]{
   background:#333;
   color:#fff
 }
-
-
-/* =========================================================
-   СООБЩЕНИЯ
-   ========================================================= */
 
 .message{
   display:none;
@@ -432,11 +381,6 @@ input[type=number]{
   background:#193d21;
   color:#b8ffca
 }
-
-
-/* =========================================================
-   НАСТРОЙКИ
-   ========================================================= */
 
 .settings-title{
   font-size:19px;
@@ -478,11 +422,6 @@ input[type=number]{
   background:#401919!important;
   color:#ffb5b5!important
 }
-
-
-/* =========================================================
-   ИСТОРИЯ
-   ========================================================= */
 
 .history-title{
   font-size:19px;
@@ -679,11 +618,6 @@ input[type=number]{
   font-size:13px
 }
 
-
-/* =========================================================
-   JPEG ОТЧЁТА
-   ========================================================= */
-
 #report{
   position:absolute;
   left:-10000px;
@@ -779,11 +713,6 @@ input[type=number]{
   font-size:30px
 }
 
-
-/* =========================================================
-   АДАПТАЦИЯ
-   ========================================================= */
-
 @media screen and (max-width:500px){
 
   .history-item{
@@ -845,11 +774,6 @@ input[type=number]{
 </head>
 
 <body>
-
-
-<!-- =========================================================
-     ЭКРАН ВХОДА
-     ========================================================= -->
 
 <div id="loginScreen">
 
@@ -933,16 +857,9 @@ input[type=number]{
 </div>
 
 
-<!-- =========================================================
-     ОСНОВНОЕ ПРИЛОЖЕНИЕ
-     ========================================================= -->
-
 <div id="appScreen" class="hidden">
 
 <div class="container">
-
-
-<!-- ВЕРХНИЕ КНОПКИ -->
 
 <div class="app-top">
 
@@ -975,10 +892,6 @@ input[type=number]{
 
 </div>
 
-
-<!-- =========================================================
-     ФОРМА
-     ========================================================= -->
 
 <div id="formScreen">
 
@@ -1026,12 +939,8 @@ input[type=number]{
 >
 
 
-<!-- =========================================================
-     ОПЛАТЫ И ВОЗВРАТЫ
-     ========================================================= -->
-
 <div class="section">
-  ОПЛАТЫ И ВОЗВРАТЫ
+  ОПЛАТЫ
 </div>
 
 
@@ -1042,7 +951,7 @@ input[type=number]{
 <tr>
 
 <th>
-  Оплата / возврат
+  Оплата
 </th>
 
 <th>
@@ -1117,93 +1026,6 @@ input[type=number]{
 
 </tr>
 
-
-<tr>
-
-<td>
-  Возврат
-</td>
-
-<td>
-
-<input
-  type="number"
-  id="return1"
-  value=""
-  inputmode="decimal"
->
-
-</td>
-
-<td>
-
-<input
-  type="text"
-  id="returnComment1"
->
-
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-  Возврат
-</td>
-
-<td>
-
-<input
-  type="number"
-  id="return2"
-  value=""
-  inputmode="decimal"
->
-
-</td>
-
-<td>
-
-<input
-  type="text"
-  id="returnComment2"
->
-
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-  Возврат
-</td>
-
-<td>
-
-<input
-  type="number"
-  id="return3"
-  value=""
-  inputmode="decimal"
->
-
-</td>
-
-<td>
-
-<input
-  type="text"
-  id="returnComment3"
->
-
-</td>
-
-</tr>
-
 </tbody>
 
 </table>
@@ -1249,7 +1071,6 @@ input[type=number]{
 
 
 <tbody>
-
 
 <tr>
 
@@ -1555,10 +1376,6 @@ input[type=number]{
 </div>
 
 
-<!-- =========================================================
-     ИСТОРИЯ
-     ========================================================= -->
-
 <div
   id="historyScreen"
   class="hidden"
@@ -1592,10 +1409,6 @@ input[type=number]{
 
 </div>
 
-
-<!-- =========================================================
-     НАСТРОЙКИ
-     ========================================================= -->
 
 <div
   id="settingsScreen"
@@ -1639,7 +1452,6 @@ input[type=number]{
 <label>
   Роль
 </label>
-
 
 <select id="newUserRole">
 
@@ -1698,10 +1510,6 @@ input[type=number]{
 </div>
 </div>
 
-
-<!-- =========================================================
-     СКРЫТЫЙ ОТЧЁТ ДЛЯ JPEG
-     ========================================================= -->
 
 <div id="report">
 
@@ -1767,12 +1575,8 @@ input[type=number]{
 </table>
 
 
-<!-- =========================================================
-     JPEG — ОПЛАТЫ И ВОЗВРАТЫ В ОДНОМ БЛОКЕ
-     ========================================================= -->
-
 <div class="report-section">
-  ОПЛАТЫ И ВОЗВРАТЫ
+  ОПЛАТЫ
 </div>
 
 
@@ -1783,7 +1587,7 @@ input[type=number]{
 <tr>
 
 <th>
-  Оплата / возврат
+  Оплата
 </th>
 
 <th>
@@ -1824,45 +1628,6 @@ input[type=number]{
 <td id="rCard"></td>
 
 <td id="rCardComment"></td>
-
-</tr>
-
-
-<tr id="rReturnRow1">
-
-<td>
-  Возврат
-</td>
-
-<td id="rReturn1"></td>
-
-<td id="rReturnComment1"></td>
-
-</tr>
-
-
-<tr id="rReturnRow2">
-
-<td>
-  Возврат
-</td>
-
-<td id="rReturn2"></td>
-
-<td id="rReturnComment2"></td>
-
-</tr>
-
-
-<tr id="rReturnRow3">
-
-<td>
-  Возврат
-</td>
-
-<td id="rReturn3"></td>
-
-<td id="rReturnComment3"></td>
 
 </tr>
 
@@ -2070,11 +1835,6 @@ input[type=number]{
 
 <script>
 
-
-/* =========================================================
-   SUPABASE
-   ========================================================= */
-
 const SUPABASE_URL=
   "https://hsfxdmjmvgbepurkhfxl.supabase.co";
 
@@ -2085,10 +1845,6 @@ const STORAGE_BUCKET=
   "shift-reports";
 
 
-/* =========================================================
-   СОСТОЯНИЕ
-   ========================================================= */
-
 let loginUsers=[],
 selectedUser=null,
 pinValue="",
@@ -2097,10 +1853,6 @@ currentPin="",
 loginInProgress=false,
 deviceCheckTimer=null;
 
-
-/* =========================================================
-   УСТРОЙСТВО
-   ========================================================= */
 
 function getDeviceToken(){
 
@@ -2229,10 +1981,6 @@ function askDeviceName(){
   return clean;
 }
 
-
-/* =========================================================
-   ПРОВЕРКА УСТРОЙСТВА
-   ========================================================= */
 
 function stopDeviceGuard(){
 
@@ -2366,10 +2114,6 @@ function deviceAccessDenied(){
 }
 
 
-/* =========================================================
-   ВСПОМОГАТЕЛЬНЫЕ
-   ========================================================= */
-
 function val(id){
 
   const e=
@@ -2460,10 +2204,6 @@ function clearMessage(id){
 }
 
 
-/* =========================================================
-   RPC
-   ========================================================= */
-
 async function callRPC(
   functionName,
   params={}
@@ -2553,10 +2293,6 @@ async function callRPC(
   return data;
 }
 
-
-/* =========================================================
-   ПОЛЬЗОВАТЕЛИ
-   ========================================================= */
 
 async function loadLoginUsers(){
 
@@ -2686,10 +2422,6 @@ async function loadLoginUsers(){
 
 }
 
-
-/* =========================================================
-   ВЫБОР ПОЛЬЗОВАТЕЛЯ
-   ========================================================= */
 
 function selectUser(user){
 
@@ -2827,10 +2559,6 @@ function backToUsers(){
   );
 }
 
-
-/* =========================================================
-   LOGIN
-   ========================================================= */
 
 async function login(){
 
@@ -3127,10 +2855,6 @@ async function login(){
 }
 
 
-/* =========================================================
-   ДАТА
-   ========================================================= */
-
 function setToday(){
 
   const date=
@@ -3158,10 +2882,6 @@ function setToday(){
 
 }
 
-
-/* =========================================================
-   ВЫХОД
-   ========================================================= */
 
 function logout(){
 
@@ -3220,10 +2940,6 @@ function logout(){
 }
 
 
-/* =========================================================
-   РАСЧЁТЫ
-   ========================================================= */
-
 function calculate(){
 
   const cash=
@@ -3233,18 +2949,9 @@ function calculate(){
     num("card");
 
 
-  /* Все три возврата ПРИБАВЛЯЮТСЯ */
-
-  const returns=
-    num("return1")+
-    num("return2")+
-    num("return3");
-
-
   const paymentTotal=
     cash+
-    card+
-    returns;
+    card;
 
 
   setText(
@@ -3286,22 +2993,11 @@ function calculate(){
   );
 
 
-  /*
-    В ожидаемый НАЛИЧНЫЙ остаток
-    входит только наличная выручка
-    и возвраты.
-
-    Безнал сюда не добавляется,
-    потому что он не является наличными
-    в кассе.
-  */
-
   setText(
     "expectedCash",
     money(
       num("openCash")+
-      cash+
-      returns-
+      cash-
       expenseTotal
     )
   );
@@ -3326,10 +3022,6 @@ document.addEventListener(
   }
 );
 
-
-/* =========================================================
-   СОХРАНЕНИЕ В SUPABASE
-   ========================================================= */
 
 async function saveToSupabase(){
 
@@ -3372,23 +3064,12 @@ async function saveToSupabase(){
     num("withdraw");
 
 
-  const returns=
-    num("return1")+
-    num("return2")+
-    num("return3");
-
-
   const comments=[];
 
 
   [
     ["Наличные","cashComment"],
     ["Безнал","cardComment"],
-
-    ["Возврат 1","returnComment1"],
-    ["Возврат 2","returnComment2"],
-    ["Возврат 3","returnComment3"],
-
     ["Бариста","baristaComment1"],
     ["Бариста","baristaComment2"],
     ["Бариста","baristaComment3"],
@@ -3446,9 +3127,6 @@ async function saveToSupabase(){
       p_qr:
         0,
 
-      p_returns:
-        returns,
-
       p_expense_barista:
         barista,
 
@@ -3473,10 +3151,6 @@ async function saveToSupabase(){
 
 }
 
-
-/* =========================================================
-   ЗАГРУЗКА JPG
-   ========================================================= */
 
 async function uploadReportImage(
   reportId,
@@ -3633,10 +3307,6 @@ async function saveReportImagePath(
 }
 
 
-/* =========================================================
-   СТРОКА ОТЧЁТА
-   ========================================================= */
-
 function fillReportRow(
   rowId,
   amountId,
@@ -3695,10 +3365,6 @@ function fillReportRow(
 
 }
 
-
-/* =========================================================
-   СОЗДАНИЕ ОТЧЁТА
-   ========================================================= */
 
 function createReport(){
 
@@ -3808,43 +3474,9 @@ function createReport(){
   }
 
 
-  /* =======================================================
-     ТРИ ВОЗВРАТА В ТОМ ЖЕ БЛОКЕ
-     ======================================================= */
-
-  fillReportRow(
-    "rReturnRow1",
-    "return1",
-    "returnComment1",
-    "rReturn1",
-    "rReturnComment1"
-  );
-
-
-  fillReportRow(
-    "rReturnRow2",
-    "return2",
-    "returnComment2",
-    "rReturn2",
-    "rReturnComment2"
-  );
-
-
-  fillReportRow(
-    "rReturnRow3",
-    "return3",
-    "returnComment3",
-    "rReturn3",
-    "rReturnComment3"
-  );
-
-
   const paymentTotal=
     num("cash")+
-    num("card")+
-    num("return1")+
-    num("return2")+
-    num("return3");
+    num("card");
 
 
   setText(
@@ -3963,10 +3595,6 @@ function createReport(){
 }
 
 
-/* =========================================================
-   СОЗДАНИЕ JPEG
-   ========================================================= */
-
 async function makeJPEG(){
 
   createReport();
@@ -4012,10 +3640,6 @@ async function makeJPEG(){
 
 }
 
-
-/* =========================================================
-   СОХРАНИТЬ ОТЧЁТ
-   ========================================================= */
 
 async function saveReportAndJPEG(){
 
@@ -4178,10 +3802,6 @@ async function saveReportAndJPEG(){
 }
 
 
-/* =========================================================
-   ФОТО ОТЧЁТА
-   ========================================================= */
-
 async function getReportImageUrl(
   imagePath
 ){
@@ -4303,10 +3923,6 @@ async function openReportImage(
 
 }
 
-
-/* =========================================================
-   ИСТОРИЯ
-   ========================================================= */
 
 function toggleHistory(){
 
@@ -4765,26 +4381,6 @@ async function loadHistory(){
         );
 
 
-        /* =================================================
-           ВОЗВРАТЫ
-           ================================================= */
-
-        const returns=
-          Number(
-            report.returns||0
-          );
-
-
-        addHistoryRow(
-          item,
-          "Возвраты",
-          money(
-            returns
-          )+
-          " ₽"
-        );
-
-
         const expenses=
           Number(
             report.expense_barista||0
@@ -4939,10 +4535,6 @@ async function loadHistory(){
 
 }
 
-
-/* =========================================================
-   НАСТРОЙКИ
-   ========================================================= */
 
 function toggleSettings(){
 
@@ -5376,10 +4968,6 @@ async function loadSettingsDevices(){
 }
 
 
-/* =========================================================
-   РАЗРЕШЕНИЕ УСТРОЙСТВА
-   ========================================================= */
-
 async function setDeviceStatus(
   deviceId,
   status
@@ -5555,10 +5143,6 @@ async function setDeviceStatus(
 }
 
 
-/* =========================================================
-   УДАЛЕНИЕ УСТРОЙСТВА
-   ========================================================= */
-
 async function deleteDevice(
   deviceId
 ){
@@ -5667,10 +5251,6 @@ async function deleteDevice(
 
 }
 
-
-/* =========================================================
-   ДОБАВЛЕНИЕ СОТРУДНИКА
-   ========================================================= */
 
 async function addUserAccount(){
 
@@ -5793,10 +5373,6 @@ async function addUserAccount(){
 }
 
 
-/* =========================================================
-   ИЗМЕНЕНИЕ СОТРУДНИКА
-   ========================================================= */
-
 async function updateUserAccount(
   userId
 ){
@@ -5907,10 +5483,6 @@ async function updateUserAccount(
 }
 
 
-/* =========================================================
-   УДАЛЕНИЕ СОТРУДНИКА
-   ========================================================= */
-
 async function deleteUserAccount(
   userId,
   userName,
@@ -5967,10 +5539,6 @@ async function deleteUserAccount(
 
 }
 
-
-/* =========================================================
-   ЗАПУСК
-   ========================================================= */
 
 document.addEventListener(
   "DOMContentLoaded",
