@@ -74,7 +74,6 @@ button{
 
 /* =========================================================
    ФИРМЕННЫЙ ЛОГОТИП A5 — ИЗОБРАЖЕНИЕ
-   ШРИФТ БОЛЬШЕ НЕ ИСПОЛЬЗУЕТСЯ
    ========================================================= */
 
 .login-logo{
@@ -854,7 +853,6 @@ input[type=number]{
 
 <div id="loginScreen">
 
-  <!-- ЛОГОТИП ТЕПЕРЬ КАРТИНКОЙ -->
   <img
     class="login-logo"
     src="a5-logo.png?v=3"
@@ -1028,8 +1026,12 @@ input[type=number]{
 >
 
 
+<!-- =========================================================
+     ОПЛАТЫ И ВОЗВРАТЫ
+     ========================================================= -->
+
 <div class="section">
-  ОПЛАТЫ ЗА СМЕНУ
+  ОПЛАТЫ И ВОЗВРАТЫ
 </div>
 
 
@@ -1040,7 +1042,7 @@ input[type=number]{
 <tr>
 
 <th>
-  Оплата
+  Оплата / возврат
 </th>
 
 <th>
@@ -1109,6 +1111,93 @@ input[type=number]{
 <input
   type="text"
   id="cardComment"
+>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+  Возврат
+</td>
+
+<td>
+
+<input
+  type="number"
+  id="return1"
+  value=""
+  inputmode="decimal"
+>
+
+</td>
+
+<td>
+
+<input
+  type="text"
+  id="returnComment1"
+>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+  Возврат
+</td>
+
+<td>
+
+<input
+  type="number"
+  id="return2"
+  value=""
+  inputmode="decimal"
+>
+
+</td>
+
+<td>
+
+<input
+  type="text"
+  id="returnComment2"
+>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+  Возврат
+</td>
+
+<td>
+
+<input
+  type="number"
+  id="return3"
+  value=""
+  inputmode="decimal"
+>
+
+</td>
+
+<td>
+
+<input
+  type="text"
+  id="returnComment3"
 >
 
 </td>
@@ -1569,7 +1658,6 @@ input[type=number]{
   PIN
 </label>
 
-
 <input
   type="text"
   id="newUserPin"
@@ -1679,8 +1767,12 @@ input[type=number]{
 </table>
 
 
+<!-- =========================================================
+     JPEG — ОПЛАТЫ И ВОЗВРАТЫ В ОДНОМ БЛОКЕ
+     ========================================================= -->
+
 <div class="report-section">
-  ОПЛАТЫ ЗА СМЕНУ
+  ОПЛАТЫ И ВОЗВРАТЫ
 </div>
 
 
@@ -1691,7 +1783,7 @@ input[type=number]{
 <tr>
 
 <th>
-  Оплата
+  Оплата / возврат
 </th>
 
 <th>
@@ -1732,6 +1824,45 @@ input[type=number]{
 <td id="rCard"></td>
 
 <td id="rCardComment"></td>
+
+</tr>
+
+
+<tr id="rReturnRow1">
+
+<td>
+  Возврат
+</td>
+
+<td id="rReturn1"></td>
+
+<td id="rReturnComment1"></td>
+
+</tr>
+
+
+<tr id="rReturnRow2">
+
+<td>
+  Возврат
+</td>
+
+<td id="rReturn2"></td>
+
+<td id="rReturnComment2"></td>
+
+</tr>
+
+
+<tr id="rReturnRow3">
+
+<td>
+  Возврат
+</td>
+
+<td id="rReturn3"></td>
+
+<td id="rReturnComment3"></td>
 
 </tr>
 
@@ -2645,6 +2776,7 @@ function pinPress(number){
     );
 
   }
+
 }
 
 
@@ -3102,10 +3234,24 @@ function calculate(){
     num("card");
 
 
+  /* Все три возврата ПРИБАВЛЯЮТСЯ */
+
+  const returns=
+    num("return1")+
+    num("return2")+
+    num("return3");
+
+
+  const paymentTotal=
+    cash+
+    card+
+    returns;
+
+
   setText(
     "paymentTotal",
     money(
-      cash+card
+      paymentTotal
     )
   );
 
@@ -3141,11 +3287,22 @@ function calculate(){
   );
 
 
+  /*
+    В ожидаемый НАЛИЧНЫЙ остаток
+    входит только наличная выручка
+    и возвраты.
+
+    Безнал сюда не добавляется,
+    потому что он не является наличными
+    в кассе.
+  */
+
   setText(
     "expectedCash",
     money(
       num("openCash")+
-      cash-
+      cash+
+      returns-
       expenseTotal
     )
   );
@@ -3216,12 +3373,23 @@ async function saveToSupabase(){
     num("withdraw");
 
 
+  const returns=
+    num("return1")+
+    num("return2")+
+    num("return3");
+
+
   const comments=[];
 
 
   [
     ["Наличные","cashComment"],
     ["Безнал","cardComment"],
+
+    ["Возврат 1","returnComment1"],
+    ["Возврат 2","returnComment2"],
+    ["Возврат 3","returnComment3"],
+
     ["Бариста","baristaComment1"],
     ["Бариста","baristaComment2"],
     ["Бариста","baristaComment3"],
@@ -3251,6 +3419,26 @@ async function saveToSupabase(){
 
     }
   );
+
+
+  /*
+    Так как в текущем RPC нет отдельного
+    поля возвратов, сохраняем информацию
+    о возвратах в комментарии.
+
+    Сумма также сохраняется там,
+    даже если комментарий не указан.
+  */
+
+  if(returns>0){
+
+    comments.unshift(
+      "Возвраты: "+
+      money(returns)+
+      " ₽"
+    );
+
+  }
 
 
   return await callRPC(
@@ -3638,11 +3826,49 @@ function createReport(){
   }
 
 
+  /* =======================================================
+     ТРИ ВОЗВРАТА В ТОМ ЖЕ БЛОКЕ
+     ======================================================= */
+
+  fillReportRow(
+    "rReturnRow1",
+    "return1",
+    "returnComment1",
+    "rReturn1",
+    "rReturnComment1"
+  );
+
+
+  fillReportRow(
+    "rReturnRow2",
+    "return2",
+    "returnComment2",
+    "rReturn2",
+    "rReturnComment2"
+  );
+
+
+  fillReportRow(
+    "rReturnRow3",
+    "return3",
+    "returnComment3",
+    "rReturn3",
+    "rReturnComment3"
+  );
+
+
+  const paymentTotal=
+    num("cash")+
+    num("card")+
+    num("return1")+
+    num("return2")+
+    num("return3");
+
+
   setText(
     "rPaymentTotal",
     money(
-      num("cash")+
-      num("card")
+      paymentTotal
     )
   );
 
@@ -4998,7 +5224,7 @@ async function loadSettingsUsers(){
           escapeHtml(
             user.id
           )+
-          '" value="'+
+            '" value="'+
           escapeHtml(
             user.name
           )+
