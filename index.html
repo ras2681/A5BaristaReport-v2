@@ -2060,7 +2060,6 @@ input[type=number]{
 
 </tr>
 
-
 </tbody>
 
 </table>
@@ -3421,26 +3420,6 @@ async function saveToSupabase(){
   );
 
 
-  /*
-    Так как в текущем RPC нет отдельного
-    поля возвратов, сохраняем информацию
-    о возвратах в комментарии.
-
-    Сумма также сохраняется там,
-    даже если комментарий не указан.
-  */
-
-  if(returns>0){
-
-    comments.unshift(
-      "Возвраты: "+
-      money(returns)+
-      " ₽"
-    );
-
-  }
-
-
   return await callRPC(
     "save_shift_report",
     {
@@ -3466,6 +3445,9 @@ async function saveToSupabase(){
 
       p_qr:
         0,
+
+      p_returns:
+        returns,
 
       p_expense_barista:
         barista,
@@ -4778,6 +4760,26 @@ async function loadHistory(){
             Number(
               report.qr||0
             )
+          )+
+          " ₽"
+        );
+
+
+        /* =================================================
+           ВОЗВРАТЫ
+           ================================================= */
+
+        const returns=
+          Number(
+            report.returns||0
+          );
+
+
+        addHistoryRow(
+          item,
+          "Возвраты",
+          money(
+            returns
           )+
           " ₽"
         );
